@@ -4,19 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RadialDeck — Your workday in one gesture</title>
-<meta name="description" content="A native Windows radial menu that knows which app you're in. Hold a key or a mouse button, flick, release. App-aware rings, clipboard tricks, file tools, 980+ ready-made recipes. Free for one ring.">
+<meta name="description" content="A native Windows radial menu that knows which app you're in. Hold a key or a mouse button, flick, release. App-aware rings, clipboard tricks, file tools, 985 ready-made recipes, 14 themes. Free for one ring.">
 <meta property="og:title" content="RadialDeck">
 <meta property="og:description" content="Your workday in one gesture. A native Windows radial menu for IT people, office people and developers.">
-<meta property="og:image" content="assets/ring-clip.png">
+<meta property="og:image" content="assets/themes/glass-dark.png">
 <link rel="icon" href="assets/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="cursor-glow" aria-hidden="true"></div>
 
 <header class="nav" id="top">
   <div class="wrap nav-inner">
@@ -26,10 +25,10 @@
     </a>
     <nav aria-label="Primary">
       <a href="#demo">Try it</a>
+      <a href="#how">How it works</a>
       <a href="#features">Features</a>
       <a href="#styles">Styles</a>
       <a href="#pricing">Pricing</a>
-      <a href="#faq">FAQ</a>
     </nav>
     <a class="btn btn-primary btn-sm" href="https://github.com/StefanKasamakov/radialdeck-releases/releases/latest">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -41,42 +40,38 @@
 <main id="main">
 
 <section class="hero" id="demo">
-  <div class="hero-bg" aria-hidden="true">
-    <div class="orb orb-a"></div><div class="orb orb-b"></div><div class="grid-lines"></div>
-  </div>
+  <div class="hero-bg" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
       <p class="eyebrow"><span class="dot"></span> Native Windows app · no Electron · 40 MB RAM</p>
       <h1 class="display" data-split>Your workday in one gesture.</h1>
       <p class="lead">Hold a key or a mouse button, flick toward a slice, let go. A radial menu that knows which app you're in, which file you selected and what's on your clipboard.</p>
       <div class="cta-row">
-        <a class="btn btn-primary btn-lg magnetic" href="https://github.com/StefanKasamakov/radialdeck-releases/releases/latest">
+        <a class="btn btn-primary btn-lg" href="https://github.com/StefanKasamakov/radialdeck-releases/releases/latest">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Download for Windows
         </a>
-        <a class="btn btn-ghost btn-lg magnetic" href="#how">See how it works</a>
+        <a class="btn btn-ghost btn-lg" href="#how">See how it works</a>
       </div>
       <p class="fine">Free for one ring, forever. Windows 10 1809+ and 11. No account, no telemetry.</p>
     </div>
 
-    <div class="hero-demo" aria-label="Interactive demo of the ring">
+    <div class="hero-demo">
       <div class="demo-stage" id="demo-stage">
-        <div class="demo-hint" id="demo-hint">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 0 0-5 5v6a5 5 0 0 0 10 0V7a5 5 0 0 0-5-5Zm0 0v5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-          <span>Move over the ring, click a slice</span>
-        </div>
-        <div class="ring" id="ring" role="group" aria-label="Demo ring: eight slices">
+        <p class="demo-hint" id="demo-hint">This ring is real. Click a slice.</p>
+        <div class="ring" id="ring" role="group" aria-label="Demo ring" tabindex="0">
           <svg class="ring-svg" viewBox="0 0 320 320" aria-hidden="true"></svg>
           <div class="ring-labels" id="ring-labels"></div>
-          <div class="ring-hub"><span id="ring-hub-text">Clipboard</span></div>
+          <div class="ring-hub"><span id="ring-hub-text">Launch</span></div>
         </div>
         <div class="demo-toast" id="demo-toast" role="status" aria-live="polite"></div>
       </div>
       <div class="demo-switch" role="tablist" aria-label="Demo rings">
-        <button role="tab" aria-selected="true" data-ring="clip">Clipboard</button>
+        <button role="tab" aria-selected="true" data-ring="launch">Launcher</button>
         <button role="tab" aria-selected="false" data-ring="explorer">Explorer</button>
         <button role="tab" aria-selected="false" data-ring="outlook">Outlook</button>
         <button role="tab" aria-selected="false" data-ring="admin">IT admin</button>
+        <button role="tab" aria-selected="false" data-ring="clip">Clipboard</button>
       </div>
     </div>
   </div>
@@ -89,23 +84,22 @@
 </section>
 
 <section class="how" id="how">
-  <div class="wrap">
-    <div class="how-sticky">
-      <div class="how-copy">
-        <p class="eyebrow">How it works</p>
-        <h2 class="h2" data-split>Three motions. Zero memory.</h2>
-        <ol class="steps" id="steps">
-          <li class="step is-active" data-step="0"><span class="num">01</span><div><h3>Hold</h3><p>Press your trigger: Ctrl+Alt+Space, a side mouse button, whatever you like. The ring opens under the cursor in under 50 ms.</p></div></li>
-          <li class="step" data-step="1"><span class="num">02</span><div><h3>Flick</h3><p>Move a few pixels toward a slice. Eight directions, always in the same place, so your hand learns them in a week.</p></div></li>
-          <li class="step" data-step="2"><span class="num">03</span><div><h3>Release</h3><p>Let go. The action fires in the app you were already using: paste, keys, script, launch. No click needed.</p></div></li>
-        </ol>
-      </div>
-      <div class="how-visual" aria-hidden="true">
-        <div class="how-ring" id="how-ring">
-          <svg viewBox="0 0 320 320" class="ring-svg"></svg>
-          <div class="how-cursor" id="how-cursor"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6 2-3 6z" fill="#fff" stroke="#000" stroke-width="1"/></svg></div>
-          <div class="how-key" id="how-key">Ctrl + Alt + Space</div>
-        </div>
+  <div class="wrap how-grid">
+    <div class="how-copy">
+      <p class="eyebrow">How it works</p>
+      <h2 class="h2">Three motions. Zero memory.</h2>
+      <ol class="steps" id="steps">
+        <li class="step is-active" data-step="0"><span class="num">01</span><div><h3>Hold</h3><p>Press your trigger: Ctrl+Alt+Space, a side mouse button, whatever you like. The ring opens under the cursor in under 50 ms.</p></div></li>
+        <li class="step" data-step="1"><span class="num">02</span><div><h3>Flick</h3><p>Move a few pixels toward a slice. Eight directions, always in the same place, so your hand learns them in a week.</p></div></li>
+        <li class="step" data-step="2"><span class="num">03</span><div><h3>Release</h3><p>Let go. The action fires in the app you were already using: paste, keys, script, launch. No click needed.</p></div></li>
+      </ol>
+    </div>
+    <div class="how-visual" aria-hidden="true">
+      <div class="how-ring" id="how-ring">
+        <svg viewBox="0 0 320 320" class="ring-svg"></svg>
+        <div class="ring-labels" id="how-labels"></div>
+        <div class="how-cursor" id="how-cursor"><svg viewBox="0 0 24 24"><path d="M5 3l14 8-6 2-3 6z" fill="#fff" stroke="#000" stroke-width="1"/></svg></div>
+        <div class="how-key" id="how-key">Ctrl + Alt + Space</div>
       </div>
     </div>
   </div>
@@ -114,63 +108,62 @@
 <section class="features" id="features">
   <div class="wrap">
     <p class="eyebrow">What it does</p>
-    <h2 class="h2" data-split>The ring changes with the app. So does what it can do.</h2>
-    <div class="bento">
-      <article class="card card-wide reveal">
-        <img src="assets/ring-outlook.png" alt="Outlook ring: reply, reply all, forward, reply with template, calendar" loading="lazy" width="820" height="820">
-        <div class="card-body">
-          <h3>App-aware rings</h3>
-          <p>Same trigger, different ring in Outlook, Excel, Explorer, your browser or an RDP session. Conditions match the process name or window title, plain text or regex.</p>
-        </div>
-      </article>
-      <article class="card reveal">
-        <img src="assets/ring-clip.png" alt="Clipboard ring" loading="lazy" width="820" height="820">
-        <div class="card-body">
-          <h3>Clipboard tricks, instantly</h3>
-          <p>33 built-in transforms in C#: plain text, case, clean tracking from a link, JSON, Base64, slug, Cyrillic to Latin, wrong keyboard layout. Copy, flick, pasted.</p>
-        </div>
-      </article>
-      <article class="card reveal">
-        <img src="assets/ring-explorer.png" alt="Explorer ring" loading="lazy" width="820" height="820">
-        <div class="card-body">
-          <h3>Files in Explorer</h3>
-          <p>Select a file, flick: extract here, zip, hash, terminal in this folder, convert with FFmpeg or Ghostscript. <code>{file}</code>, <code>{dir}</code>, <code>{name}</code> in any command.</p>
-        </div>
-      </article>
-      <article class="card card-wide reveal">
-        <img src="assets/ring-windows.png" alt="Windows ring with nested Power, Media and Toggles rings" loading="lazy" width="820" height="820">
-        <div class="card-body">
-          <h3>Rings inside rings</h3>
-          <p>Up to eight slices, three levels deep. Rest on a slice and the nested ring opens under your cursor, anchored so it never walks across the screen.</p>
-        </div>
-      </article>
-      <article class="card card-text reveal">
-        <ul class="ticks">
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>985 ready-made recipes</b> for 90+ apps, with a Test button before you add one</span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Macros</b>: keys, waits, text and launches in one slice</span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Mouse triggers</b>: Mouse4, Mouse5 or middle button, with or without modifiers</span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Scriptable</b> from AutoHotkey or a Stream Deck: <code>RadialDeck.exe --menu "Name"</code></span></li>
-          <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Updates itself</b> quietly, like a browser</span></li>
-        </ul>
-      </article>
+    <h2 class="h2">The ring changes with the app. So does what it can do.</h2>
+
+    <div class="feature reveal">
+      <div class="feature-media"><img src="assets/themes/glass-dark.png" alt="A ring with Terminal, Clean URL, Servers, Snip, Paste plain, Reply all, Lock and Extract here" loading="lazy" width="712" height="712"></div>
+      <div class="feature-copy">
+        <h3>App-aware rings</h3>
+        <p>Same trigger, different ring in Outlook, Excel, Explorer, your browser or an RDP session. Conditions match the process name or window title, plain text or regex. Several rings can share a trigger; the first match wins.</p>
+      </div>
     </div>
+    <div class="feature feature-flip reveal">
+      <div class="feature-media"><img src="assets/themes/midnight-dark.png" alt="The same ring in the Midnight theme" loading="lazy" width="712" height="712"></div>
+      <div class="feature-copy">
+        <h3>Clipboard tricks, instantly</h3>
+        <p>33 built-in transforms in C#: plain text, UPPER, clean tracking from a link, JSON, Base64, slug, Cyrillic to Latin, wrong keyboard layout, word count. Copy, flick, pasted. No PowerShell spinning up.</p>
+      </div>
+    </div>
+    <div class="feature reveal">
+      <div class="feature-media"><img src="assets/themes/nord-dark.png" alt="The same ring in the Nord theme" loading="lazy" width="712" height="712"></div>
+      <div class="feature-copy">
+        <h3>Files in Explorer</h3>
+        <p>Select a file, flick: extract here, zip, hash, terminal in this folder, convert with FFmpeg or Ghostscript. <code>{file}</code>, <code>{dir}</code>, <code>{name}</code> work in any command, and commands run in the folder you are looking at.</p>
+      </div>
+    </div>
+    <div class="feature feature-flip reveal">
+      <div class="feature-media"><img src="assets/themes/sunset-dark.png" alt="The same ring in the Sunset theme" loading="lazy" width="712" height="712"></div>
+      <div class="feature-copy">
+        <h3>Rings inside rings</h3>
+        <p>Up to eight slices, three levels deep. Rest on a slice and the nested ring opens under your cursor, anchored so it never walks across the screen. Servers → SRV01, DC01. Portals → Entra, Intune, Azure.</p>
+      </div>
+    </div>
+
+    <ul class="ticks reveal">
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>985 ready-made recipes</b> for 90+ apps, with a Test button before you add one</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Macros</b>: keys, waits, text and launches in one slice</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Mouse triggers</b>: Mouse4, Mouse5 or middle button, with or without modifiers</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Scriptable</b> from AutoHotkey or a Stream Deck: <code>RadialDeck.exe --menu "Name"</code></span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Updates itself</b> quietly, like a browser</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>English and Bulgarian</b> interface</span></li>
+    </ul>
   </div>
 </section>
 
 <section class="styles" id="styles">
   <div class="wrap">
     <p class="eyebrow">Make it yours</p>
-    <h2 class="h2" data-split>Ten looks in the box. Yours in a JSON file.</h2>
-    <p class="sub">Every theme has a dark and a light variant and follows Windows. Drop your own into the themes folder or grab one from the <a href="https://github.com/StefanKasamakov/radialdeck-themes">community collection</a>.</p>
-    <div class="theme-row" id="theme-row" role="list"></div>
+    <h2 class="h2">Fourteen looks in the box. Yours in a JSON file.</h2>
+    <p class="sub">Every theme has a dark and a light variant. Click one to try it on the ring above, or bring your own from the <a href="https://github.com/StefanKasamakov/radialdeck-themes">community collection</a>.</p>
+    <div class="theme-strip" id="theme-strip" role="list"></div>
   </div>
 </section>
 
-<section class="stats reveal">
-  <div class="wrap stats-grid">
-    <div><b data-count="50">0</b><span>ms to first paint</span></div>
-    <div><b data-count="985">0</b><span>ready-made recipes</span></div>
-    <div><b data-count="40">0</b><span>MB of RAM idle</span></div>
+<section class="stats">
+  <div class="wrap stats-grid reveal">
+    <div><b data-count="50">50</b><span>ms to first paint</span></div>
+    <div><b data-count="985">985</b><span>ready-made recipes</span></div>
+    <div><b data-count="40">40</b><span>MB of RAM idle</span></div>
     <div><b>0</b><span>bytes of telemetry</span></div>
   </div>
 </section>
@@ -178,7 +171,7 @@
 <section class="pricing" id="pricing">
   <div class="wrap">
     <p class="eyebrow">Pricing</p>
-    <h2 class="h2" data-split>Free to start. One payment if it sticks.</h2>
+    <h2 class="h2">Free to start. One payment if it sticks.</h2>
     <div class="plans">
       <article class="plan reveal">
         <h3>Free</h3>
@@ -188,7 +181,7 @@
           <li>One ring, up to 8 slices</li>
           <li>Every action type</li>
           <li>Full recipe gallery</li>
-          <li>All themes</li>
+          <li>All 14 themes</li>
         </ul>
         <a class="btn btn-ghost" href="https://github.com/StefanKasamakov/radialdeck-releases/releases/latest">Download</a>
       </article>
@@ -226,11 +219,11 @@
   <div class="wrap faq-grid">
     <div>
       <p class="eyebrow">Questions</p>
-      <h2 class="h2" data-split>Short answers.</h2>
+      <h2 class="h2">Short answers.</h2>
     </div>
     <div class="faq-list">
       <details><summary>Does it need admin rights?</summary><p>No. It installs per user, no UAC prompt. An admin can choose a machine-wide install for a whole helpdesk.</p></details>
-      <details><summary>What does it send over the network?</summary><p>Nothing about you. The only request is an optional once-a-day check for a newer version on GitHub. You can turn it off, and then it makes no requests at all.</p></details>
+      <details><summary>What does it send over the network?</summary><p>Nothing about you. The only request is an optional check for a newer version on GitHub. You can turn it off, and then it makes no requests at all.</p></details>
       <details><summary>What if my hotkey is taken?</summary><p>RadialDeck notices, falls back to a free combination and tells you. Or use a side mouse button; those are never taken.</p></details>
       <details><summary>Is it like Kando?</summary><p>Kando is a lovely open-source pie menu. RadialDeck is native Windows, knows the foreground app, reads your Explorer selection and clipboard, and ships with 985 recipes. Try both.</p></details>
       <details><summary>Can I edit the config by hand?</summary><p>Yes. It is one JSON file in %APPDATA%. Save it and the ring updates immediately; a broken file leaves the previous ring running and reports the line number.</p></details>
@@ -243,7 +236,7 @@
     <div class="final-card reveal">
       <h2 class="h2">Install it, hold the key, flick.</h2>
       <p>Eighty megabytes, thirty seconds, no runtime to install.</p>
-      <a class="btn btn-primary btn-lg magnetic" href="https://github.com/StefanKasamakov/radialdeck-releases/releases/latest">Download for Windows</a>
+      <a class="btn btn-primary btn-lg" href="https://github.com/StefanKasamakov/radialdeck-releases/releases/latest">Download for Windows</a>
     </div>
   </div>
 </section>
@@ -264,7 +257,6 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" defer></script>
 <script src="app.js" defer></script>
 </body>
 </html>
