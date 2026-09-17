@@ -8,7 +8,7 @@
 <meta property="og:title" content="RadialDeck">
 <meta property="og:description" content="Your workday in one gesture. A native Windows radial menu for IT people, office people and developers.">
 <meta property="og:image" content="assets/themes/glass-dark.png">
-<link rel="icon" href="assets/icon.png">
+<link rel="icon" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -20,7 +20,7 @@
 <header class="nav" id="top">
   <div class="wrap nav-inner">
     <a class="brand" href="#top" aria-label="RadialDeck home">
-      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="13" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="16" cy="16" r="4" fill="currentColor"/><path d="M16 3v9M29 16h-9M16 29v-9M3 16h9" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M34.27 6.77 A46 46 0 0 1 65.73 6.77 L57.18 30.27 A21 21 0 0 0 42.82 30.27 Z" fill="currentColor" opacity=".85"/><path d="M69.44 8.31 A46 46 0 0 1 91.69 30.56 L69.03 41.13 A21 21 0 0 0 58.87 30.97 Z" fill="var(--accent, #3b82f6)" transform="translate(2.12 -2.12)"/><path d="M93.23 34.27 A46 46 0 0 1 93.23 65.73 L69.73 57.18 A21 21 0 0 0 69.73 42.82 Z" fill="currentColor" opacity=".85"/><path d="M91.69 69.44 A46 46 0 0 1 69.44 91.69 L58.87 69.03 A21 21 0 0 0 69.03 58.87 Z" fill="currentColor" opacity=".85"/><path d="M65.73 93.23 A46 46 0 0 1 34.27 93.23 L42.82 69.73 A21 21 0 0 0 57.18 69.73 Z" fill="currentColor" opacity=".85"/><path d="M30.56 91.69 A46 46 0 0 1 8.31 69.44 L30.97 58.87 A21 21 0 0 0 41.13 69.03 Z" fill="currentColor" opacity=".85"/><path d="M6.77 65.73 A46 46 0 0 1 6.77 34.27 L30.27 42.82 A21 21 0 0 0 30.27 57.18 Z" fill="currentColor" opacity=".85"/><path d="M8.31 30.56 A46 46 0 0 1 30.56 8.31 L41.13 30.97 A21 21 0 0 0 30.97 41.13 Z" fill="currentColor" opacity=".85"/><circle cx="50" cy="50" r="13" fill="var(--accent, #3b82f6)"/></svg>
       <span>RadialDeck</span>
     </a>
     <nav aria-label="Primary">
@@ -111,28 +111,28 @@
     <h2 class="h2">The ring changes with the app. So does what it can do.</h2>
 
     <div class="feature reveal">
-      <div class="feature-media"><img src="assets/themes/glass-dark.png" alt="A ring with Terminal, Clean URL, Servers, Snip, Paste plain, Reply all, Lock and Extract here" loading="lazy" width="712" height="712"></div>
+      <div class="feature-media"><div class="ring ring-static" data-ring="outlook" aria-hidden="true"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"><span></span></div></div></div>
       <div class="feature-copy">
         <h3>App-aware rings</h3>
         <p>Same trigger, different ring in Outlook, Excel, Explorer, your browser or an RDP session. Conditions match the process name or window title, plain text or regex. Several rings can share a trigger; the first match wins.</p>
       </div>
     </div>
     <div class="feature feature-flip reveal">
-      <div class="feature-media"><img src="assets/themes/midnight-dark.png" alt="The same ring in the Midnight theme" loading="lazy" width="712" height="712"></div>
+      <div class="feature-media"><div class="ring ring-static" data-ring="clip" aria-hidden="true"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"><span></span></div></div></div>
       <div class="feature-copy">
         <h3>Clipboard tricks, instantly</h3>
         <p>33 built-in transforms in C#: plain text, UPPER, clean tracking from a link, JSON, Base64, slug, Cyrillic to Latin, wrong keyboard layout, word count. Copy, flick, pasted. No PowerShell spinning up.</p>
       </div>
     </div>
     <div class="feature reveal">
-      <div class="feature-media"><img src="assets/themes/nord-dark.png" alt="The same ring in the Nord theme" loading="lazy" width="712" height="712"></div>
+      <div class="feature-media"><div class="ring ring-static" data-ring="explorer" aria-hidden="true"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"><span></span></div></div></div>
       <div class="feature-copy">
         <h3>Files in Explorer</h3>
         <p>Select a file, flick: extract here, zip, hash, terminal in this folder, convert with FFmpeg or Ghostscript. <code>{file}</code>, <code>{dir}</code>, <code>{name}</code> work in any command, and commands run in the folder you are looking at.</p>
       </div>
     </div>
     <div class="feature feature-flip reveal">
-      <div class="feature-media"><img src="assets/themes/sunset-dark.png" alt="The same ring in the Sunset theme" loading="lazy" width="712" height="712"></div>
+      <div class="feature-media"><div class="ring ring-static" data-ring="nested" aria-hidden="true"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"><span></span></div></div></div>
       <div class="feature-copy">
         <h3>Rings inside rings</h3>
         <p>Up to eight slices, three levels deep. Rest on a slice and the nested ring opens under your cursor, anchored so it never walks across the screen. Servers → SRV01, DC01. Portals → Entra, Intune, Azure.</p>

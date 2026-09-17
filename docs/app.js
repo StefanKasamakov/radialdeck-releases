@@ -91,10 +91,21 @@
     if (labelsEl) {
       labelsEl.innerHTML = ring.slices.map(([label, icon], i) => {
         const [x, y] = polar((R + RI) / 2 + 2, i * 360 / n);
-        return `<div class="ring-label" data-i="${i}" style="left:${x / 320 * 100}%;top:${y / 320 * 100}%">${svg(icon)}<span>${label}</span></div>`;
+        const longest = Math.max(...label.split(' ').map(w => w.length));
+        const size = longest > 10 ? ' is-long' : label.length > 12 ? ' is-mid' : '';
+        return `<div class="ring-label${size}" data-i="${i}" style="left:${x / 320 * 100}%;top:${y / 320 * 100}%">${svg(icon)}<span>${label}</span></div>`;
       }).join('');
     }
   }
+
+  // Static rings in the feature section: each shows what that feature is about.
+  const STATIC = {
+    outlook: RINGS_STATIC('Outlook', [['Reply', 'reply'], ['Reply all', 'replyAll'], ['Forward', 'forward'], ['Template', 'template'], ['Calendar', 'calendar'], ['Mark read', 'check'], ['New mail', 'mail'], ['Send', 'send']], 0),
+    clip: RINGS_STATIC('Clipboard', [['Paste plain', 'clipboard'], ['UPPER', 'caseUp'], ['Clean URL', 'link'], ['JSON', 'braces'], ['Count', 'hash'], ['Transliterate', 'languages'], ['Base64', 'lock'], ['Slug', 'link']], 2),
+    explorer: RINGS_STATIC('Explorer', [['Terminal', 'terminal'], ['Extract', 'archive'], ['Convert', 'convert'], ['Copy path', 'copy'], ['Search', 'search'], ['Git status', 'git'], ['SHA-256', 'hash'], ['Zip', 'archive']], 1),
+    nested: RINGS_STATIC('Servers', [['SRV01', 'server'], ['SRV02', 'server'], ['DC01', 'server'], ['Back', 'reply']], 2),
+  };
+  function RINGS_STATIC(hub, items, hot) { return { hub, hot, slices: items.map(([l, k]) => [l, I[k], '']) }; }
   function sliceAt(el, clientX, clientY, n) {
     const b = el.getBoundingClientRect();
     const dx = clientX - (b.left + b.width / 2), dy = clientY - (b.top + b.height / 2);
@@ -155,6 +166,14 @@
     loadRing(b.dataset.ring);
   }));
   loadRing('launch');
+
+  document.querySelectorAll('.ring-static').forEach(el => {
+    const ring = STATIC[el.dataset.ring]; if (!ring) return;
+    buildRing(el.querySelector('.ring-svg'), el.querySelector('.ring-labels'), ring);
+    el.querySelector('.ring-hub span').textContent = ring.hub;
+    el.querySelector(`.slice[data-i="${ring.hot}"]`).classList.add('is-hot');
+    el.querySelector(`.ring-label[data-i="${ring.hot}"]`).classList.add('is-hot');
+  });
 
   // ---- Theme picker: the app's built-in themes (slice top/bottom, stroke, hover top/bottom, hub, label, glow)
   const THEMES = [
