@@ -66,6 +66,13 @@
       ['RDP', I.monitor, 'Connecting to SRV01…'], ['Entra', I.globe, 'Entra admin center opened'], ['Flush DNS', I.wifi, '✓ Flush DNS'],
       ['Intune', I.shield, 'Intune portal opened'], ['AD users', I.users, 'Active Directory Users and Computers'], ['BitLocker', I.key, 'Recovery key lookup'],
       ['Restart svc', I.power, 'Spooler restarted'], ['Lock', I.lock, 'Workstation locked'] ] },
+    nested: { hub: 'Windows', slices: [
+      ['Power', I.power, '', null, { hub: 'Power', slices: [['Lock', I.lock, 'Workstation locked'], ['Sleep', I.power, 'Going to sleep…'], ['Restart', I.convert, 'Restarting'], ['Screen off', I.monitor, 'Display off']] }],
+      ['Media', I.youtube, '', null, { hub: 'Media', slices: [['Play / Pause', I.youtube, 'Playback toggled'], ['Next', I.forward, 'Next track'], ['Previous', I.reply, 'Previous track'], ['Mute', I.wifi, 'Muted']] }],
+      ['Servers', I.server, '', null, { hub: 'Servers', slices: [['SRV01', I.server, 'RDP to SRV01'], ['SRV02', I.server, 'RDP to SRV02'], ['DC01', I.server, 'RDP to DC01'], ['NAS', I.archive, 'Opened \\\\nas\\share']] }],
+      ['Snip', I.scissors, 'Snipping tool opened'], ['Emoji', I.chat, 'Emoji panel opened'], ['Clipboard hist', I.clipboard, 'Clipboard history opened'],
+      ['Portals', I.globe, '', null, { hub: 'Portals', slices: [['Entra', I.globe, 'Entra admin center'], ['Intune', I.shield, 'Intune portal'], ['Azure', I.globe, 'Azure portal'], ['Exchange', I.mail, 'Exchange admin']] }],
+      ['Empty bin', I.archive, 'Recycle bin emptied'] ] },
     clip: { hub: 'Clipboard', slices: [
       ['Paste plain', I.clipboard, 'Pasted without formatting'], ['UPPER', I.caseUp, 'HELLO FROM RADIALDECK'], ['Clean URL', I.link, 'Tracking parameters removed'],
       ['JSON', I.braces, 'Pretty-printed, 14 lines'], ['Count', I.hash, '12 words, 71 characters'], ['Transliterate', I.languages, 'Zdravey → Здравей'],
@@ -103,7 +110,7 @@
     outlook: RINGS_STATIC('Outlook', [['Reply', 'reply'], ['Reply all', 'replyAll'], ['Forward', 'forward'], ['Template', 'template'], ['Calendar', 'calendar'], ['Mark read', 'check'], ['New mail', 'mail'], ['Send', 'send']], 0),
     clip: RINGS_STATIC('Clipboard', [['Paste plain', 'clipboard'], ['UPPER', 'caseUp'], ['Clean URL', 'link'], ['JSON', 'braces'], ['Count', 'hash'], ['Transliterate', 'languages'], ['Base64', 'lock'], ['Slug', 'link']], 2),
     explorer: RINGS_STATIC('Explorer', [['Terminal', 'terminal'], ['Extract', 'archive'], ['Convert', 'convert'], ['Copy path', 'copy'], ['Search', 'search'], ['Git status', 'git'], ['SHA-256', 'hash'], ['Zip', 'archive']], 1),
-    nested: RINGS_STATIC('Servers', [['SRV01', 'server'], ['SRV02', 'server'], ['DC01', 'server'], ['Back', 'reply']], 2),
+    nested: RINGS_STATIC('‹ Power', [['Lock', 'lock'], ['Sleep', 'power'], ['Restart', 'convert'], ['Screen off', 'monitor']], 1),
   };
   function RINGS_STATIC(hub, items, hot) { return { hub, hot, slices: items.map(([l, k]) => [l, I[k], '']) }; }
   function sliceAt(el, clientX, clientY, n) {
@@ -122,7 +129,7 @@
   const hubText = document.getElementById('ring-hub-text');
   const toast = document.getElementById('demo-toast');
   const hint = document.getElementById('demo-hint');
-  let current = 'launch', hot = -1, toastTimer;
+  let current = 'launch', shown = RINGS.launch, stack = [], hot = -1, toastTimer;
 
   function setHot(i) {
     if (i === hot) return;
@@ -131,23 +138,30 @@
     if (i >= 0) {
       ringEl.querySelector(`.slice[data-i="${i}"]`).classList.add('is-hot');
       ringEl.querySelector(`.ring-label[data-i="${i}"]`).classList.add('is-hot');
-      hubText.textContent = RINGS[current].slices[i][0];
+      hubText.textContent = shown.slices[i][0];
     } else {
-      hubText.textContent = RINGS[current].hub;
+      hubText.textContent = stack.length ? '‹ back' : shown.hub;
     }
   }
-  function loadRing(id) {
-    current = id; hot = -1;
-    buildRing(ringSvg, labelsEl, RINGS[id]);
-    hubText.textContent = RINGS[id].hub;
-    hint.textContent = id === 'launch' ? 'This ring is real. Click a slice.' : 'Hover to highlight, click to see the result.';
+  function present(ring) {
+    shown = ring; hot = -1;
+    buildRing(ringSvg, labelsEl, ring);
+    ring.slices.forEach((s, i) => { if (s[4]) labelsEl.querySelector(`.ring-label[data-i="${i}"]`).classList.add('has-sub'); });
+    hubText.textContent = stack.length ? '‹ back' : ring.hub;
+    ringEl.classList.toggle('is-nested', stack.length > 0);
     if (hasGsap && !reduced) {
       gsap.fromTo(ringSvg.querySelectorAll('.slice'), { opacity: 0, transformOrigin: '160px 160px', scale: .86 }, { opacity: 1, scale: 1, duration: .5, ease: 'expo.out', stagger: .035 });
       gsap.fromTo(labelsEl.querySelectorAll('.ring-label'), { opacity: 0 }, { opacity: 1, duration: .4, delay: .15, stagger: .03 });
     }
   }
+  function loadRing(id) {
+    current = id; stack = [];
+    hint.textContent = id === 'launch' ? 'This ring is real. Click a slice.' : id === 'nested' ? 'Slices with dots open a nested ring. Click the centre to go back.' : 'Hover to highlight, click to see the result.';
+    present(RINGS[id]);
+  }
   function fire(i) {
-    const [label, , result, url] = RINGS[current].slices[i];
+    const [label, , result, url, sub] = shown.slices[i];
+    if (sub) { stack.push(shown); present(sub); return; }
     toast.innerHTML = `<b>${label}</b> · ${result}`;
     toast.classList.add('is-on');
     clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('is-on'), 2200);
@@ -156,10 +170,11 @@
     }
     if (url) window.open(url, '_blank', 'noopener');
   }
-  ringEl.addEventListener('pointermove', e => { hint.classList.add('is-hidden'); setHot(sliceAt(ringEl, e.clientX, e.clientY, RINGS[current].slices.length)); });
+  function back() { if (stack.length) present(stack.pop()); }
+  ringEl.addEventListener('pointermove', e => { hint.classList.add('is-hidden'); setHot(sliceAt(ringEl, e.clientX, e.clientY, shown.slices.length)); });
   ringEl.addEventListener('pointerleave', () => setHot(-1));
-  ringEl.addEventListener('click', e => { const i = sliceAt(ringEl, e.clientX, e.clientY, RINGS[current].slices.length); if (i >= 0) fire(i); });
-  ringEl.addEventListener('keydown', e => { const k = parseInt(e.key, 10); if (k >= 1 && k <= RINGS[current].slices.length) { setHot(k - 1); fire(k - 1); } });
+  ringEl.addEventListener('click', e => { const i = sliceAt(ringEl, e.clientX, e.clientY, shown.slices.length); if (i >= 0) fire(i); else back(); });
+  ringEl.addEventListener('keydown', e => { const k = parseInt(e.key, 10); if (k >= 1 && k <= shown.slices.length) { setHot(k - 1); fire(k - 1); } if (e.key === 'Escape') back(); });
   document.querySelectorAll('.demo-switch button').forEach(b => b.addEventListener('click', () => {
     document.querySelectorAll('.demo-switch button').forEach(x => x.setAttribute('aria-selected', x === b ? 'true' : 'false'));
     hint.classList.remove('is-hidden');
@@ -245,6 +260,75 @@
     else if (!en.isIntersecting && howVisible) { howVisible = false; howTl && howTl.pause(); }
   }), { threshold: .35 });
   io.observe(howRing);
+
+  // ---- Playground: hold, flick, release inside a fake app window ------------------------
+  const play = document.getElementById('playground');
+  if (play) {
+    const stage = play.querySelector('.play-stage');
+    const pring = play.querySelector('.play-ring');
+    const psvg = pring.querySelector('.ring-svg');
+    const plabels = pring.querySelector('.ring-labels');
+    const phub = pring.querySelector('.ring-hub span');
+    const out = play.querySelector('.play-output');
+    const log = play.querySelector('.play-log');
+    const apps = [...play.querySelectorAll('.play-app')];
+    const APPS = {
+      notepad: { hub: 'Notepad', slices: [['Paste plain', I.clipboard, 'Lorem ipsum, plain text.'], ['UPPER', I.caseUp, 'LOREM IPSUM DOLOR SIT AMET.'], ['Date', I.calendar, new Date().toLocaleDateString()], ['Signature', I.mail, 'Best regards,\nStefan'], ['Clean URL', I.link, 'https://example.com/article'], ['Count', I.hash, '4 words, 27 characters']] },
+      explorer: { hub: 'Explorer', slices: [['Terminal here', I.terminal, '> wt.exe -d C:\\Projects\\site'], ['Extract here', I.archive, 'report.zip → report\\ (3 files)'], ['Copy path', I.copy, 'C:\\Projects\\site\\report.zip copied'], ['SHA-256', I.hash, '9f86d081…0015ad copied'], ['Zip', I.archive, 'archive.zip created'], ['Git status', I.git, 'On branch main: 2 modified']] },
+      outlook: { hub: 'Outlook', slices: [['Reply', I.reply, 'Reply window opened'], ['Reply all', I.replyAll, 'Reply to 4 recipients'], ['Template', I.template, 'Hi,\n\nThanks for your message. I will get back to you by tomorrow.\n\nStefan'], ['Calendar', I.calendar, 'Calendar view'], ['Mark read', I.check, 'Marked as read'], ['Forward', I.forward, 'Forward window opened']] },
+    };
+    let app = 'notepad', held = false, phot = -1, origin = null;
+    function setApp(id) {
+      app = id;
+      apps.forEach(a => a.setAttribute('aria-selected', a.dataset.app === id ? 'true' : 'false'));
+      play.querySelector('.play-title').textContent = { notepad: 'Untitled - Notepad', explorer: 'C:\\Projects\\site', outlook: 'Inbox - Outlook' }[id];
+      out.textContent = { notepad: 'Hold the left mouse button (or Space) anywhere in this window, flick toward a slice, release.', explorer: 'report.zip    video.mov    notes.md', outlook: 'From: Maria\nSubject: Offer for Q4\n\nHi Stefan, can you send me the updated offer by Friday?' }[id];
+      log.textContent = '';
+    }
+    function pSetHot(i) {
+      if (i === phot) return;
+      pring.querySelectorAll('.is-hot').forEach(e => e.classList.remove('is-hot'));
+      phot = i;
+      if (i >= 0) { pring.querySelector(`.slice[data-i="${i}"]`).classList.add('is-hot'); pring.querySelector(`.ring-label[data-i="${i}"]`).classList.add('is-hot'); }
+      phub.textContent = i >= 0 ? APPS[app].slices[i][0] : APPS[app].hub;
+    }
+    function open(x, y) {
+      held = true; origin = [x, y];
+      const b = stage.getBoundingClientRect();
+      const size = pring.offsetWidth;
+      pring.style.left = Math.min(Math.max(x - b.left - size / 2, 0), b.width - size) + 'px';
+      pring.style.top = Math.min(Math.max(y - b.top - size / 2, 0), b.height - size) + 'px';
+      buildRing(psvg, plabels, APPS[app]);
+      phub.textContent = APPS[app].hub;
+      pring.classList.add('is-open');
+      if (hasGsap && !reduced) gsap.fromTo(psvg.querySelectorAll('.slice'), { opacity: 0, transformOrigin: '160px 160px', scale: .8 }, { opacity: 1, scale: 1, duration: .28, ease: 'expo.out', stagger: .02 });
+    }
+    function release() {
+      if (!held) return;
+      held = false;
+      const i = phot;
+      pring.classList.remove('is-open');
+      if (i >= 0) {
+        const [label, , result] = APPS[app].slices[i];
+        if (app === 'notepad') out.textContent += (out.textContent.endsWith('\n') ? '' : '\n\n') + result;
+        else if (app === 'outlook' && label === 'Template') out.textContent += '\n\n' + result;
+        log.textContent = '✓ ' + label + (app !== 'notepad' && !(app === 'outlook' && label === 'Template') ? ' · ' + result : '');
+      } else {
+        log.textContent = 'Released in the centre: nothing happened. Flick further next time.';
+      }
+      pSetHot(-1);
+    }
+    let lastPos = null;
+    stage.addEventListener('pointerdown', e => { if (e.button !== 0) return; e.preventDefault(); stage.setPointerCapture(e.pointerId); open(e.clientX, e.clientY); });
+    stage.addEventListener('pointermove', e => { lastPos = [e.clientX, e.clientY]; if (held) pSetHot(sliceAt(pring, e.clientX, e.clientY, APPS[app].slices.length)); });
+    stage.addEventListener('pointerup', release);
+    stage.addEventListener('pointercancel', release);
+    stage.addEventListener('mouseenter', () => stage.focus());
+    stage.addEventListener('keydown', e => { if (e.code === 'Space' && !held && lastPos) { e.preventDefault(); open(lastPos[0], lastPos[1]); } });
+    stage.addEventListener('keyup', e => { if (e.code === 'Space') { e.preventDefault(); release(); } });
+    apps.forEach(a => a.addEventListener('click', () => setApp(a.dataset.app)));
+    setApp('notepad');
+  }
 
   // ---- Reveals, split headline, counters ---------------------------------------------
   document.querySelectorAll('[data-split]').forEach(h => { h.innerHTML = h.textContent.split(' ').map(w => `<span class="w">${w}</span>`).join(' '); });

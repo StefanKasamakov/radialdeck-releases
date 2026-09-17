@@ -26,6 +26,7 @@
     <nav aria-label="Primary">
       <a href="#demo">Try it</a>
       <a href="#how">How it works</a>
+      <a href="#playground">Test it</a>
       <a href="#features">Features</a>
       <a href="#styles">Styles</a>
       <a href="#pricing">Pricing</a>
@@ -71,6 +72,7 @@
         <button role="tab" aria-selected="false" data-ring="explorer">Explorer</button>
         <button role="tab" aria-selected="false" data-ring="outlook">Outlook</button>
         <button role="tab" aria-selected="false" data-ring="admin">IT admin</button>
+        <button role="tab" aria-selected="false" data-ring="nested">Nested</button>
         <button role="tab" aria-selected="false" data-ring="clip">Clipboard</button>
       </div>
     </div>
@@ -105,6 +107,34 @@
   </div>
 </section>
 
+<section class="playground" id="playground">
+  <div class="wrap">
+    <p class="eyebrow">Test it out</p>
+    <h2 class="h2">Feel the gesture before you install anything.</h2>
+    <p class="sub">This is a fake app window. <b>Press and hold</b> the left mouse button anywhere inside it (or hold <kbd>Space</kbd>), move toward a slice, release. Switch the app and watch the ring change.</p>
+    <div class="play-window">
+      <div class="play-bar">
+        <div class="play-apps" role="tablist" aria-label="Pretend you are in">
+          <button class="play-app" role="tab" data-app="notepad" aria-selected="true">Notepad</button>
+          <button class="play-app" role="tab" data-app="explorer" aria-selected="false">Explorer</button>
+          <button class="play-app" role="tab" data-app="outlook" aria-selected="false">Outlook</button>
+        </div>
+        <span class="play-title">Untitled - Notepad</span>
+        <span class="play-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+      </div>
+      <div class="play-stage" tabindex="0" aria-label="Playground: hold the mouse button, flick, release">
+        <pre class="play-output"></pre>
+        <div class="play-ring ring" aria-hidden="true">
+          <svg class="ring-svg" viewBox="0 0 320 320"></svg>
+          <div class="ring-labels"></div>
+          <div class="ring-hub"><span></span></div>
+        </div>
+      </div>
+      <div class="play-log" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
 <section class="features" id="features">
   <div class="wrap">
     <p class="eyebrow">What it does</p>
@@ -135,7 +165,7 @@
       <div class="feature-media"><div class="ring ring-static" data-ring="nested" aria-hidden="true"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"><span></span></div></div></div>
       <div class="feature-copy">
         <h3>Rings inside rings</h3>
-        <p>Up to eight slices, three levels deep. Rest on a slice and the nested ring opens under your cursor, anchored so it never walks across the screen. Servers → SRV01, DC01. Portals → Entra, Intune, Azure.</p>
+        <p>Up to eight slices, three levels deep. A Windows ring holds Power, Media and Portals; rest on Power and a second ring opens under your cursor with Lock, Sleep, Restart, Screen off. Click the centre to go back. Try it in the <a href="#demo" class="inline-link">Nested</a> demo above.</p>
       </div>
     </div>
 
