@@ -88,13 +88,75 @@
     const large = sweep - GAP > 180 ? 1 : 0;
     return `M${x1} ${y1} A${R} ${R} 0 ${large} 1 ${x2} ${y2} L${x3} ${y3} A${RI} ${RI} 0 ${large} 0 ${x4} ${y4} Z`;
   }
-  const defs = `<defs>
-    <linearGradient id="sliceGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--r-slice-top)"/><stop offset="1" stop-color="var(--r-slice-bottom)"/></linearGradient>
-    <linearGradient id="hoverGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--r-hover-top)"/><stop offset="1" stop-color="var(--r-hover-bottom)"/></linearGradient>
-  </defs>`;
+  // ---- Theme engine: the same values RadialDeck renders (site/themes.js is generated from Theme/Themes/*.json) --------
+  const THEMES = window.RD_THEMES || [];
+  const themeById = id => THEMES.find(t => t.id === id) || THEMES[0];
+  let uidSeq = 0;
+  const esc = v => v.replace(/[^a-z0-9.,()% -]/gi, '');
+  function patternBody(kind, color) {
+    // Drawn in a 280x280 box that is stretched over each slice's bounding box, exactly like the app's DrawingBrush.
+    const m = color.match(/rgba?\((\d+),(\d+),(\d+)(?:,([\d.]+))?\)/);
+    if (!m) return '';
+    const [r, g, b] = [m[1], m[2], m[3]]; const a = m[4] === undefined ? 1 : +m[4];
+    const c = al => `rgba(${r},${g},${b},${Math.min(1, al).toFixed(3)})`;
+    let out = '';
+    if (kind === 'pixels') {
+      let seed = 7; const rnd = n => { seed = (seed * 1103515245 + 12345) & 0x7fffffff; return seed % n; };
+      const shades = [c(a), c(a / 2), c(a * 1.5)];
+      for (let y = 0; y < 280; y += 8) for (let x = 0; x < 280; x += 8) { const sh = shades[rnd(3)]; if (rnd(3) !== 0) out += `<rect x="${x}" y="${y}" width="8" height="8" fill="${sh}"/>`; }
+    } else if (kind === 'gloss') {
+      out += `<rect x="0" y="0" width="280" height="135" fill="url(#gl-${uidSeq})"/><rect x="0" y="200" width="280" height="80" fill="url(#gs-${uidSeq})"/>`;
+    } else if (kind === 'stripes') {
+      for (let d = -280; d < 560; d += 14) out += `<line x1="${d}" y1="0" x2="${d + 280}" y2="280" stroke="${c(a)}" stroke-width="3"/>`;
+    } else if (kind === 'dots') {
+      for (let y = 6; y < 280; y += 12) for (let x = 6; x < 280; x += 12) out += `<circle cx="${x}" cy="${y}" r="1.6" fill="${c(a)}"/>`;
+    } else if (kind === 'scanlines') {
+      for (let y = 0; y < 280; y += 4) out += `<rect x="0" y="${y}" width="280" height="1.2" fill="${c(a)}"/>`;
+    } else if (kind === 'grid') {
+      for (let q = 0; q <= 280; q += 20) out += `<line x1="${q}" y1="0" x2="${q}" y2="280" stroke="${c(a)}" stroke-width="1"/><line x1="0" y1="${q}" x2="280" y2="${q}" stroke="${c(a)}" stroke-width="1"/>`;
+    }
+    return out;
+  }
+  function defsFor(uid, v) {
+    const pc = v.patternColor.match(/rgba?\((\d+),(\d+),(\d+)(?:,([\d.]+))?\)/);
+    const pa = pc ? (pc[4] === undefined ? 1 : +pc[4]) : 0;
+    const zero = pc ? `rgba(${pc[1]},${pc[2]},${pc[3]},0)` : 'transparent';
+    const third = pc ? `rgba(${pc[1]},${pc[2]},${pc[3]},${(pa / 3).toFixed(3)})` : 'transparent';
+    const glossDefs = v.pattern === 'gloss' ? `<linearGradient id="gl-${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${v.patternColor}"/><stop offset="1" stop-color="${zero}"/></linearGradient><linearGradient id="gs-${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${zero}"/><stop offset="1" stop-color="${third}"/></linearGradient>` : '';
+    const savedSeq = uidSeq; uidSeq = uid;
+    const pat = v.pattern && v.pattern !== 'none' ? `<pattern id="pat-${uid}" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 280 280" preserveAspectRatio="none">${patternBody(v.pattern, v.patternColor)}</pattern>` : '';
+    uidSeq = savedSeq;
+    return `<defs>
+      <linearGradient id="slice-${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${v.sliceTop}"/><stop offset="1" stop-color="${v.sliceBottom}"/></linearGradient>
+      <linearGradient id="hover-${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${v.hoverTop}"/><stop offset="1" stop-color="${v.hoverBottom}"/></linearGradient>
+      ${glossDefs}${pat}</defs>`;
+  }
+  function themeRing(ringEl, v) {
+    if (!ringEl.dataset.uid) ringEl.dataset.uid = ++uidSeq;
+    const uid = ringEl.dataset.uid;
+    ringEl._theme = v;
+    const st = ringEl.style;
+    st.setProperty('--r-fill', `url(#slice-${uid})`); st.setProperty('--r-fill-hot', `url(#hover-${uid})`);
+    st.setProperty('--r-pat', v.pattern && v.pattern !== 'none' ? `url(#pat-${uid})` : 'none');
+    st.setProperty('--r-stroke', v.sliceStroke); st.setProperty('--r-hover-stroke', v.hoverStroke); st.setProperty('--r-stroke-w', v.strokeWidth);
+    st.setProperty('--r-hub', v.hub); st.setProperty('--r-label', v.label); st.setProperty('--r-label-dim', v.labelDim);
+    st.setProperty('--r-glow', v.glow || 'transparent'); st.setProperty('--r-glow-r', (v.glow ? Math.round(v.glowRadius * .55) : 0) + 'px');
+    const sh = v.shadow.match(/rgba?\((\d+),(\d+),(\d+)/);
+    st.setProperty('--r-shadow', sh ? `rgba(${sh[1]},${sh[2]},${sh[3]},${(v.shadowOpacity * .9).toFixed(2)})` : 'rgba(0,0,0,.5)');
+    st.setProperty('--r-font', v.font ? `"${esc(v.font)}", var(--font-body)` : 'var(--font-body)');
+    st.setProperty('--r-weight', /black/i.test(v.font) ? '800' : '600');
+    st.setProperty('--r-label-size', v.labelSize ? (v.labelSize * 1.04).toFixed(1) + 'px' : '12.5px');
+    ringEl.classList.toggle('is-upper', !!v.labelUppercase);
+    const svgEl = ringEl.querySelector('.ring-svg');
+    const old = svgEl.querySelector('defs'); if (old) old.remove();
+    svgEl.insertAdjacentHTML('afterbegin', defsFor(uid, v));
+  }
+  const DEFAULT_THEME = () => (themeById('glass') || { dark: null }).dark;
   function buildRing(svgEl, labelsEl, ring) {
+    const ringEl = svgEl.closest('.ring, .how-ring');
     const n = ring.slices.length;
-    svgEl.innerHTML = defs + ring.slices.map((_, i) => `<path class="slice" data-i="${i}" d="${slicePath(i, n)}"/>`).join('');
+    if (!ringEl._theme) themeRing(ringEl, DEFAULT_THEME());
+    svgEl.innerHTML = defsFor(ringEl.dataset.uid, ringEl._theme) + ring.slices.map((_, i) => `<path class="slice" data-i="${i}" d="${slicePath(i, n)}"/><path class="slice-pat" d="${slicePath(i, n)}"/>`).join('');
     if (labelsEl) {
       labelsEl.innerHTML = ring.slices.map(([label, icon], i) => {
         const [x, y] = polar((R + RI) / 2 + 2, i * 360 / n);
@@ -104,6 +166,7 @@
       }).join('');
     }
   }
+  function applyThemeEverywhere(v) { document.querySelectorAll('.ring, .how-ring').forEach(r => themeRing(r, v)); }
 
   // Static rings in the feature section: each shows what that feature is about.
   const STATIC = {
@@ -150,7 +213,7 @@
     hubText.textContent = stack.length ? '‹ back' : ring.hub;
     ringEl.classList.toggle('is-nested', stack.length > 0);
     if (hasGsap && !reduced) {
-      gsap.fromTo(ringSvg.querySelectorAll('.slice'), { opacity: 0, transformOrigin: '160px 160px', scale: .86 }, { opacity: 1, scale: 1, duration: .5, ease: 'expo.out', stagger: .035 });
+      gsap.fromTo(ringSvg.querySelectorAll('.slice, .slice-pat'), { opacity: 0, transformOrigin: '160px 160px', scale: .86 }, { opacity: 1, scale: 1, duration: .5, ease: 'expo.out', stagger: .02 });
       gsap.fromTo(labelsEl.querySelectorAll('.ring-label'), { opacity: 0 }, { opacity: 1, duration: .4, delay: .15, stagger: .03 });
     }
   }
@@ -190,38 +253,39 @@
     el.querySelector(`.ring-label[data-i="${ring.hot}"]`).classList.add('is-hot');
   });
 
-  // ---- Theme picker: the app's built-in themes (slice top/bottom, stroke, hover top/bottom, hub, label, glow)
-  const THEMES = [
-    ['glass', 'Glass', '#2a2e38', '#14161e', 'rgba(255,255,255,.45)', '#60a5fa', '#2f6fe0', '#101218', '#fff', 'transparent'],
-    ['midnight', 'Midnight', '#141b2e', '#0b1020', 'rgba(128,160,255,.35)', '#22d3ee', '#0891b2', '#0a0e1a', '#e6f1ff', 'rgba(34,211,238,.5)'],
-    ['neon', 'Neon', '#101014', '#060608', 'rgba(255,43,214,.65)', '#ff2bd6', '#8a2be2', '#050507', '#fff', '#ff2bd6'],
-    ['cyberpunk', 'Cyberpunk', '#121216', '#070709', 'rgba(252,238,10,.75)', '#fcee0a', '#e0c800', '#050505', '#0b0b0b', '#00f0ff'],
-    ['minecraft', 'Minecraft', '#5a8f3a', '#3f6a2a', '#2e4d1e', '#7db84e', '#5a8f3a', '#6e4b2a', '#fff', 'transparent'],
-    ['aero', 'Windows 7 Aero', '#2a6fb8', '#123e7a', 'rgba(220,238,255,.75)', '#4fa8ff', '#166acf', '#102a52', '#fff', 'rgba(144,208,255,.4)'],
-    ['paper', 'Paper', '#3b3530', '#2a2520', 'rgba(255,244,224,.4)', '#f59e0b', '#d97706', '#221e1a', '#fff7ed', 'transparent'],
-    ['nord', 'Nord', '#3b4252', '#2e3440', '#4c566a', '#88c0d0', '#5e81ac', '#242933', '#eceff4', 'transparent'],
-    ['catppuccin-mocha', 'Catppuccin', '#313244', '#1e1e2e', '#45475a', '#cba6f7', '#b4befe', '#181825', '#cdd6f4', 'transparent'],
-    ['dracula', 'Dracula', '#44475a', '#282a36', '#6272a4', '#bd93f9', '#ff79c6', '#191a21', '#f8f8f2', 'transparent'],
-    ['terminal', 'Terminal', '#0a0f0a', '#050805', 'rgba(51,255,102,.6)', '#33ff66', '#119933', '#030503', '#33ff66', 'rgba(51,255,102,.5)'],
-    ['sunset', 'Sunset', '#3a1d3b', '#211126', 'rgba(255,176,138,.4)', '#fb923c', '#e11d48', '#1a0e1f', '#fff1e6', 'rgba(251,146,60,.45)'],
-    ['blueprint', 'Blueprint', '#163a7a', '#0f2a5c', 'rgba(191,216,255,.75)', '#ffffff', '#dce8ff', '#0b1f45', '#fff', 'transparent'],
-    ['mono', 'Mono', '#1c1c1c', '#0e0e0e', '#fff', '#fff', '#e6e6e6', '#000', '#fff', 'transparent'],
-  ];
+  // ---- Styles: preview ring in the section itself, dark/light switch, applies to every ring on the page -------------
   const strip = document.getElementById('theme-strip');
-  const root = document.documentElement.style;
-  function applyTheme(t) {
-    root.setProperty('--r-slice-top', t[2]); root.setProperty('--r-slice-bottom', t[3]); root.setProperty('--r-stroke', t[4]);
-    root.setProperty('--r-hover-top', t[5]); root.setProperty('--r-hover-bottom', t[6]); root.setProperty('--r-hub', t[7]);
-    root.setProperty('--r-label', t[8]); root.setProperty('--r-label-dim', t[8]); root.setProperty('--r-glow', t[9]);
+  const styleRing = document.getElementById('style-ring');
+  const styleName = document.getElementById('style-name');
+  let themeMode = 'dark', activeTheme = 'glass';
+  const STYLE_RING = { hub: 'Windows', slices: [['Lock', I.lock, ''], ['Snip', I.scissors, ''], ['Terminal', I.terminal, ''], ['Servers', I.server, ''], ['Settings', I.monitor, ''], ['Media', I.youtube, ''], ['Portals', I.globe, ''], ['Power', I.power, '']] };
+  if (styleRing) {
+    buildRing(styleRing.querySelector('.ring-svg'), styleRing.querySelector('.ring-labels'), STYLE_RING);
+    styleRing.querySelector('.ring-hub span').textContent = STYLE_RING.hub;
+    styleRing.querySelector('.slice[data-i="2"]').classList.add('is-hot');
+    styleRing.querySelector('.ring-label[data-i="2"]').classList.add('is-hot');
+    styleRing.addEventListener('pointermove', e => { const k = sliceAt(styleRing, e.clientX, e.clientY, 8); if (k < 0) return; styleRing.querySelectorAll('.is-hot').forEach(x => x.classList.remove('is-hot')); styleRing.querySelector(`.slice[data-i="${k}"]`).classList.add('is-hot'); styleRing.querySelector(`.ring-label[data-i="${k}"]`).classList.add('is-hot'); });
   }
-  strip.innerHTML = THEMES.map((t, i) => `<button class="theme${i === 0 ? ' is-active' : ''}" role="listitem" data-i="${i}" aria-pressed="${i === 0}"><img src="assets/themes/${t[0]}-dark.png" alt="" loading="lazy" width="356" height="356"><span>${t[1]}</span><small>dark + light</small></button>`).join('');
-  strip.addEventListener('click', e => {
-    const b = e.target.closest('.theme'); if (!b) return;
-    strip.querySelectorAll('.theme').forEach(x => { x.classList.remove('is-active'); x.setAttribute('aria-pressed', 'false'); });
-    b.classList.add('is-active'); b.setAttribute('aria-pressed', 'true');
-    applyTheme(THEMES[+b.dataset.i]);
-    document.getElementById('demo').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
-  });
+  function renderStrip() {
+    strip.innerHTML = THEMES.map(t => `<button class="theme${t.id === activeTheme ? ' is-active' : ''}" role="listitem" data-id="${t.id}" aria-pressed="${t.id === activeTheme}"><img src="assets/themes/${t.id}-${themeMode}.png" alt="" loading="lazy" width="356" height="356"><span>${t.name}</span></button>`).join('');
+  }
+  function pickTheme(id) {
+    activeTheme = id;
+    const v = themeById(id)[themeMode];
+    applyThemeEverywhere(v);
+    document.querySelector('.styles').classList.toggle('is-light', themeMode === 'light');
+    if (styleName) styleName.textContent = themeById(id).name + ' · ' + themeMode;
+    strip.querySelectorAll('.theme').forEach(x => { const on = x.dataset.id === id; x.classList.toggle('is-active', on); x.setAttribute('aria-pressed', on); });
+  }
+  if (strip) {
+    renderStrip();
+    strip.addEventListener('click', e => { const b = e.target.closest('.theme'); if (b) pickTheme(b.dataset.id); });
+    document.querySelectorAll('.mode-switch button').forEach(b => b.addEventListener('click', () => {
+      themeMode = b.dataset.mode;
+      document.querySelectorAll('.mode-switch button').forEach(x => x.setAttribute('aria-selected', x === b ? 'true' : 'false'));
+      renderStrip(); pickTheme(activeTheme);
+    }));
+  }
 
   // ---- "How it works": autoplays and loops while on screen -----------------------------
   const howRing = document.getElementById('how-ring');
@@ -235,15 +299,16 @@
 
   function playHow() {
     const slices = howSvg.querySelectorAll('.slice');
+    const pats = howSvg.querySelectorAll('.slice-pat');
     const labels = howRing.querySelectorAll('.ring-label');
     const target = 1; // YouTube, upper right
     if (!hasGsap || reduced) { showStep(0); slices[target].classList.add('is-hot'); return; }
     howTl && howTl.kill();
     howTl = gsap.timeline({ defaults: { ease: 'expo.out' }, repeat: -1, repeatDelay: 1.2 })
-      .set(howCursor, { x: 0, y: 0 }).set([slices, labels], { opacity: 0 }).set(slices, { transformOrigin: '160px 160px', scale: .8 })
+      .set(howCursor, { x: 0, y: 0 }).set([slices, pats, labels], { opacity: 0 }).set([slices, pats], { transformOrigin: '160px 160px', scale: .8 })
       .call(() => { showStep(0); howKey.classList.remove('is-down'); slices[target].classList.remove('is-hot'); labels[target].classList.remove('is-hot'); })
       .call(() => howKey.classList.add('is-down'), null, '+=0.5')
-      .to(slices, { opacity: 1, scale: 1, duration: .45, stagger: .03 }, '<')
+      .to([slices, pats], { opacity: 1, scale: 1, duration: .45, stagger: .02 }, '<')
       .to(labels, { opacity: 1, duration: .3 }, '<0.15')
       .call(() => showStep(1), null, '+=0.6')
       .to(howCursor, { x: 92, y: -40, duration: .55, ease: 'power3.out' })
@@ -251,7 +316,7 @@
       .call(() => showStep(2), null, '+=0.6')
       .call(() => howKey.classList.remove('is-down'))
       .to(slices[target], { transformOrigin: '160px 160px', scale: 1.06, duration: .12, yoyo: true, repeat: 1, ease: 'power2.out' })
-      .to([slices, labels], { opacity: 0, duration: .3, ease: 'power2.in' }, '+=0.7')
+      .to([slices, pats, labels], { opacity: 0, duration: .3, ease: 'power2.in' }, '+=0.7')
       .to(howCursor, { x: 0, y: 0, duration: .01 });
   }
   steps.forEach(s => s.addEventListener('click', () => { if (howTl) { howTl.restart(); const at = [0, 1.35, 2.7][+s.dataset.step]; howTl.seek(at); } }));
@@ -272,17 +337,64 @@
     const out = play.querySelector('.play-output');
     const log = play.querySelector('.play-log');
     const apps = [...play.querySelectorAll('.play-app')];
+    const h = t => t.replace(/[&<>]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[ch]));
     const APPS = {
-      notepad: { hub: 'Notepad', slices: [['Paste plain', I.clipboard, 'Lorem ipsum, plain text.'], ['UPPER', I.caseUp, 'LOREM IPSUM DOLOR SIT AMET.'], ['Date', I.calendar, new Date().toLocaleDateString()], ['Signature', I.mail, 'Best regards,\nStefan'], ['Clean URL', I.link, 'https://example.com/article'], ['Count', I.hash, '4 words, 27 characters']] },
-      explorer: { hub: 'Explorer', slices: [['Terminal here', I.terminal, '> wt.exe -d C:\\Projects\\site'], ['Extract here', I.archive, 'report.zip → report\\ (3 files)'], ['Copy path', I.copy, 'C:\\Projects\\site\\report.zip copied'], ['SHA-256', I.hash, '9f86d081…0015ad copied'], ['Zip', I.archive, 'archive.zip created'], ['Git status', I.git, 'On branch main: 2 modified']] },
-      outlook: { hub: 'Outlook', slices: [['Reply', I.reply, 'Reply window opened'], ['Reply all', I.replyAll, 'Reply to 4 recipients'], ['Template', I.template, 'Hi,\n\nThanks for your message. I will get back to you by tomorrow.\n\nStefan'], ['Calendar', I.calendar, 'Calendar view'], ['Mark read', I.check, 'Marked as read'], ['Forward', I.forward, 'Forward window opened']] },
+      notepad: { hub: 'Notepad', title: 'Untitled - Notepad', slices: [['Paste plain', I.clipboard], ['UPPER', I.caseUp], ['Date', I.calendar], ['Signature', I.mail], ['Clean URL', I.link], ['Count', I.hash]] },
+      explorer: { hub: 'Explorer', title: 'C:\\Projects\\site', slices: [['Terminal here', I.terminal], ['Extract here', I.archive], ['Copy path', I.copy], ['SHA-256', I.hash], ['Zip', I.archive], ['Git status', I.git]] },
+      outlook: { hub: 'Outlook', title: 'Inbox - Outlook', slices: [['Reply', I.reply], ['Reply all', I.replyAll], ['Template', I.template], ['Calendar', I.calendar], ['Mark read', I.check], ['Forward', I.forward]] },
     };
-    let app = 'notepad', held = false, phot = -1, origin = null;
+    const NOTE_RESULTS = { 'Paste plain': 'Lorem ipsum, plain text.', 'UPPER': 'LOREM IPSUM DOLOR SIT AMET.', 'Date': new Date().toLocaleDateString(), 'Signature': 'Best regards,\nAlex', 'Clean URL': 'https://example.com/article', 'Count': '4 words, 27 characters' };
+    let app = 'notepad', held = false, phot = -1;
+    const state = {};
+    function reset(id) {
+      if (id === 'notepad') state.notepad = { text: 'Hold the left mouse button (or Space) anywhere in this window, flick toward a slice, release.' };
+      if (id === 'explorer') state.explorer = { files: [['report.zip', 'zip', true], ['video.mov', 'mov'], ['notes.md', 'md'], ['index.html', 'html']], term: null, chip: null };
+      if (id === 'outlook') state.outlook = { unread: true, view: 'mail', compose: null };
+    }
+    const FICON = { zip: I.archive, mov: I.youtube, md: I.note, html: I.globe, folder: I.template };
+    function render() {
+      if (app === 'notepad') { out.innerHTML = `<pre class="np">${h(state.notepad.text)}</pre>`; return; }
+      if (app === 'explorer') {
+        const st = state.explorer;
+        out.innerHTML = `<div class="ex"><div class="ex-crumbs">This PC › C: › Projects › site</div><ul class="ex-files">${st.files.map(([n, t, sel, kids]) => `<li class="${sel ? 'is-sel' : ''}">${svg(FICON[t] || I.note)}<span>${h(n)}</span>${kids ? `<ul>${kids.map(k => `<li>${svg(I.note)}<span>${h(k)}</span></li>`).join('')}</ul>` : ''}</li>`).join('')}</ul>${st.chip ? `<div class="ex-chip">${svg(I.clipboard)}<span>${h(st.chip)}</span></div>` : ''}${st.term ? `<pre class="ex-term">${h(st.term)}<i class="caret"></i></pre>` : ''}</div>`;
+        return;
+      }
+      const st = state.outlook;
+      if (st.view === 'calendar') {
+        const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+        out.innerHTML = `<div class="ol"><div class="ol-head">Calendar · this week</div><div class="ol-cal">${days.map((d, k) => `<div class="ol-day"><b>${d}</b>${k === 1 ? '<i>10:00 Offer review</i>' : ''}${k === 3 ? '<i>14:00 Q4 planning</i>' : ''}</div>`).join('')}</div></div>`;
+        return;
+      }
+      out.innerHTML = `<div class="ol"><div class="ol-list"><div class="ol-item ${st.unread ? 'is-unread' : ''}"><b>Maria Petrova</b><span>Offer for Q4</span><small>${st.unread ? 'Unread' : 'Read'}</small></div><div class="ol-item"><b>Ivan Dimitrov</b><span>Server maintenance window</span><small>Read</small></div></div><div class="ol-read"><div class="ol-meta"><b>Offer for Q4</b><span>Maria Petrova · to you, Ivan, Nikolay, Elena</span></div><p>Hi,<br>can you send me the updated offer by Friday?<br><br>Thanks,<br>Maria</p>${st.compose ? `<div class="ol-compose"><div><small>To</small><span>${h(st.compose.to)}</span></div><div><small>Subject</small><span>${h(st.compose.subject)}</span></div><pre>${h(st.compose.body)}<i class="caret"></i></pre></div>` : ''}</div></div>`;
+    }
+    function act(label) {
+      if (app === 'notepad') { const t = state.notepad; t.text += (t.text.endsWith('\n') ? '' : '\n\n') + NOTE_RESULTS[label]; return '✓ ' + label; }
+      if (app === 'explorer') {
+        const st = state.explorer;
+        if (label === 'Terminal here') st.term = 'PS C:\\Projects\\site> ';
+        if (label === 'Extract here') { if (!st.files.some(f => f[0] === 'report')) st.files.splice(1, 0, ['report', 'folder', false, ['summary.docx', 'numbers.xlsx', 'chart.png']]); }
+        if (label === 'Copy path') st.chip = 'C:\\Projects\\site\\report.zip';
+        if (label === 'SHA-256') st.chip = '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08';
+        if (label === 'Zip') { if (!st.files.some(f => f[0] === 'archive.zip')) st.files.push(['archive.zip', 'zip']); }
+        if (label === 'Git status') st.term = 'PS C:\\Projects\\site> git status\nOn branch main\nChanges not staged for commit:\n  modified:   index.html\n  modified:   styles.css\nUntracked files:\n  notes.md\nPS C:\\Projects\\site> ';
+        return '✓ ' + label + ' · ' + { 'Terminal here': 'Windows Terminal opened in this folder', 'Extract here': 'report.zip → report\\ (3 files)', 'Copy path': 'full path on the clipboard', 'SHA-256': 'hash on the clipboard', 'Zip': 'archive.zip created next to the files', 'Git status': 'ran in the folder you are looking at' }[label];
+      }
+      const st = state.outlook;
+      st.view = 'mail';
+      if (label === 'Reply') st.compose = { to: 'Maria Petrova', subject: 'RE: Offer for Q4', body: '' };
+      if (label === 'Reply all') st.compose = { to: 'Maria Petrova; Ivan Dimitrov; Nikolay Georgiev; Elena Ivanova', subject: 'RE: Offer for Q4', body: '' };
+      if (label === 'Forward') st.compose = { to: '', subject: 'FW: Offer for Q4', body: '' };
+      if (label === 'Template') { if (!st.compose) st.compose = { to: 'Maria Petrova', subject: 'RE: Offer for Q4', body: '' }; st.compose.body = 'Hi Maria,\n\nthanks for your message. I will get back to you by tomorrow with the updated offer.\n\nBest regards,\nAlex'; }
+      if (label === 'Calendar') st.view = 'calendar';
+      if (label === 'Mark read') st.unread = false;
+      return '✓ ' + label + ' · ' + { 'Reply': 'reply window opened', 'Reply all': 'reply to 4 recipients', 'Forward': 'forward window opened', 'Template': 'your template pasted into the reply', 'Calendar': 'switched to the calendar', 'Mark read': 'message marked as read' }[label];
+    }
     function setApp(id) {
       app = id;
       apps.forEach(a => a.setAttribute('aria-selected', a.dataset.app === id ? 'true' : 'false'));
-      play.querySelector('.play-title').textContent = { notepad: 'Untitled - Notepad', explorer: 'C:\\Projects\\site', outlook: 'Inbox - Outlook' }[id];
-      out.textContent = { notepad: 'Hold the left mouse button (or Space) anywhere in this window, flick toward a slice, release.', explorer: 'report.zip    video.mov    notes.md', outlook: 'From: Maria\nSubject: Offer for Q4\n\nHi Stefan, can you send me the updated offer by Friday?' }[id];
+      play.querySelector('.play-title').textContent = APPS[id].title;
+      play.querySelector('.play-window').dataset.app = id;
+      reset(id); render();
       log.textContent = '';
     }
     function pSetHot(i) {
@@ -293,7 +405,7 @@
       phub.textContent = i >= 0 ? APPS[app].slices[i][0] : APPS[app].hub;
     }
     function open(x, y) {
-      held = true; origin = [x, y];
+      held = true;
       const b = stage.getBoundingClientRect();
       const size = pring.offsetWidth;
       pring.style.left = Math.min(Math.max(x - b.left - size / 2, 0), b.width - size) + 'px';
@@ -301,21 +413,15 @@
       buildRing(psvg, plabels, APPS[app]);
       phub.textContent = APPS[app].hub;
       pring.classList.add('is-open');
-      if (hasGsap && !reduced) gsap.fromTo(psvg.querySelectorAll('.slice'), { opacity: 0, transformOrigin: '160px 160px', scale: .8 }, { opacity: 1, scale: 1, duration: .28, ease: 'expo.out', stagger: .02 });
+      if (hasGsap && !reduced) gsap.fromTo(psvg.querySelectorAll('.slice, .slice-pat'), { opacity: 0, transformOrigin: '160px 160px', scale: .8 }, { opacity: 1, scale: 1, duration: .28, ease: 'expo.out', stagger: .01 });
     }
     function release() {
       if (!held) return;
       held = false;
       const i = phot;
       pring.classList.remove('is-open');
-      if (i >= 0) {
-        const [label, , result] = APPS[app].slices[i];
-        if (app === 'notepad') out.textContent += (out.textContent.endsWith('\n') ? '' : '\n\n') + result;
-        else if (app === 'outlook' && label === 'Template') out.textContent += '\n\n' + result;
-        log.textContent = '✓ ' + label + (app !== 'notepad' && !(app === 'outlook' && label === 'Template') ? ' · ' + result : '');
-      } else {
-        log.textContent = 'Released in the centre: nothing happened. Flick further next time.';
-      }
+      if (i >= 0) { log.textContent = act(APPS[app].slices[i][0]); render(); }
+      else log.textContent = 'Released in the centre: nothing happened. Flick further next time.';
       pSetHot(-1);
     }
     let lastPos = null;
@@ -323,7 +429,7 @@
     stage.addEventListener('pointermove', e => { lastPos = [e.clientX, e.clientY]; if (held) pSetHot(sliceAt(pring, e.clientX, e.clientY, APPS[app].slices.length)); });
     stage.addEventListener('pointerup', release);
     stage.addEventListener('pointercancel', release);
-    stage.addEventListener('mouseenter', () => stage.focus());
+    stage.addEventListener('mouseenter', () => stage.focus({ preventScroll: true }));
     stage.addEventListener('keydown', e => { if (e.code === 'Space' && !held && lastPos) { e.preventDefault(); open(lastPos[0], lastPos[1]); } });
     stage.addEventListener('keyup', e => { if (e.code === 'Space') { e.preventDefault(); release(); } });
     apps.forEach(a => a.addEventListener('click', () => setApp(a.dataset.app)));

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RadialDeck — Your workday in one gesture</title>
-<meta name="description" content="A native Windows radial menu that knows which app you're in. Hold a key or a mouse button, flick, release. App-aware rings, clipboard tricks, file tools, 985 ready-made recipes, 14 themes. Free for one ring.">
+<meta name="description" content="A native Windows radial menu that knows which app you're in. Hold a key or a mouse button, flick, release. App-aware rings, clipboard tricks, file tools, 985 ready-made recipes, 25 themes, 14 languages. Free for one ring.">
 <meta property="og:title" content="RadialDeck">
 <meta property="og:description" content="Your workday in one gesture. A native Windows radial menu for IT people, office people and developers.">
 <meta property="og:image" content="assets/themes/glass-dark.png">
@@ -123,7 +123,7 @@
         <span class="play-dots" aria-hidden="true"><i></i><i></i><i></i></span>
       </div>
       <div class="play-stage" tabindex="0" aria-label="Playground: hold the mouse button, flick, release">
-        <pre class="play-output"></pre>
+        <div class="play-output"></div>
         <div class="play-ring ring" aria-hidden="true">
           <svg class="ring-svg" viewBox="0 0 320 320"></svg>
           <div class="ring-labels"></div>
@@ -175,7 +175,7 @@
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Mouse triggers</b>: Mouse4, Mouse5 or middle button, with or without modifiers</span></li>
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Scriptable</b> from AutoHotkey or a Stream Deck: <code>RadialDeck.exe --menu "Name"</code></span></li>
       <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>Updates itself</b> quietly, like a browser</span></li>
-      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>English and Bulgarian</b> interface</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 5 5L20 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>14 interface languages</b>, from English and German to Japanese and Korean</span></li>
     </ul>
   </div>
 </section>
@@ -183,9 +183,21 @@
 <section class="styles" id="styles">
   <div class="wrap">
     <p class="eyebrow">Make it yours</p>
-    <h2 class="h2">Fourteen looks in the box. Yours in a JSON file.</h2>
-    <p class="sub">Every theme has a dark and a light variant. Click one to try it on the ring above, or bring your own from the <a href="https://github.com/StefanKasamakov/radialdeck-themes">community collection</a>.</p>
-    <div class="theme-strip" id="theme-strip" role="list"></div>
+    <h2 class="h2">Twenty-five looks in the box. Yours in a JSON file.</h2>
+    <p class="sub">Rendered here with the exact colours, patterns and glow the app uses. Every theme has a dark and a light variant that follows Windows. Bring your own from the <a href="https://github.com/StefanKasamakov/radialdeck-themes">community collection</a>.</p>
+    <div class="style-grid">
+      <div class="style-preview">
+        <div class="ring" id="style-ring" aria-hidden="true"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"><span></span></div></div>
+        <div class="style-bar">
+          <span id="style-name">Glass · dark</span>
+          <div class="mode-switch" role="tablist" aria-label="Variant">
+            <button role="tab" data-mode="dark" aria-selected="true">Dark</button>
+            <button role="tab" data-mode="light" aria-selected="false">Light</button>
+          </div>
+        </div>
+      </div>
+      <div class="theme-strip" id="theme-strip" role="list"></div>
+    </div>
   </div>
 </section>
 
@@ -211,7 +223,7 @@
           <li>One ring, up to 8 slices</li>
           <li>Every action type</li>
           <li>Full recipe gallery</li>
-          <li>All 14 themes</li>
+          <li>All 25 themes</li>
         </ul>
         <a class="btn btn-ghost" href="https://github.com/StefanKasamakov/radialdeck-releases/releases/latest">Download</a>
       </article>
@@ -287,6 +299,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="themes.js" defer></script>
 <script src="app.js" defer></script>
 </body>
 </html>
