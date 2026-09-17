@@ -266,8 +266,17 @@
     styleRing.querySelector('.ring-label[data-i="2"]').classList.add('is-hot');
     styleRing.addEventListener('pointermove', e => { const k = sliceAt(styleRing, e.clientX, e.clientY, 8); if (k < 0) return; styleRing.querySelectorAll('.is-hot').forEach(x => x.classList.remove('is-hot')); styleRing.querySelector(`.slice[data-i="${k}"]`).classList.add('is-hot'); styleRing.querySelector(`.ring-label[data-i="${k}"]`).classList.add('is-hot'); });
   }
+  const GROUPS = [
+    ['Clean', 'Quiet colours for every day', ['glass', 'midnight', 'nord', 'catppuccin-mocha', 'dracula', 'paper', 'mono', 'frost', 'sakura', 'sunset']],
+    ['Glow', 'Neon, grids and terminals', ['neon', 'cyberpunk', 'synthwave', 'gridline', 'terminal', 'blueprint', 'gold']],
+    ['Games & nostalgia', 'Pixels, gloss and CRT scanlines', ['minecraft', 'handheld', 'vault', 'inferno', 'lab', 'overworld', 'stealth', 'aero']],
+  ];
   function renderStrip() {
-    strip.innerHTML = THEMES.map(t => `<button class="theme${t.id === activeTheme ? ' is-active' : ''}" role="listitem" data-id="${t.id}" aria-pressed="${t.id === activeTheme}"><img src="assets/themes/${t.id}-${themeMode}.png" alt="" loading="lazy" width="356" height="356"><span>${t.name}</span></button>`).join('');
+    const card = t => `<button class="theme${t.id === activeTheme ? ' is-active' : ''}" role="listitem" data-id="${t.id}" aria-pressed="${t.id === activeTheme}"><img src="assets/themes/${t.id}-${themeMode}.png" alt="" loading="lazy" width="356" height="356"><span>${t.name}</span></button>`;
+    const used = new Set(GROUPS.flatMap(g => g[2]));
+    const rest = THEMES.filter(t => !used.has(t.id));
+    strip.innerHTML = GROUPS.map(([name, sub, ids]) => `<div class="theme-group"><div class="theme-group-head"><b>${name}</b><span>${sub}</span></div><div class="theme-grid">${ids.map(themeById).filter(Boolean).map(card).join('')}</div></div>`).join('')
+      + (rest.length ? `<div class="theme-group"><div class="theme-group-head"><b>More</b></div><div class="theme-grid">${rest.map(card).join('')}</div></div>` : '');
   }
   function pickTheme(id) {
     activeTheme = id;
@@ -365,10 +374,10 @@
         out.innerHTML = `<div class="ol"><div class="ol-head">Calendar · this week</div><div class="ol-cal">${days.map((d, k) => `<div class="ol-day"><b>${d}</b>${k === 1 ? '<i>10:00 Offer review</i>' : ''}${k === 3 ? '<i>14:00 Q4 planning</i>' : ''}</div>`).join('')}</div></div>`;
         return;
       }
-      out.innerHTML = `<div class="ol"><div class="ol-list"><div class="ol-item ${st.unread ? 'is-unread' : ''}"><b>Maria Petrova</b><span>Offer for Q4</span><small>${st.unread ? 'Unread' : 'Read'}</small></div><div class="ol-item"><b>Ivan Dimitrov</b><span>Server maintenance window</span><small>Read</small></div></div><div class="ol-read"><div class="ol-meta"><b>Offer for Q4</b><span>Maria Petrova · to you, Ivan, Nikolay, Elena</span></div><p>Hi,<br>can you send me the updated offer by Friday?<br><br>Thanks,<br>Maria</p>${st.compose ? `<div class="ol-compose"><div><small>To</small><span>${h(st.compose.to)}</span></div><div><small>Subject</small><span>${h(st.compose.subject)}</span></div><pre>${h(st.compose.body)}<i class="caret"></i></pre></div>` : ''}</div></div>`;
+      out.innerHTML = `<div class="ol"><div class="ol-list"><div class="ol-item ${st.unread ? 'is-unread' : ''}"><b>Maria Schmidt</b><span>Offer for Q4</span><small>${st.unread ? 'Unread' : 'Read'}</small></div><div class="ol-item"><b>James Carter</b><span>Server maintenance window</span><small>Read</small></div></div><div class="ol-read"><div class="ol-meta"><b>Offer for Q4</b><span>Maria Schmidt · to you, James, Daniel, Emily</span></div><p>Hi,<br>can you send me the updated offer by Friday?<br><br>Thanks,<br>Maria</p>${st.compose ? `<div class="ol-compose"><div><small>To</small><span>${h(st.compose.to)}</span></div><div><small>Subject</small><span>${h(st.compose.subject)}</span></div><pre>${h(st.compose.body)}<i class="caret"></i></pre></div>` : ''}</div></div>`;
     }
     function act(label) {
-      if (app === 'notepad') { const t = state.notepad; t.text += (t.text.endsWith('\n') ? '' : '\n\n') + NOTE_RESULTS[label]; return '✓ ' + label; }
+      if (app === 'notepad') { const t = state.notepad; const next = t.text + (t.text.endsWith('\n') ? '' : '\n\n') + NOTE_RESULTS[label]; const full = next.split('\n').length > 12 || out.scrollHeight > stage.clientHeight - 40; t.text = full ? NOTE_RESULTS[label] : next; return '✓ ' + label + (full ? ' · page cleared' : ''); }
       if (app === 'explorer') {
         const st = state.explorer;
         if (label === 'Terminal here') st.term = 'PS C:\\Projects\\site> ';
@@ -381,10 +390,10 @@
       }
       const st = state.outlook;
       st.view = 'mail';
-      if (label === 'Reply') st.compose = { to: 'Maria Petrova', subject: 'RE: Offer for Q4', body: '' };
-      if (label === 'Reply all') st.compose = { to: 'Maria Petrova; Ivan Dimitrov; Nikolay Georgiev; Elena Ivanova', subject: 'RE: Offer for Q4', body: '' };
+      if (label === 'Reply') st.compose = { to: 'Maria Schmidt', subject: 'RE: Offer for Q4', body: '' };
+      if (label === 'Reply all') st.compose = { to: 'Maria Schmidt; James Carter; Daniel Novak; Emily Brooks', subject: 'RE: Offer for Q4', body: '' };
       if (label === 'Forward') st.compose = { to: '', subject: 'FW: Offer for Q4', body: '' };
-      if (label === 'Template') { if (!st.compose) st.compose = { to: 'Maria Petrova', subject: 'RE: Offer for Q4', body: '' }; st.compose.body = 'Hi Maria,\n\nthanks for your message. I will get back to you by tomorrow with the updated offer.\n\nBest regards,\nAlex'; }
+      if (label === 'Template') { if (!st.compose) st.compose = { to: 'Maria Schmidt', subject: 'RE: Offer for Q4', body: '' }; st.compose.body = 'Hi Maria,\n\nthanks for your message. I will get back to you by tomorrow with the updated offer.\n\nBest regards,\nAlex'; }
       if (label === 'Calendar') st.view = 'calendar';
       if (label === 'Mark read') st.unread = false;
       return '✓ ' + label + ' · ' + { 'Reply': 'reply window opened', 'Reply all': 'reply to 4 recipients', 'Forward': 'forward window opened', 'Template': 'your template pasted into the reply', 'Calendar': 'switched to the calendar', 'Mark read': 'message marked as read' }[label];

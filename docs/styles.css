@@ -140,14 +140,19 @@ code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-siz
 .styles.is-light .mode-switch { background: rgba(255,255,255,.7); border-color: rgba(0,0,0,.1); }
 .styles.is-light .mode-switch button { color: #3a4050; }
 .styles.is-light .mode-switch button[aria-selected="true"] { background: #fff; color: #111; }
-.theme-strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(132px, 1fr)); gap: 12px; }
+.theme-strip { display: grid; gap: 22px; }
+.theme-group { display: grid; gap: 10px; }
+.theme-group-head { display: flex; align-items: baseline; gap: 10px; }
+.theme-group-head b { font-family: var(--font-display); font-weight: 600; font-size: 15px; }
+.theme-group-head span { font-size: 12.5px; color: var(--text-3); }
+.theme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 10px; }
 @media (max-width: 860px) { .style-grid { grid-template-columns: 1fr; } .style-preview { position: static; } }
-.theme { display: grid; gap: 6px; padding: 8px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; text-align: left; font: inherit; color: var(--text); transition: transform var(--t-base) var(--ease-out), border-color var(--t-base); }
+.theme { display: grid; gap: 5px; padding: 6px; border-radius: 16px; border: 1px solid var(--border); background: var(--surface); cursor: pointer; text-align: left; font: inherit; color: var(--text); transition: transform var(--t-base) var(--ease-out), border-color var(--t-base); }
 .theme:hover { transform: translateY(-3px); border-color: var(--border-strong); }
 .theme.is-active { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
 .theme img { width: 100%; border-radius: 10px; aspect-ratio: 1; object-fit: cover; background: #0b0d14; transition: background var(--t-slow); }
 .styles.is-light .theme img { background: #e6e9f0; }
-.theme span { font-size: 13.5px; font-weight: 600; }
+.theme span { font-size: 12.5px; font-weight: 600; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .theme small { color: var(--text-3); font-size: 12px; }
 
 .stats { padding: 0 0 clamp(60px, 8vw, 100px); }
