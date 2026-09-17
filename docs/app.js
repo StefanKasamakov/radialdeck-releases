@@ -347,7 +347,7 @@
     let app = 'notepad', held = false, phot = -1;
     const state = {};
     function reset(id) {
-      if (id === 'notepad') state.notepad = { text: 'Hold the left mouse button (or Space) anywhere in this window, flick toward a slice, release.' };
+      if (id === 'notepad') state.notepad = { text: 'Press and hold anywhere in this window (mouse button or finger), move toward a slice, release.' };
       if (id === 'explorer') state.explorer = { files: [['report.zip', 'zip', true], ['video.mov', 'mov'], ['notes.md', 'md'], ['index.html', 'html']], term: null, chip: null };
       if (id === 'outlook') state.outlook = { unread: true, view: 'mail', compose: null };
     }
@@ -424,14 +424,11 @@
       else log.textContent = 'Released in the centre: nothing happened. Flick further next time.';
       pSetHot(-1);
     }
-    let lastPos = null;
     stage.addEventListener('pointerdown', e => { if (e.button !== 0) return; e.preventDefault(); stage.setPointerCapture(e.pointerId); open(e.clientX, e.clientY); });
-    stage.addEventListener('pointermove', e => { lastPos = [e.clientX, e.clientY]; if (held) pSetHot(sliceAt(pring, e.clientX, e.clientY, APPS[app].slices.length)); });
+    stage.addEventListener('pointermove', e => { if (held) pSetHot(sliceAt(pring, e.clientX, e.clientY, APPS[app].slices.length)); });
     stage.addEventListener('pointerup', release);
     stage.addEventListener('pointercancel', release);
-    stage.addEventListener('mouseenter', () => stage.focus({ preventScroll: true }));
-    stage.addEventListener('keydown', e => { if (e.code === 'Space' && !held && lastPos) { e.preventDefault(); open(lastPos[0], lastPos[1]); } });
-    stage.addEventListener('keyup', e => { if (e.code === 'Space') { e.preventDefault(); release(); } });
+    stage.addEventListener('contextmenu', e => e.preventDefault());
     apps.forEach(a => a.addEventListener('click', () => setApp(a.dataset.app)));
     setApp('notepad');
   }
