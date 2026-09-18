@@ -58,7 +58,6 @@ window.RDRing = (() => {
     return `M${x1} ${y1} A${R} ${R} 0 ${large} 1 ${x2} ${y2} L${x3} ${y3} A${RI} ${RI} 0 ${large} 0 ${x4} ${y4} Z`;
   }
   // ---- Theme engine: the same values RadialDeck renders (site/themes.js is generated from Theme/Themes/*.json) --------
-  // ---- Theme engine: the same values RadialDeck renders (site/themes.js is generated from Theme/Themes/*.json) --------
   const THEMES = window.RD_THEMES || [];
   const themeById = id => THEMES.find(t => t.id === id) || THEMES[0];
   let uidSeq = 0;
@@ -87,15 +86,23 @@ window.RDRing = (() => {
     }
     return out;
   }
+  const patternCache = new Map();
   function defsFor(uid, v) {
     const pc = v.patternColor.match(/rgba?\((\d+),(\d+),(\d+)(?:,([\d.]+))?\)/);
     const pa = pc ? (pc[4] === undefined ? 1 : +pc[4]) : 0;
     const zero = pc ? `rgba(${pc[1]},${pc[2]},${pc[3]},0)` : 'transparent';
     const third = pc ? `rgba(${pc[1]},${pc[2]},${pc[3]},${(pa / 3).toFixed(3)})` : 'transparent';
     const glossDefs = v.pattern === 'gloss' ? `<linearGradient id="gl-${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${v.patternColor}"/><stop offset="1" stop-color="${zero}"/></linearGradient><linearGradient id="gs-${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${zero}"/><stop offset="1" stop-color="${third}"/></linearGradient>` : '';
-    const savedSeq = uidSeq; uidSeq = uid;
-    const pat = v.pattern && v.pattern !== 'none' ? `<pattern id="pat-${uid}" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 280 280" preserveAspectRatio="none">${patternBody(v.pattern, v.patternColor)}</pattern>` : '';
-    uidSeq = savedSeq;
+    let pat = '';
+    if (v.pattern && v.pattern !== 'none') {
+      const key = `${uid}|${v.pattern}|${v.patternColor}`;
+      if (!patternCache.has(key)) {
+        const savedSeq = uidSeq; uidSeq = uid;
+        patternCache.set(key, `<pattern id="pat-${uid}" patternUnits="objectBoundingBox" width="1" height="1" viewBox="0 0 280 280" preserveAspectRatio="none">${patternBody(v.pattern, v.patternColor)}</pattern>`);
+        uidSeq = savedSeq;
+      }
+      pat = patternCache.get(key);
+    }
     return `<defs>
       <linearGradient id="slice-${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${v.sliceTop}"/><stop offset="1" stop-color="${v.sliceBottom}"/></linearGradient>
       <linearGradient id="hover-${uid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${v.hoverTop}"/><stop offset="1" stop-color="${v.hoverBottom}"/></linearGradient>
@@ -117,9 +124,28 @@ window.RDRing = (() => {
     st.setProperty('--r-weight', /black/i.test(v.font) ? '800' : '600');
     st.setProperty('--r-label-size', v.labelSize ? (v.labelSize * 1.04).toFixed(1) + 'px' : '12.5px');
     ringEl.classList.toggle('is-upper', !!v.labelUppercase);
+    // Replacing <defs> means the browser re-parses the whole pattern, which for the pixel patterns
+    // is hundreds of nodes. Only the structure needs that; a colour is four attributes.
     const svgEl = ringEl.querySelector('.ring-svg');
-    const old = svgEl.querySelector('defs'); if (old) old.remove();
+    const old = svgEl.querySelector('defs');
+    const key = `${v.pattern}|${v.patternColor}`;
+    if (old && ringEl._defsKey === key) {
+      const stops = [
+        [`#slice-${uid} stop`, v.sliceTop, v.sliceBottom],
+        [`#hover-${uid} stop`, v.hoverTop, v.hoverBottom],
+      ];
+      for (const [sel, from, to] of stops) {
+        const [a, b] = old.querySelectorAll(sel);
+        if (a) a.setAttribute('stop-color', from);
+        if (b) b.setAttribute('stop-color', to);
+      }
+
+      return;
+    }
+
+    if (old) old.remove();
     svgEl.insertAdjacentHTML('afterbegin', defsFor(uid, v));
+    ringEl._defsKey = key;
   }
   const DEFAULT_THEME = () => (themeById('glass') || { dark: null }).dark;
   function buildRing(svgEl, labelsEl, ring) {

@@ -40,16 +40,27 @@
   const stage = document.getElementById('studio-stage');
   let hot = 2;
 
-  function draw() {
-    themeRing(ring, V());
+  // The slices and labels never change here, only their colours, so after the first build a redraw
+  // is just new CSS variables and new <defs>. Dragging a colour picker fires far faster than the
+  // screen refreshes, so the work is coalesced into one frame.
+  function rebuild() {
     buildRing(ring.querySelector('.ring-svg'), ring.querySelector('.ring-labels'), RING);
     ring.querySelector('.ring-hub span').textContent = RING.hub;
     highlight(hot);
-    stage.classList.toggle('is-light', mode === 'light');
-    document.getElementById('studio-name-out').textContent = `${theme.name || 'Untitled'} · ${mode}`;
-    if (!document.getElementById('studio-json-box').hasAttribute('hidden')) {
-      refreshJson();
-    }
+  }
+
+  let frame = 0;
+  function draw() {
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      themeRing(ring, V());
+      stage.classList.toggle('is-light', mode === 'light');
+      document.getElementById('studio-name-out').textContent = `${theme.name || 'Untitled'} · ${mode}`;
+      if (!document.getElementById('studio-json-box').hasAttribute('hidden')) {
+        refreshJson();
+      }
+    });
   }
 
   function highlight(i) {
@@ -368,6 +379,8 @@
     .catch(() => { /* offline or rate-limited: the invitation below stands on its own */ });
 
   build();
+  themeRing(ring, V());
+  rebuild();
   draw();
   nameBox.value = theme.name;
   refreshName();
