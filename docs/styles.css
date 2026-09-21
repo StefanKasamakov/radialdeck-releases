@@ -314,3 +314,15 @@ code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-siz
   .studio-preview { position: static; }
 }
 .styles-cta { margin: 26px 0 0; }
+
+/* ---- Recorded clips ------------------------------------------------------------------ */
+.clips { padding: 0 0 clamp(60px, 8vw, 110px); }
+.clip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(14px, 2vw, 24px); margin-top: 34px; }
+@media (max-width: 1080px) { .clip-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .clip-grid { grid-template-columns: 1fr; } }
+.clip { margin: 0; display: grid; gap: 12px; }
+.clip img { width: 100%; border-radius: var(--radius); border: 1px solid var(--border); background: #14122c; cursor: pointer; }
+.clip img.is-playing { border-color: var(--border-strong); }
+.clip figcaption { display: grid; gap: 4px; }
+.clip figcaption b { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
+.clip figcaption span { font-size: 14px; line-height: 1.55; color: var(--text-2); }
