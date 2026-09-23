@@ -133,7 +133,7 @@
     ['Games & nostalgia', 'Pixels, gloss and CRT scanlines', ['minecraft', 'handheld', 'vault', 'inferno', 'lab', 'overworld', 'stealth', 'aero']],
   ];
   function renderStrip() {
-    const card = t => `<button class="theme${t.id === activeTheme ? ' is-active' : ''}" role="listitem" data-id="${t.id}" aria-pressed="${t.id === activeTheme}"><img src="assets/themes/${t.id}-${themeMode}.png" alt="" loading="lazy" width="356" height="356"><span>${t.name}</span></button>`;
+    const card = t => `<button class="theme${t.id === activeTheme ? ' is-active' : ''}" data-id="${t.id}" aria-pressed="${t.id === activeTheme}"><img src="assets/themes/${t.id}-${themeMode}.png" alt="" loading="lazy" width="356" height="356"><span>${t.name}</span></button>`;
     const used = new Set(GROUPS.flatMap(g => g[2]));
     const rest = THEMES.filter(t => !used.has(t.id));
     strip.innerHTML = GROUPS.map(([name, sub, ids]) => `<div class="theme-group"><div class="theme-group-head"><b>${name}</b><span>${sub}</span></div><div class="theme-grid">${ids.map(themeById).filter(Boolean).map(card).join('')}</div></div>`).join('')

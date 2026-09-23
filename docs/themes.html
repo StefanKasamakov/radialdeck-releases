@@ -26,11 +26,21 @@
     <nav aria-label="Primary">
       <a href="index.html#demo">Try it</a>
       <a href="index.html#playground">Test it</a>
-      <a href="index.html#features">Features</a>
+      <a href="features.html">Features</a>
       <a href="#studio">Studio</a>
       <a href="#gallery">Gallery</a>
       <a href="index.html#pricing">Pricing</a>
     </nav>
+    <details class="nav-menu">
+      <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+      <div class="nav-menu-panel" onclick="this.parentNode.open = false">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="themes.html">Themes</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="index.html#faq">Questions</a>
+      </div>
+    </details>
     <a class="btn btn-primary btn-sm" href="https://github.com/StefanKasamakov/radialdeck-releases/releases/latest/download/RadialDeckSetup.exe">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Download
