@@ -317,15 +317,12 @@ code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-siz
 
 /* ---- Recorded clips ------------------------------------------------------------------ */
 .clips { padding: 0 0 clamp(60px, 8vw, 110px); }
-.clip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(14px, 2vw, 24px); margin-top: 34px; }
-@media (max-width: 1080px) { .clip-grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .clip-grid { grid-template-columns: 1fr; } }
-.clip { margin: 0; display: grid; gap: 12px; }
-.clip img { width: 100%; border-radius: var(--radius); border: 1px solid var(--border); background: #14122c; cursor: pointer; }
-.clip img.is-playing { border-color: var(--border-strong); }
-.clip figcaption { display: grid; gap: 4px; }
-.clip figcaption b { font-family: var(--font-display); font-size: 16px; font-weight: 600; }
-.clip figcaption span { font-size: 14px; line-height: 1.55; color: var(--text-2); }
+.clip-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(28px, 4vw, 56px) clamp(20px, 4vw, 48px); margin-top: 34px; }
+@media (max-width: 700px) { .clip-grid { grid-template-columns: 1fr; } }
+.clip { margin: 0; display: grid; gap: 16px; justify-items: center; text-align: center; }
+.clip figcaption { display: grid; gap: 4px; max-width: 42ch; }
+.clip figcaption b { font-family: var(--font-display); font-size: 17px; font-weight: 600; }
+.clip figcaption span { font-size: 15px; line-height: 1.55; color: var(--text-2); }
 
 /* ---- Feature showcase (features.html) ---------------------------------------------------- */
 .fx-hero { position: relative; overflow: hidden; padding: clamp(56px, 8vw, 110px) 0 clamp(36px, 5vw, 60px); }
@@ -405,3 +402,9 @@ kbd { font-family: var(--font-body); font-size: 12.5px; font-weight: 600; color:
 [data-scene="themes"] .stage-toast::before { content: none; }
 .features-more { margin: 30px 0 0; }
 .nav nav a[aria-current="page"] { color: var(--text); }
+/* A demo ring smaller than the showcase size: labels and icons shrink with it so they stay in their slices. */
+.stage .ring-label { font-size: max(9px, min(var(--r-label-size, 12.5px), 2.9cqw)); }
+.stage .ring-label.is-mid { font-size: max(9px, min(calc(var(--r-label-size, 12.5px) - 1px), 2.7cqw)); }
+.stage .ring-label.is-long { font-size: max(8.5px, min(calc(var(--r-label-size, 12.5px) - 2px), 2.5cqw)); }
+.stage .ring-label svg { width: clamp(16px, 5.6cqw, 24px); height: clamp(16px, 5.6cqw, 24px); }
+.stage .ring-label img { width: clamp(18px, 6.8cqw, 30px); height: clamp(18px, 6.8cqw, 30px); }

@@ -307,36 +307,6 @@
   }
 
 
-  // ---- Recorded clips: the poster is swapped for the GIF when it scrolls into view, so four
-  // animations do not all download on load, and a click restarts one from the beginning. -------
-  const clips = [...document.querySelectorAll('.clip img[data-gif]')];
-  if (clips.length) {
-    const play = (img) => {
-      if (img.dataset.playing === '1') return;
-      img.dataset.playing = '1';
-      img.dataset.poster = img.getAttribute('src');
-      img.src = img.dataset.gif;
-      img.classList.add('is-playing');
-    };
-    if (reduced) {
-      // Someone who asked for less motion gets the still, and can start a clip themselves.
-      clips.forEach((img) => img.addEventListener('click', () => play(img)));
-    } else {
-      // Staggered, because four clips of the same length started together stay in step and every
-      // one of them shows its blank frame at the same instant.
-      const io = new IntersectionObserver((entries) => entries.forEach((en) => {
-        if (!en.isIntersecting) return;
-        io.unobserve(en.target);
-        setTimeout(() => play(en.target), clips.indexOf(en.target) * 450);
-      }), { threshold: .3 });
-      clips.forEach((img) => {
-        io.observe(img);
-        // A GIF cannot be rewound, so a click reloads it and it starts over.
-        img.addEventListener('click', () => { const g = img.dataset.gif; img.src = ''; img.src = g + '?r=' + (Date.now ? '' : '') + Math.round(performance.now()); });
-      });
-    }
-  }
-
   // ---- Reveals, split headline, counters ---------------------------------------------
   document.querySelectorAll('[data-split]').forEach(h => { h.innerHTML = h.textContent.split(' ').map(w => `<span class="w">${w}</span>`).join(' '); });
   if (hasGsap && !reduced) {
