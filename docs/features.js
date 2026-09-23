@@ -73,19 +73,6 @@
   // Each scene: [build(el) -> stage, steps: [[ms, fn(stage)], …]]. The last step's state is what a
   // reduced-motion visitor sees.
   const SCENES = {
-    arrows: [el => stage(el, MAIN, 'Main'), [
-      [700, s => { s.keys(['↑']); s.hot(0); }],
-      [900, s => { s.keys(['→']); s.hot(2); }],
-      [900, s => { s.keys(['↑', '→']); s.hot(1); }],
-      [1000, s => { s.keys(['Enter']); s.say('Browser opened'); }],
-    ]],
-    typefind: [el => stage(el, MAIN, 'Main'), [
-      [700, s => { s.keys(['c']); s.hot(5); }],
-      [1100, s => { s.keys([]); s.hot(-1); }],
-      [500, s => { s.keys(['m']); s.hot(2); }],
-      [700, s => { s.keys(['m', 'u']); s.hot(6); }],
-      [1000, s => { s.keys(['Enter']); s.say('Music opened'); }],
-    ]],
     adjust: [el => stage(el, [['Volume', I.volume], ['Zoom', I.zoom], ['Tabs', I.tabs], ['Track', I.skip],
                               ['Snip', I.scissors], ['Mail', I.mail], ['Notes', I.note], ['Files', I.folder]], 'Media'), [
       [600, s => { s.hot(0); s.keys(['🖱 wheel ▲']); s.say('Volume 40'); }],
