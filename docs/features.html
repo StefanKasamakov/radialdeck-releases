@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RadialDeck — Every feature, shown</title>
+<meta name="description" content="Everything RadialDeck does, shown moving: gestures, arrow keys, type to find, app-aware rings, Explorer and clipboard tools, window switcher, scroll to adjust, text from the screen, 25 themes, shareable rings.">
+<meta property="og:title" content="RadialDeck — Every feature, shown">
+<meta property="og:description" content="A native Windows radial menu. Every feature, with a demo.">
+<meta property="og:image" content="assets/themes/glass-dark.png">
+<link rel="icon" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="RadialDeck home">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M34.27 6.77 A46 46 0 0 1 65.73 6.77 L57.18 30.27 A21 21 0 0 0 42.82 30.27 Z" fill="currentColor" opacity=".85"/><path d="M69.44 8.31 A46 46 0 0 1 91.69 30.56 L69.03 41.13 A21 21 0 0 0 58.87 30.97 Z" fill="var(--accent, #3b82f6)" transform="translate(2.12 -2.12)"/><path d="M93.23 34.27 A46 46 0 0 1 93.23 65.73 L69.73 57.18 A21 21 0 0 0 69.73 42.82 Z" fill="currentColor" opacity=".85"/><path d="M91.69 69.44 A46 46 0 0 1 69.44 91.69 L58.87 69.03 A21 21 0 0 0 69.03 58.87 Z" fill="currentColor" opacity=".85"/><path d="M65.73 93.23 A46 46 0 0 1 34.27 93.23 L42.82 69.73 A21 21 0 0 0 57.18 69.73 Z" fill="currentColor" opacity=".85"/><path d="M30.56 91.69 A46 46 0 0 1 8.31 69.44 L30.97 58.87 A21 21 0 0 0 41.13 69.03 Z" fill="currentColor" opacity=".85"/><path d="M6.77 65.73 A46 46 0 0 1 6.77 34.27 L30.27 42.82 A21 21 0 0 0 30.27 57.18 Z" fill="currentColor" opacity=".85"/><path d="M8.31 30.56 A46 46 0 0 1 30.56 8.31 L41.13 30.97 A21 21 0 0 0 30.97 41.13 Z" fill="currentColor" opacity=".85"/><circle cx="50" cy="50" r="13" fill="var(--accent, #3b82f6)"/></svg>
+      <span>RadialDeck</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="features.html" aria-current="page">Features</a>
+      <a href="themes.html">Themes</a>
+      <a href="index.html#pricing">Pricing</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" href="https://github.com/StefanKasamakov/radialdeck-releases/releases/latest/download/RadialDeckSetup.exe">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Download
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="fx-hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="wrap">
+    <p class="eyebrow"><span class="dot"></span> Every feature, shown moving</p>
+    <h1 class="display">One gesture.<br>Forty things it can do.</h1>
+    <p class="lead">Hold a key or a mouse button, flick toward a slice, let go. Below is everything that ring can do, each with a short demo. The ones marked <em>Recorded</em> are captured from the application on Windows; the rest are drawn with the same ring the app draws.</p>
+    <ul class="fx-stats" aria-label="In numbers">
+      <li><b>985</b><span>ready-made slices</span></li>
+      <li><b>90+</b><span>apps covered</span></li>
+      <li><b>25</b><span>themes</span></li>
+      <li><b>32</b><span>text transforms</span></li>
+      <li><b>14</b><span>languages</span></li>
+      <li><b>0</b><span>accounts, trackers</span></li>
+    </ul>
+  </div>
+</section>
+
+<nav class="fx-chips" aria-label="Feature groups">
+  <div class="wrap">
+    <a href="#gesture">The gesture</a>
+    <a href="#context">Knows where you are</a>
+    <a href="#actions">What a slice does</a>
+    <a href="#clipboard">Clipboard and text</a>
+    <a href="#yours">Make it yours</a>
+    <a href="#teams">Teams and scripts</a>
+    <a href="#private">Light and private</a>
+  </div>
+</nav>
+
+<!-- 1 ---------------------------------------------------------------------------------------->
+<section class="fx-section" id="gesture">
+  <div class="wrap">
+    <p class="eyebrow">01 · The gesture</p>
+    <h2 class="h2">Your hand learns it in a week.</h2>
+    <p class="sub">Every slice is one short flick away, in a direction that never changes. That is why a ring beats a menu: after a few days you stop looking.</p>
+
+    <div class="fx-row">
+      <figure class="fx-media"><img class="fx-gif" src="assets/clips/ring-nested.png" data-gif="assets/clips/ring-nested.gif" width="420" height="420" alt="Recording: flicking through a ring into a nested ring" loading="lazy" decoding="async"><span class="fx-kind">Recorded</span></figure>
+      <div class="fx-copy">
+        <h3>Hold, flick, release</h3>
+        <p>Hold the hotkey, move toward a slice, let go. A slice with dots holds another ring, which opens under the cursor, so a choice three levels deep is still one stroke. Tap the hotkey instead and the ring stays open for the mouse.</p>
+        <p class="fx-meta">Default <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Space</kbd>, or any chord you like · nested rings <span class="tag tag-pro">Pro</span></p>
+      </div>
+    </div>
+
+    <div class="fx-row fx-flip">
+      <div class="fx-media"><div class="stage" data-scene="arrows"></div><span class="fx-kind">Demo</span></div>
+      <div class="fx-copy">
+        <h3>Arrow keys point like a joystick</h3>
+        <p>Up is the top slice, right the right one, and two arrows together pick the diagonal. Enter runs it. Hands on the keyboard never have to reach for the mouse.</p>
+        <p class="fx-meta"><kbd>↑</kbd> <kbd>→</kbd> <kbd>↑</kbd>+<kbd>→</kbd> <kbd>Enter</kbd> · number keys <kbd>1</kbd>–<kbd>8</kbd> work too</p>
+      </div>
+    </div>
+
+    <div class="fx-row">
+      <div class="fx-media"><div class="stage" data-scene="typefind"></div><span class="fx-kind">Demo</span></div>
+      <div class="fx-copy">
+        <h3>Type to find</h3>
+        <p>With the ring open, type the first letters of a label and that slice lights up; keep typing to narrow it down. Works in any keyboard layout, Cyrillic included, and the letters never reach the app underneath.</p>
+        <p class="fx-meta"><kbd>c</kbd> → Calculator · <kbd>m</kbd><kbd>u</kbd> → Music · <kbd>Backspace</kbd> deletes a letter</p>
+      </div>
+    </div>
+
+    <div class="fx-cards">
+      <article class="fx-card"><span class="fx-icon" data-icon="mouse"></span><h4>Mouse buttons</h4><p>Open a ring with the side buttons, the middle button, or by holding the right button. A quick right click still opens the context menu.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="pin"></span><h4>Stay open</h4><p>Hold Shift while you click and the slice runs without closing the ring, for when you need three things in a row.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="keyboard"></span><h4>Several hotkeys</h4><p>Give each ring its own chord, or let several share one and decide by the app in front. Taken chords are detected and a free one is offered.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="pause"></span><h4>Steps aside in full screen</h4><p>Games, videos, slideshows: hotkeys and hooks are released while a full-screen window is in front, and come back when you leave it.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- 2 ---------------------------------------------------------------------------------------->
+<section class="fx-section" id="context">
+  <div class="wrap">
+    <p class="eyebrow">02 · Knows where you are</p>
+    <h2 class="h2">Same hotkey, the right ring.</h2>
+    <p class="sub">RadialDeck looks at the window in front before it draws anything: which program, which files are selected, what text is highlighted.</p>
+
+    <div class="fx-row">
+      <figure class="fx-media"><img class="fx-gif" src="assets/clips/ring-outlook.png" data-gif="assets/clips/ring-outlook.gif" width="420" height="420" alt="Recording: the Outlook ring opening in Outlook" loading="lazy" decoding="async"><span class="fx-kind">Recorded</span></figure>
+      <div class="fx-copy">
+        <h3>A ring for each app</h3>
+        <p>Outlook gets Reply, Template and Calendar; Excel gets Sum and Freeze panes; Explorer gets Extract and Terminal here. Same gesture everywhere, the ring changes with the program. Match by program or window title, plain text or a regular expression.</p>
+        <p class="fx-meta"><span class="tag tag-pro">Pro</span></p>
+      </div>
+    </div>
+
+    <div class="fx-row fx-flip">
+      <figure class="fx-media"><img class="fx-gif" src="assets/clips/ring-explorer.png" data-gif="assets/clips/ring-explorer.gif" width="420" height="420" alt="Recording: the Explorer ring acting on a selected file" loading="lazy" decoding="async"><span class="fx-kind">Recorded</span></figure>
+      <div class="fx-copy">
+        <h3>Acts on the files you selected</h3>
+        <p>Select files in Explorer or on the desktop and flick: extract, zip, hash, convert, open a terminal in that folder. Commands get the selection as <code>{file}</code>, <code>{files}</code>, <code>{dir}</code>, <code>{name}</code> and <code>{ext}</code>.</p>
+      </div>
+    </div>
+
+    <div class="fx-row">
+      <div class="fx-media"><div class="stage" data-scene="offer"><div class="stage-offer" aria-hidden="true"><b>RadialDeck</b> Excel is open. Click to add a ready-made Excel ring with 8 shortcuts.</div></div><span class="fx-kind">Demo</span></div>
+      <div class="fx-copy">
+        <h3>Ready-made rings, offered once</h3>
+        <p>Open the ring over a program the gallery knows (Excel, Teams, VLC, Blender and about ninety more) and RadialDeck offers a ring built for it. One click adds it; it shows up only in that program.</p>
+        <p class="fx-meta"><span class="tag tag-pro">Pro</span></p>
+      </div>
+    </div>
+
+    <div class="fx-cards">
+      <article class="fx-card"><span class="fx-icon" data-icon="text"></span><h4>The highlighted text</h4><p><code>{selection}</code> is whatever you highlighted in the app in front: search it, translate it, send it to a script.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="window"></span><h4>Switch, do not reopen</h4><p>A launch slice can bring the program forward if it is already running, and cycle through its windows on the next flick.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="terminal"></span><h4>Terminal aware</h4><p>In a terminal, copying the selection uses the terminal's own shortcut, so nothing gets cancelled by a stray Ctrl+C.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- 3 ---------------------------------------------------------------------------------------->
+<section class="fx-section" id="actions">
+  <div class="wrap">
+    <p class="eyebrow">03 · What a slice does</p>
+    <h2 class="h2">Launch, type, run, switch, adjust.</h2>
+    <p class="sub">A slice is an action. These are the kinds there are, and any of them can sit in any ring.</p>
+
+    <div class="fx-row">
+      <div class="fx-media"><div class="stage" data-scene="adjust"></div><span class="fx-kind">Demo</span></div>
+      <div class="fx-copy">
+        <h3>Scroll to adjust</h3>
+        <p>Point at a Volume, Zoom, Tabs or Track slice and turn the mouse wheel: the value changes while the ring stays open. A click mutes, resets the zoom, opens a tab or plays and pauses.</p>
+      </div>
+    </div>
+
+    <div class="fx-row fx-flip">
+      <div class="fx-media"><div class="stage" data-scene="windows"></div><span class="fx-kind">Demo</span></div>
+      <div class="fx-copy">
+        <h3>A ring of your open windows</h3>
+        <p>One slice opens a ring of the windows you have open, with their icons. Flick to one and it comes to the front, minimised or not. Alt+Tab for people who think in directions.</p>
+      </div>
+    </div>
+
+    <div class="fx-row">
+      <div class="fx-media"><div class="stage stage-ocr" data-scene="ocr"><div class="stage-doc" aria-hidden="true"><p>Dear customer,</p><p class="is-target">Order 4471 ships Friday</p><p>Tracking follows by email.</p></div></div><span class="fx-kind">Demo</span></div>
+      <div class="fx-copy">
+        <h3>Copy text from the screen</h3>
+        <p>The slice opens the Windows snipping overlay; mark an area and the text in it lands on the clipboard. Screenshots, scanned PDFs, error dialogs, video subtitles. It uses the OCR built into Windows, so nothing leaves your PC.</p>
+      </div>
+    </div>
+
+    <div class="fx-cards">
+      <article class="fx-card"><span class="fx-icon" data-icon="zap"></span><h4>Launch anything</h4><p>Programs, files, folders, websites and shortcuts, with arguments. Drop a file on the ring in Settings to make a slice for it.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="terminal"></span><h4>Run a command</h4><p>PowerShell or cmd, hidden. The clipboard can go in, the result can be pasted, copied or shown as a notification.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="keyboard"></span><h4>Send keys</h4><p>Any chord, including media keys: Ctrl+Shift+Esc, Win+Shift+S, Play/Pause. The ring closes first, so the keys reach the right window.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="note"></span><h4>Paste snippets</h4><p>Replies, signatures, addresses, with placeholders for the clipboard, the selected file or your home folder.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="layers"></span><h4>Macros</h4><p>Keys, text, pauses and mouse clicks in a row, for the six-step chores. <span class="tag tag-pro">Pro</span></p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="refresh"></span><h4>Repeat the last one</h4><p>A slice that does whatever you just did again. <span class="tag tag-pro">Pro</span></p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="pin"></span><h4>Keep on top</h4><p>Pin the window in front above everything else, and unpin it the same way.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="layers"></span><h4>Rings inside rings</h4><p>Up to three levels, each opening under the cursor. <span class="tag tag-pro">Pro</span></p></article>
+    </div>
+  </div>
+</section>
+
+<!-- 4 ---------------------------------------------------------------------------------------->
+<section class="fx-section" id="clipboard">
+  <div class="wrap">
+    <p class="eyebrow">04 · Clipboard and text</p>
+    <h2 class="h2">Fix text without opening anything.</h2>
+    <p class="sub">Copy, flick, paste. The transforms are built in, so there is no script starting up behind them and they work offline.</p>
+
+    <div class="fx-row">
+      <figure class="fx-media"><img class="fx-gif" src="assets/clips/ring-clipboard.png" data-gif="assets/clips/ring-clipboard.gif" width="420" height="420" alt="Recording: the clipboard ring pasting plain text" loading="lazy" decoding="async"><span class="fx-kind">Recorded</span></figure>
+      <div class="fx-copy">
+        <h3>32 text transforms</h3>
+        <p>Paste without formatting, UPPER and lower case, clean tracking junk out of a link, pretty-print JSON, sort and de-duplicate lines, extract every e-mail address, Base64, transliterate Latin and Cyrillic, count words.</p>
+      </div>
+    </div>
+
+    <div class="fx-row fx-flip">
+      <div class="fx-media"><div class="stage" data-scene="history"></div><span class="fx-kind">Demo</span></div>
+      <div class="fx-copy">
+        <h3>Clipboard history ring</h3>
+        <p>One slice opens the last things you copied; flick to one and it is pasted. The history lives in memory only, never on disk, and is gone when you quit.</p>
+        <p class="fx-meta"><span class="tag tag-pro">Pro</span></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 ---------------------------------------------------------------------------------------->
+<section class="fx-section" id="yours">
+  <div class="wrap">
+    <p class="eyebrow">05 · Make it yours</p>
+    <h2 class="h2">Your rings, your look.</h2>
+    <p class="sub">Build rings in Settings with a live preview, start from the gallery, and pass the good ones around.</p>
+
+    <div class="fx-row">
+      <div class="fx-media"><div class="stage" data-scene="themes"></div><span class="fx-kind">Demo</span></div>
+      <div class="fx-copy">
+        <h3>25 themes, dark and light</h3>
+        <p>Glass, Neon, Synthwave, Windows 7 Aero, Minecraft, Blueprint, Vault and more, with patterns, glow and their own fonts. Make your own in the browser with the <a href="themes.html">theme studio</a> and share it with the community.</p>
+      </div>
+    </div>
+
+    <div class="fx-row fx-flip">
+      <div class="fx-media"><div class="stage" data-scene="share"></div><span class="fx-kind">Demo</span></div>
+      <div class="fx-copy">
+        <h3>Share a ring as a link</h3>
+        <p>The Share button copies a link with the whole ring inside it. Whoever opens it sees every slice first, then adds it to RadialDeck unsaved, looks it over and presses Save. Slices that run commands are flagged before anything runs.</p>
+      </div>
+    </div>
+
+    <div class="fx-cards">
+      <article class="fx-card"><span class="fx-icon" data-icon="search"></span><h4>985 ready-made slices</h4><p>A gallery for more than ninety programs, searchable, each slice with a Test button before you add it.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="window"></span><h4>Settings with a live ring</h4><p>Click a slice to edit it, drag to reorder, undo and redo. What you see is the ring you get.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="pin"></span><h4>Slices that stay put</h4><p>Pin a slice to a position and it keeps its direction when you add or remove others.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="palette"></span><h4>Icons</h4><p>Programs get their own icon automatically; otherwise pick from the Windows icon set or use an emoji.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="zoom"></span><h4>Ring size</h4><p>From 70 to 150 percent, sharp on every monitor and scale, mixed-DPI setups included.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="languages"></span><h4>14 languages</h4><p>English, Bulgarian, German, French, Spanish, Italian, Portuguese, Polish, Turkish, Russian, Ukrainian, Japanese, Chinese, Korean.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- 6 ---------------------------------------------------------------------------------------->
+<section class="fx-section" id="teams">
+  <div class="wrap">
+    <p class="eyebrow">06 · Teams and scripts</p>
+    <h2 class="h2">One config for the whole office.</h2>
+    <p class="sub">Built by someone who deploys software for a living, so it installs quietly and does what the script says.</p>
+    <div class="fx-cards">
+      <article class="fx-card"><span class="fx-icon" data-icon="terminal"></span><h4>Command line</h4><p><code>--menu "Name"</code>, <code>--reload</code>, <code>--pause</code>, <code>--settings</code> drive a running copy from AutoHotkey, a Stream Deck or any script. <span class="tag tag-pro">Pro</span></p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="users"></span><h4>A shared config</h4><p><code>--config \\server\share\rings.json</code> points every machine at one file; it survives updates and the autostart toggle.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="shield"></span><h4>Silent install</h4><p>Per user without an admin prompt, or machine-wide with <code>/ALLUSERS</code>. Deploys with Intune or any other tool that runs an installer.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="braces"></span><h4>One JSON file</h4><p>Edit it by hand and the ring updates at once; a mistake keeps the previous ring and names the line.</p></article>
+    </div>
+  </div>
+</section>
+
+<!-- 7 ---------------------------------------------------------------------------------------->
+<section class="fx-section" id="private">
+  <div class="wrap">
+    <p class="eyebrow">07 · Light and private</p>
+    <h2 class="h2">A Windows app, not a website in a box.</h2>
+    <p class="sub">Written in C# for Windows, with no browser engine inside, and it keeps to itself.</p>
+    <div class="fx-cards">
+      <article class="fx-card"><span class="fx-icon" data-icon="eyeOff"></span><h4>No account, no telemetry</h4><p>Nothing about you or your rings is sent anywhere. The one network request is the optional update check.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="keyboard"></span><h4>Listens only when open</h4><p>The keyboard hook exists while the ring is on screen and records nothing. The rest of the time there is only the hotkey.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="gauge"></span><h4>Small and quick</h4><p>About 57 MB of memory when idle, and the ring is drawn before your hand finishes the flick.</p></article>
+      <article class="fx-card"><span class="fx-icon" data-icon="refresh"></span><h4>Updates itself</h4><p>New versions download quietly and apply at the next start, or right away with one click.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap">
+    <div class="final-card">
+      <h2 class="h2">Install it, hold the key, flick.</h2>
+      <p>Free for two rings, forever. Windows 10 1809+ and 11. A 56 MB download, no runtime to install.</p>
+      <a class="btn btn-primary btn-lg" href="https://github.com/StefanKasamakov/radialdeck-releases/releases/latest/download/RadialDeckSetup.exe">Download for Windows</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 RadialDeck</span>
+    <nav aria-label="Footer">
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="refund.html">Refunds</a>
+      <a href="https://github.com/StefanKasamakov/radialdeck-releases">Releases</a>
+      <a href="https://github.com/StefanKasamakov/radialdeck-themes">Themes</a>
+      <a href="mailto:hello@radialdeck.com">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="themes.js" defer></script>
+<script src="ring.js" defer></script>
+<script src="features.js" defer></script>
+</body>
+</html>
