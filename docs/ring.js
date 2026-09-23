@@ -148,6 +148,21 @@ window.RDRing = (() => {
     ringEl._defsKey = key;
   }
   const DEFAULT_THEME = () => (themeById('glass') || { dark: null }).dark;
+  // Width of a level line centred on (x, y) that stays inside slice i: a label is a level box in a wedge,
+  // and near the hub the top and bottom slices of a full ring are narrower than the box. Same rule as the app.
+  function roomAt(i, n, x, y) {
+    const sweep = 360 / n, start = -sweep / 2 + i * sweep + GAP / 2, span = sweep - GAP;
+    const inside = px => {
+      const dx = px - C, dy = y - C, r = Math.hypot(dx, dy);
+      const deg = ((Math.atan2(dy, dx) * 180 / Math.PI + 90) % 360 + 360) % 360;
+      return r >= RI && r <= R && ((deg - start) % 360 + 360) % 360 <= span;
+    };
+    if (n < 2 || !inside(x)) return 2 * (R - RI);
+    let left = 0, right = 0;
+    while (left < C && inside(x - left - 1)) left++;
+    while (right < C && inside(x + right + 1)) right++;
+    return 2 * Math.min(left, right);
+  }
   function buildRing(svgEl, labelsEl, ring) {
     const ringEl = svgEl.closest('.ring, .how-ring');
     const n = ring.slices.length;
@@ -158,7 +173,9 @@ window.RDRing = (() => {
         const [x, y] = polar((R + RI) / 2 + 2, i * 360 / n);
         const longest = Math.max(...label.split(' ').map(w => w.length));
         const size = longest > 10 ? ' is-long' : label.length > 12 ? ' is-mid' : '';
-        return `<div class="ring-label${size}" data-i="${i}" style="left:${x / 320 * 100}%;top:${y / 320 * 100}%">${svg(icon)}<span>${label}</span></div>`;
+        // The text sits under the icon, from about 4 to 24 units below the label's centre.
+        const room = Math.min(roomAt(i, n, x, y + 4), roomAt(i, n, x, y + 24)) - 6;
+        return `<div class="ring-label${size}" data-i="${i}" style="left:${x / 320 * 100}%;top:${y / 320 * 100}%;width:min(84px,${(room / 320 * 100).toFixed(1)}%)">${(icon || "").startsWith("img:") ? `<img src="${icon.slice(4)}" alt="">` : svg(icon)}<span>${label}</span></div>`;
       }).join('');
     }
   }

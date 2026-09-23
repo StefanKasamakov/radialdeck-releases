@@ -1,6 +1,6 @@
-/* RadialDeck feature showcase: short looping scenes drawn with the site's own ring (ring.js), plus
-   the recorded GIFs. A scene plays only while it is on screen; with reduced motion it shows its
-   last frame and stays still. */
+/* RadialDeck feature showcase: short looping scenes drawn with the site's own ring (ring.js), which
+   draws what the app draws. A scene plays only while it is on screen; with reduced motion it shows
+   its last frame and stays still. */
 (() => {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const { I, svg, THEMES, themeRing, buildRing } = window.RDRing;
@@ -39,6 +39,16 @@
 
   const MAIN = [['Terminal', I.terminal], ['Browser', I.globe], ['Mail', I.mail], ['Notes', I.note],
                 ['Snip', I.scissors], ['Calculator', I.calc], ['Music', I.music], ['Files', I.folder]];
+  // Real programs with the icons Windows gives them (site/assets/apps).
+  const APPS = [['Chrome', 'chrome'], ['Outlook', 'outlook'], ['Excel', 'excel'], ['Word', 'word'],
+                ['Terminal', 'terminal'], ['Explorer', 'explorer'], ['Discord', 'discord'], ['Notion', 'notion']]
+    .map(([label, file]) => [label, `img:assets/apps/${file}.png`]);
+  const OUTLOOK = [['Reply', I.reply], ['Reply all', I.replyAll], ['Forward', I.forward], ['Template', I.template],
+                   ['Calendar', I.calendar], ['Mark read', I.check], ['New mail', I.mail], ['Send', I.send]];
+  const EXPLORER = [['Terminal here', I.terminal], ['Extract here', I.archive], ['Convert', I.convert], ['Copy path', I.copy],
+                    ['Search here', I.search], ['Git status', I.git], ['SHA-256', I.hash], ['Zip', I.archive]];
+  const CLIPBOARD = [['Paste plain', I.clipboard], ['UPPER', I.caseUp], ['Clean URL', I.link], ['JSON', I.braces],
+                     ['Count', I.hash], ['Transliterate', I.languages], ['Base64', I.lock], ['Slug', I.link]];
 
   // ---- A stage: one ring plus the bits drawn around it -------------------------------------
   function stage(el, ring, hub) {
@@ -65,7 +75,16 @@
         toast.classList.toggle('is-on', !!text);
       },
       show(on) { ringEl.classList.toggle('is-gone', !on); },
-      reset() { api.hot(-1); api.keys([]); api.say(''); api.show(true); el.classList.remove('is-snip', 'is-offer'); },
+      // What is going on around the ring: the program in front, the selected file, the clipboard.
+      ctx(text) { if (hud) hud.innerHTML = `<span class="stage-ctx">${text}</span>`; },
+      // The pointer flicks from the hub toward slice i (-1: back to the hub).
+      point(i, n = 8) {
+        el.classList.add('has-pointer');
+        const a = (i * 360 / n - 90) * Math.PI / 180, d = i < 0 ? 0 : 29;
+        el.querySelector('.stage-pointer').style.transform = `translate(${(Math.cos(a) * d).toFixed(1)}cqw, ${(Math.sin(a) * d).toFixed(1)}cqw)`;
+      },
+      // Back to the first ring: a scene may have opened a nested one or switched programs.
+      reset() { api.ring(ring, hub); api.hot(-1); api.keys([]); api.say(''); api.show(true); el.classList.remove('is-snip', 'is-offer'); if (el.classList.contains('has-pointer')) api.point(-1); },
     };
     return api.ring(ring, hub);
   }
@@ -73,15 +92,60 @@
   // Each scene: [build(el) -> stage, steps: [[ms, fn(stage)], …]]. The last step's state is what a
   // reduced-motion visitor sees.
   const SCENES = {
+    flick: [el => stage(el, [['Power', I.power], ['Media', I.youtube], ['Servers', I.server], ['Snip', I.scissors],
+                             ['Emoji', I.chat], ['Clipboard', I.clipboard], ['Portals', I.globe], ['Lock', I.lock]], 'Windows'), [
+      [700, s => { s.point(0); s.hot(0); }],
+      [700, s => { s.ring([['Lock', I.lock], ['Sleep', I.power], ['Restart', I.convert], ['Screen off', I.monitor]], 'Power'); s.point(-1); }],
+      [600, s => { s.point(1, 4); s.hot(1); }],
+      [800, s => { s.show(false); s.say('Going to sleep'); }],
+    ]],
+    arrows: [el => stage(el, MAIN, 'Main'), [
+      [700, s => { s.keys(['↑']); s.hot(0); }],
+      [900, s => { s.keys(['→']); s.hot(2); }],
+      [900, s => { s.keys(['↑', '→']); s.hot(1); }],
+      [1000, s => { s.keys(['Enter']); s.say('Browser opened'); }],
+    ]],
+    typefind: [el => stage(el, MAIN, 'Main'), [
+      [700, s => { s.keys(['c']); s.hot(5); }],
+      [1100, s => { s.keys([]); s.hot(-1); }],
+      [500, s => { s.keys(['m']); s.hot(2); }],
+      [700, s => { s.keys(['m', 'u']); s.hot(6); }],
+      [1000, s => { s.keys(['Enter']); s.say('Music opened'); }],
+    ]],
+    appring: [el => stage(el, OUTLOOK, 'Outlook'), [
+      [300, s => s.ctx('Outlook in front')],
+      [900, s => { s.point(3); s.hot(3); }],
+      [800, s => { s.show(false); s.say('Your reply template, pasted'); }],
+      [1600, s => { s.say(''); s.point(-1); s.hot(-1); s.ring(EXPLORER, 'Explorer'); s.ctx('Explorer in front'); s.show(true); }],
+      [900, s => { s.point(0); s.hot(0); }],
+      [800, s => { s.show(false); s.say('Terminal opened in this folder'); }],
+    ]],
+    files: [el => stage(el, EXPLORER, 'Explorer'), [
+      [300, s => s.ctx('report.zip selected')],
+      [900, s => { s.point(1); s.hot(1); }],
+      [800, s => { s.show(false); s.say('report.zip → report\\ (3 files)'); }],
+    ]],
+    transforms: [el => stage(el, CLIPBOARD, 'Clipboard'), [
+      [300, s => s.ctx('Copied: shop.example.com/?utm_source=mail')],
+      [900, s => { s.point(2); s.hot(2); }],
+      [800, s => { s.show(false); s.say('Pasted shop.example.com/'); }],
+    ]],
+    launch: [el => stage(el, APPS, 'Apps'), [
+      [700, s => { s.point(2); s.hot(2); }],
+      [700, s => { s.show(false); s.say('Excel opened'); }],
+      [1500, s => { s.say(''); s.point(-1); s.hot(-1); s.show(true); }],
+      [700, s => { s.point(4); s.hot(4); }],
+      [700, s => { s.show(false); s.say('Terminal was open: brought to the front'); }],
+    ]],
     adjust: [el => stage(el, [['Volume', I.volume], ['Zoom', I.zoom], ['Tabs', I.tabs], ['Track', I.skip],
                               ['Snip', I.scissors], ['Mail', I.mail], ['Notes', I.note], ['Files', I.folder]], 'Media'), [
-      [600, s => { s.hot(0); s.keys(['🖱 wheel ▲']); s.say('Volume 40'); }],
+      [600, s => { s.hot(0); s.keys(['Wheel ↑']); s.say('Volume 40'); }],
       [450, s => s.say('Volume 50')],
       [450, s => s.say('Volume 60')],
       [450, s => s.say('Volume 70')],
-      [900, s => { s.hot(1); s.keys(['🖱 wheel ▲']); s.say('Zoom 110 %'); }],
+      [900, s => { s.hot(1); s.keys(['Wheel ↑']); s.say('Zoom 110 %'); }],
       [500, s => s.say('Zoom 125 %')],
-      [900, s => { s.keys(['click']); s.say('Zoom reset to 100 %'); }],
+      [900, s => { s.keys(['Click']); s.say('Zoom reset to 100 %'); }],
     ]],
     windows: [el => stage(el, [['Budget.xlsx', I.sheet], ['Inbox', I.mail], ['Report.docx', I.doc], ['radialdeck', I.code],
                                ['Downloads', I.folder], ['Spotify', I.music]], 'Windows'), [
@@ -124,7 +188,7 @@
     const scene = SCENES[el.dataset.scene];
     if (!scene) return;
     const [build, steps] = scene;
-    el.insertAdjacentHTML('afterbegin', '<div class="ring" aria-hidden="true"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"><span></span></div></div><div class="stage-hud" aria-hidden="true"></div><div class="stage-toast" aria-hidden="true"></div>');
+    el.insertAdjacentHTML('afterbegin', '<div class="ring" aria-hidden="true"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"><span></span></div></div><div class="stage-hud" aria-hidden="true"></div><div class="stage-toast" aria-hidden="true"></div><svg class="stage-pointer" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v17l4.5-4.2 2.9 6.2 3-1.4-2.9-6.1H19z"/></svg>');
     const s = build(el);
     if (reduced) {
       steps.forEach(([, fn]) => fn(s));
@@ -142,14 +206,6 @@
       if (en.isIntersecting && !timer) { i = 0; s.reset(); tick(); }
       if (!en.isIntersecting && timer) { clearTimeout(timer); timer = null; }
     }, { threshold: .35 }).observe(el);
-  });
-
-  // ---- Recorded GIFs: the poster turns into the clip when it scrolls into view --------------
-  document.querySelectorAll('img[data-gif]').forEach(img => {
-    const play = () => { img.src = img.dataset.gif; };
-    if (reduced) { img.addEventListener('click', play); return; }
-    const io = new IntersectionObserver(([en]) => { if (en.isIntersecting) { io.disconnect(); play(); } }, { threshold: .3 });
-    io.observe(img);
   });
 
   // ---- Section chips follow the scroll ----------------------------------------------------

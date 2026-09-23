@@ -213,11 +213,14 @@
       explorer: { hub: 'Explorer', title: 'C:\\Projects\\site', slices: [['Terminal here', I.terminal], ['Extract here', I.archive], ['Copy path', I.copy], ['SHA-256', I.hash], ['Zip', I.archive], ['Git status', I.git]] },
       outlook: { hub: 'Outlook', title: 'Inbox - Outlook', slices: [['Reply', I.reply], ['Reply all', I.replyAll], ['Template', I.template], ['Calendar', I.calendar], ['Mark read', I.check], ['Forward', I.forward]] },
     };
-    const NOTE_RESULTS = { 'Paste plain': 'Lorem ipsum, plain text.', 'UPPER': 'LOREM IPSUM DOLOR SIT AMET.', 'Date': new Date().toLocaleDateString(), 'Signature': 'Best regards,\nAlex', 'Clean URL': 'https://example.com/article', 'Count': '4 words, 27 characters' };
+    // What the pretend clipboard holds, and what each slice makes of it.
+    const CLIP = 'The meeting moves to Thursday at 3 pm.';
+    const NOTE_RESULTS = { 'Paste plain': CLIP, 'UPPER': CLIP.toUpperCase(), 'Date': new Date().toLocaleDateString(), 'Signature': 'Best regards,\nAlex', 'Clean URL': 'https://example.com/article', 'Count': `${CLIP.split(/\s+/).length} words, ${CLIP.length} characters` };
+    const NOTE_DONE = { 'Paste plain': 'the copied text, without its formatting', 'UPPER': 'the copied text in capitals', 'Date': "today's date", 'Signature': 'your signature', 'Clean URL': 'the copied link without ?utm_source=… tracking', 'Count': 'counted, nothing pasted' };
     let app = 'notepad', held = false, phot = -1;
     const state = {};
     function reset(id) {
-      if (id === 'notepad') state.notepad = { text: 'Press and hold anywhere in this window (mouse button or finger), move toward a slice, release.' };
+      if (id === 'notepad') state.notepad = { text: `Press and hold anywhere in this window (mouse button or finger), move toward a slice, release.\n\nOn the clipboard: "${CLIP}"` };
       if (id === 'explorer') state.explorer = { files: [['report.zip', 'zip', true], ['video.mov', 'mov'], ['notes.md', 'md'], ['index.html', 'html']], term: null, chip: null };
       if (id === 'outlook') state.outlook = { unread: true, view: 'mail', compose: null };
     }
@@ -238,7 +241,7 @@
       out.innerHTML = `<div class="ol"><div class="ol-list"><div class="ol-item ${st.unread ? 'is-unread' : ''}"><b>Maria Schmidt</b><span>Offer for Q4</span><small>${st.unread ? 'Unread' : 'Read'}</small></div><div class="ol-item"><b>James Carter</b><span>Server maintenance window</span><small>Read</small></div></div><div class="ol-read"><div class="ol-meta"><b>Offer for Q4</b><span>Maria Schmidt · to you, James, Daniel, Emily</span></div><p>Hi,<br>can you send me the updated offer by Friday?<br><br>Thanks,<br>Maria</p>${st.compose ? `<div class="ol-compose"><div><small>To</small><span>${h(st.compose.to)}</span></div><div><small>Subject</small><span>${h(st.compose.subject)}</span></div><pre>${h(st.compose.body)}<i class="caret"></i></pre></div>` : ''}</div></div>`;
     }
     function act(label) {
-      if (app === 'notepad') { const t = state.notepad; const next = t.text + (t.text.endsWith('\n') ? '' : '\n\n') + NOTE_RESULTS[label]; const full = next.split('\n').length > 12 || out.scrollHeight > stage.clientHeight - 40; t.text = full ? NOTE_RESULTS[label] : next; return '✓ ' + label + (full ? ' · page cleared' : ''); }
+      if (app === 'notepad') { const t = state.notepad; const next = t.text + (t.text.endsWith('\n') ? '' : '\n\n') + NOTE_RESULTS[label]; const full = next.split('\n').length > 12 || out.scrollHeight > stage.clientHeight - 40; t.text = full ? NOTE_RESULTS[label] : next; return '✓ ' + label + ' · ' + NOTE_DONE[label] + (full ? ' · page cleared' : ''); }
       if (app === 'explorer') {
         const st = state.explorer;
         if (label === 'Terminal here') st.term = 'PS C:\\Projects\\site> ';
