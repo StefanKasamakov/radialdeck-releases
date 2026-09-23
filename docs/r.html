@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RadialDeck — Shared ring</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .share { max-width: 980px; margin: 0 auto; padding: 72px 24px 96px; display: grid; grid-template-columns: minmax(260px, 380px) 1fr; gap: 48px; align-items: center; }
+  .share .ring { width: 100%; }
+  .share h1 { font-family: Outfit, sans-serif; font-size: clamp(28px, 4vw, 40px); margin: 6px 0 8px; letter-spacing: -.02em; }
+  .share .meta { color: var(--text-2); margin: 0 0 20px; }
+  .share ul { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 8px; }
+  .share li { display: flex; gap: 10px; align-items: baseline; padding: 10px 14px; border-radius: 12px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); }
+  .share li b { font-weight: 600; min-width: 120px; }
+  .share li span { color: var(--text-2); font-size: 14px; overflow-wrap: anywhere; }
+  .share li.risky { border-color: rgba(248,113,113,.45); }
+  .warn { padding: 12px 14px; border-radius: 12px; background: rgba(248,113,113,.10); border: 1px solid rgba(248,113,113,.35); margin: 0 0 20px; font-size: 14px; }
+  .actions { display: flex; gap: 12px; flex-wrap: wrap; }
+  .note { color: var(--text-2); font-size: 13px; margin-top: 14px; }
+  @media (max-width: 760px) { .share { grid-template-columns: 1fr; padding-top: 40px; } .share .ring { max-width: 320px; margin: 0 auto; } }
+</style>
+</head>
+<body>
+<main class="share" id="share">
+  <div class="ring ring-static" aria-hidden="true"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"><span id="hub"></span></div></div>
+  <div>
+    <p class="eyebrow">Shared RadialDeck ring</p>
+    <h1 id="name">Loading…</h1>
+    <p class="meta" id="meta"></p>
+    <div id="warn"></div>
+    <ul id="slices"></ul>
+    <div class="actions">
+      <a class="btn btn-primary btn-lg" id="open" href="#">Open in RadialDeck</a>
+      <a class="btn btn-ghost btn-lg" href="index.html">Get RadialDeck</a>
+    </div>
+    <p class="note">RadialDeck adds the ring to Settings without saving it. Look it over there, then press Save; nothing runs before that.</p>
+  </div>
+</main>
+<script src="themes.js"></script>
+<script src="ring.js"></script>
+<script>
+(async () => {
+  // Everything in the link is someone else's text: escape it before it touches the page.
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const $ = (id) => document.getElementById(id);
+  const payload = location.hash.slice(1);
+  const fail = (msg) => { $('name').textContent = msg; $('open').remove(); document.querySelector('.ring').remove(); };
+  if (!payload) return fail('This link has no ring in it.');
+
+  let ring;
+  try {
+    const b64 = payload.replace(/-/g, '+').replace(/_/g, '/');
+    const bytes = Uint8Array.from(atob(b64 + '='.repeat((4 - b64.length % 4) % 4)), c => c.charCodeAt(0));
+    const text = await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('gzip'))).text();
+    ring = JSON.parse(text).menus[0];
+  } catch { return fail('This ring link is damaged.'); }
+
+  const what = (s) => {
+    if (s.submenu?.length) return [`Nested ring, ${s.submenu.length} slices`, false];
+    const a = s.action || {};
+    switch ((a.type || '').toLowerCase()) {
+      case 'launch': return [`Opens ${a.target}${a.arguments ? ' ' + a.arguments : ''}`, !/^https?:/i.test(a.target || '')];
+      case 'command': return [`Runs a command: ${a.command}`, true];
+      case 'macro': return [`Macro, ${(a.steps || []).length} steps`, true];
+      case 'sendkeys': return [`Presses ${a.keys}`, false];
+      case 'paste': return ['Pastes text', false];
+      case 'transform': return [`Transforms text (${a.transform})`, false];
+      case 'windows': return ['Ring of your open windows', false];
+      case 'clipboard-history': return ['Ring of recently copied text', false];
+      case 'topmost': return ['Keeps a window on top', false];
+      case 'ocr': return ['Copies text from the screen', false];
+      case 'adjust': return [`Mouse wheel changes ${a.adjust || 'volume'}`, false];
+      case 'repeat': return ['Repeats the last action', false];
+      default: return ['Empty', false];
+    }
+  };
+
+  const slices = (ring.slices || []).slice(0, 8);
+  $('name').textContent = ring.name || 'Ring';
+  $('hub').textContent = ring.name || '';
+  document.title = `RadialDeck — ${ring.name || 'Shared ring'}`;
+  $('meta').textContent = `${slices.length} slices · opens with ${ring.hotkey || 'your hotkey'}` + (ring.conditions?.app ? ` · only in ${ring.conditions.app}` : '');
+
+  let risky = 0;
+  $('slices').innerHTML = slices.map(s => {
+    const [text, danger] = what(s);
+    risky += danger ? 1 : 0;
+    return `<li class="${danger ? 'risky' : ''}"><b>${esc(s.label)}</b><span>${esc(text)}</span></li>`;
+  }).join('');
+  if (risky) $('warn').innerHTML = `<div class="warn">${risky} slice${risky > 1 ? 's' : ''} run${risky > 1 ? '' : 's'} programs or commands on your PC. Only add rings from people you trust.</div>`;
+
+  const el = document.querySelector('.ring');
+  RDRing.buildRing(el.querySelector('.ring-svg'), el.querySelector('.ring-labels'), { slices: slices.map(s => [esc(s.label), '']) });
+  $('open').href = 'radialdeck://import/' + payload;
+})();
+</script>
+</body>
+</html>
