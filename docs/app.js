@@ -1,6 +1,11 @@
 /* RadialDeck landing: interactive ring demo, autoplaying "how it works", themes, light reveals. */
 (() => {
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // One video at a time: starting the tour or a short pauses whichever was playing.
+  document.addEventListener('play', e => {
+    document.querySelectorAll('.tour video, .short video').forEach(v => { if (v !== e.target) v.pause(); });
+  }, true);
   const hasGsap = typeof gsap !== 'undefined';
 
   const { I, svg, R, RI, slicePath, sliceAt, THEMES, themeById, themeRing, buildRing, applyThemeEverywhere, DEFAULT_THEME } = window.RDRing;

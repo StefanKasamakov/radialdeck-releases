@@ -109,6 +109,20 @@ code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-siz
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 .how { padding: clamp(80px, 10vw, 140px) 0; }
+/* Watch: the launch film and the 30-second shorts. Nothing downloads until play is pressed. */
+.tour { padding: clamp(70px, 9vw, 120px) 0 0; }
+.tour-frame { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: #05070c; box-shadow: 0 40px 100px -40px rgba(0,0,0,.9); aspect-ratio: 16 / 9; }
+.tour-video { display: block; width: 100%; height: 100%; object-fit: cover; background: #05070c; }
+.shorts-title { font-family: var(--font-display); font-weight: 600; font-size: 20px; margin: clamp(36px, 5vw, 56px) 0 16px; }
+.shorts { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+.short { margin: 0; display: grid; gap: 10px; }
+.short video { display: block; width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: var(--radius-sm); border: 1px solid var(--border); background: #05070c; }
+.short figcaption { font-size: 14px; color: var(--text-2); }
+@media (max-width: 860px) {
+  /* Phones: the shorts become a row you swipe, inside the section so the page itself never scrolls sideways. */
+  .shorts { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 62%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px; }
+  .short { scroll-snap-align: start; }
+}
 .how-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 6vw, 90px); align-items: center; }
 @media (max-width: 900px) { .how-grid { grid-template-columns: 1fr; } }
 .steps { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 8px; }
