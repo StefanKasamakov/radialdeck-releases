@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Icon studio and community icons — RadialDeck</title>
+<meta name="description" content="Make an icon for a RadialDeck slice in the browser - letters, an emoji, a Windows symbol or your own picture on a shape - download it, and share it with everyone else.">
+<link rel="icon" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<!-- seo -->
+<link rel="canonical" href="https://radialdeck.com/icons.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RadialDeck">
+<meta property="og:url" content="https://radialdeck.com/icons.html">
+<meta property="og:title" content="Icon studio and community icons — RadialDeck">
+<meta property="og:description" content="Make an icon for a RadialDeck slice in the browser, download it, and share it with everyone else.">
+<meta property="og:image" content="https://radialdeck.com/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Icon studio and community icons — RadialDeck">
+<meta name="twitter:description" content="Make an icon for a RadialDeck slice in the browser, download it, and share it with everyone else.">
+<meta name="twitter:image" content="https://radialdeck.com/assets/og.jpg">
+<!-- /seo -->
+<style>
+  .icon-stage { display: grid; grid-template-columns: 1fr auto; gap: 22px; align-items: center; }
+  .icon-stage canvas#icon-canvas { width: min(256px, 60vw); height: auto; aspect-ratio: 1; border-radius: 18px;
+    background: repeating-conic-gradient(rgba(255,255,255,.06) 0 25%, transparent 0 50%) 0 0 / 22px 22px; }
+  .icon-sizes { display: grid; gap: 14px; justify-items: center; }
+  .icon-slice { display: grid; place-items: center; gap: 6px; padding: 14px 16px; border-radius: 14px;
+    background: linear-gradient(160deg, #1c2030, #11141e); border: 1px solid var(--border); color: #e8e9f0; font: 600 12px Inter, sans-serif; }
+  .icon-slice.light { background: linear-gradient(160deg, #eef1f7, #d9dfe9); color: #22252f; }
+  .icon-slice canvas { image-rendering: auto; }
+  .icon-picks { display: flex; flex-wrap: wrap; gap: 6px; }
+  .icon-picks button { width: 40px; height: 40px; border-radius: 10px; border: 1px solid var(--border-strong); background: var(--surface);
+    color: var(--text); font-size: 20px; cursor: pointer; font-family: "Segoe Fluent Icons", "Segoe MDL2 Assets", "Segoe UI Emoji", sans-serif; }
+  .icon-picks button:hover, .icon-picks button[aria-pressed="true"] { border-color: var(--accent); background: var(--surface-2); }
+  .icon-tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+  .icon-tabs button { padding: 7px 12px; border-radius: 999px; border: 1px solid var(--border-strong); background: transparent; color: var(--text-2); font: inherit; font-size: 13px; font-weight: 600; cursor: pointer; }
+  .icon-tabs button[aria-selected="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .icon-pane[hidden] { display: none; }
+  .icon-colours { display: flex; gap: 10px; }
+  .icon-colours input[type="color"] { width: 52px; height: 34px; padding: 2px; border: 1px solid var(--border-strong); border-radius: 8px; background: var(--surface); cursor: pointer; }
+  .gal.icon-gal img { object-fit: contain; padding: 18%; background: linear-gradient(160deg, #1c2030, #11141e); }
+  @media (max-width: 620px) { .icon-stage { grid-template-columns: 1fr; justify-items: center; } }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="wrap nav-inner">
+    <a class="brand" href="index.html" aria-label="RadialDeck home">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M34.27 6.77 A46 46 0 0 1 65.73 6.77 L57.18 30.27 A21 21 0 0 0 42.82 30.27 Z" fill="currentColor" opacity=".85"/><path d="M69.44 8.31 A46 46 0 0 1 91.69 30.56 L69.03 41.13 A21 21 0 0 0 58.87 30.97 Z" fill="var(--accent, #3b82f6)" transform="translate(2.12 -2.12)"/><path d="M93.23 34.27 A46 46 0 0 1 93.23 65.73 L69.73 57.18 A21 21 0 0 0 69.73 42.82 Z" fill="currentColor" opacity=".85"/><path d="M91.69 69.44 A46 46 0 0 1 69.44 91.69 L58.87 69.03 A21 21 0 0 0 69.03 58.87 Z" fill="currentColor" opacity=".85"/><path d="M65.73 93.23 A46 46 0 0 1 34.27 93.23 L42.82 69.73 A21 21 0 0 0 57.18 69.73 Z" fill="currentColor" opacity=".85"/><path d="M30.56 91.69 A46 46 0 0 1 8.31 69.44 L30.97 58.87 A21 21 0 0 0 41.13 69.03 Z" fill="currentColor" opacity=".85"/><path d="M6.77 65.73 A46 46 0 0 1 6.77 34.27 L30.27 42.82 A21 21 0 0 0 30.27 57.18 Z" fill="currentColor" opacity=".85"/><path d="M8.31 30.56 A46 46 0 0 1 30.56 8.31 L41.13 30.97 A21 21 0 0 0 30.97 41.13 Z" fill="currentColor" opacity=".85"/><circle cx="50" cy="50" r="13" fill="var(--accent, #3b82f6)"/></svg>
+      <span>RadialDeck</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="index.html#demo">Try it</a>
+      <a href="features.html">Features</a>
+      <a href="themes.html">Themes</a>
+      <a href="#studio">Icon studio</a>
+      <a href="#community">Icons</a>
+      <a href="index.html#pricing">Pricing</a>
+    </nav>
+    <details class="nav-menu">
+      <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+      <div class="nav-menu-panel" onclick="this.parentNode.open = false">
+        <a href="index.html">Home</a>
+        <a href="features.html">Features</a>
+        <a href="themes.html">Themes</a>
+        <a href="icons.html">Icons</a>
+        <a href="index.html#pricing">Pricing</a>
+        <a href="index.html#faq">Questions</a>
+      </div>
+    </details>
+    <a class="btn btn-primary btn-sm" href="https://github.com/StefanKasamakov/radialdeck-releases/releases/latest/download/RadialDeckSetup.exe">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Download
+    </a>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="studio-hero">
+  <div class="wrap">
+    <p class="eyebrow">Icons</p>
+    <h1 class="display" data-split>An icon for every slice.</h1>
+    <p class="lede">Letters, an emoji, a Windows symbol or your own logo, on a shape and in your colours. Make it
+      here, see it at the size the ring really draws it, download the picture and drop it on the icon window in
+      RadialDeck. Then keep it, or give it to everybody.</p>
+  </div>
+</section>
+
+<section class="studio" id="studio">
+  <div class="wrap studio-grid">
+    <div class="studio-preview">
+      <div class="studio-stage icon-stage">
+        <canvas id="icon-canvas" width="256" height="256" aria-label="Your icon"></canvas>
+        <div class="icon-sizes">
+          <div class="icon-slice"><canvas id="icon-dark" width="56" height="56" style="width:28px;height:28px"></canvas><span id="icon-label-dark">My slice</span></div>
+          <div class="icon-slice light"><canvas id="icon-light" width="56" height="56" style="width:28px;height:28px"></canvas><span id="icon-label-light">My slice</span></div>
+        </div>
+      </div>
+      <p class="studio-note">The two small tiles are the icon at the 28 pixels a slice draws it, on a dark and a light ring.
+        If it reads there, it reads everywhere.</p>
+      <div class="studio-actions">
+        <button class="btn btn-primary" id="icon-download">Download the picture</button>
+        <button class="btn" id="icon-share">Share it on GitHub</button>
+      </div>
+      <p class="studio-status" id="icon-status" role="status" aria-live="polite"></p>
+      <p class="studio-note">In RadialDeck: Settings → a slice → the <b>…</b> next to Icon → drop the file on that window.
+        It goes into <b>My icons</b> and stays there.</p>
+    </div>
+
+    <div class="studio-side">
+      <div class="ctl">
+        <label for="icon-name">Name<small>Also the file name: <code id="icon-filename">my-icon.png</code>.</small></label>
+        <input type="text" id="icon-name" maxlength="32" placeholder="My icon">
+      </div>
+
+      <p class="ctl-group">What is on it</p>
+      <div class="icon-tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-kind="letters">Letters</button>
+        <button role="tab" aria-selected="false" data-kind="emoji">Emoji</button>
+        <button role="tab" aria-selected="false" data-kind="symbol" id="tab-symbol">Windows symbol</button>
+        <button role="tab" aria-selected="false" data-kind="picture">Your picture</button>
+      </div>
+
+      <div class="icon-pane" data-pane="letters">
+        <div class="ctl"><label for="icon-text">Letters<small>One to three: initials, a short code, a number.</small></label>
+          <input type="text" id="icon-text" maxlength="3" value="RD"></div>
+        <div class="ctl"><label for="icon-font">Typeface</label>
+          <select id="icon-font">
+            <option value="700 {s}px Outfit">Outfit, bold</option>
+            <option value="600 {s}px Inter">Inter</option>
+            <option value="700 {s}px Georgia">Georgia</option>
+            <option value="700 {s}px Consolas, 'Cascadia Mono', monospace">Monospace</option>
+          </select></div>
+      </div>
+
+      <div class="icon-pane" data-pane="emoji" hidden>
+        <div class="ctl"><label for="icon-emoji">Emoji<small>Type or paste one, or pick below.</small></label>
+          <input type="text" id="icon-emoji" maxlength="8" value="🚀"></div>
+        <div class="icon-picks" id="emoji-picks"></div>
+      </div>
+
+      <div class="icon-pane" data-pane="symbol" hidden>
+        <p class="studio-note" id="symbol-note">The same symbols Windows uses. They draw here only on a Windows PC, because the font ships with Windows.</p>
+        <div class="icon-picks" id="symbol-picks"></div>
+      </div>
+
+      <div class="icon-pane" data-pane="picture" hidden>
+        <div class="ctl"><label for="icon-file">Picture<small>A logo or a photo. It stays in this browser; nothing is uploaded.</small></label>
+          <input type="file" id="icon-file" accept="image/*"></div>
+      </div>
+
+      <p class="ctl-group">Shape and colour</p>
+      <div class="ctl"><label for="icon-shape">Background</label>
+        <select id="icon-shape">
+          <option value="round">Rounded square</option>
+          <option value="circle">Circle</option>
+          <option value="squircle">Soft square</option>
+          <option value="none">None, just the mark</option>
+        </select></div>
+      <div class="ctl"><label>Background colour</label>
+        <div class="icon-colours"><input type="color" id="icon-bg1" value="#3b82f6" aria-label="First colour">
+          <input type="color" id="icon-bg2" value="#8b5cf6" aria-label="Second colour"></div></div>
+      <label class="ctl-check"><input type="checkbox" id="icon-gradient" checked> Blend the two colours</label>
+      <div class="ctl"><label>Mark colour</label>
+        <div class="icon-colours"><input type="color" id="icon-fg" value="#ffffff" aria-label="Mark colour"></div></div>
+      <div class="ctl"><label for="icon-scale">Size of the mark</label>
+        <div class="ctl-slider"><input type="range" id="icon-scale" min="30" max="95" value="58"><span id="icon-scale-out">58%</span></div></div>
+      <label class="ctl-check"><input type="checkbox" id="icon-outline"> Thin outline</label>
+    </div>
+  </div>
+</section>
+
+<section class="community" id="community">
+  <div class="wrap">
+    <p class="eyebrow">From everyone else</p>
+    <h2 class="h2">Icons other people made.</h2>
+    <p class="sub">Like the themes, the icons are a folder in a public repository: no account, nothing to sign up for.
+      Download one and drop it on the icon window in RadialDeck.</p>
+    <div class="gallery-grid" id="community-grid"></div>
+    <div class="community-cta">
+      <h3>How to send yours</h3>
+      <ol>
+        <li>Make it above and press <b>Download the picture</b>. A 256×256 PNG with a transparent background works best.</li>
+        <li>Press <b>Share it on GitHub</b>. It opens the upload page of the icons folder: drag the picture onto it.</li>
+        <li>Choose <b>Propose changes</b>. GitHub turns it into a pull request; you do not need to install anything.</li>
+      </ol>
+      <p><a class="btn btn-primary" href="https://github.com/StefanKasamakov/radialdeck-themes/tree/main/icons">Open the icons folder</a></p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 RadialDeck</span>
+    <nav aria-label="Footer">
+      <a href="index.html">Home</a>
+      <a href="themes.html">Themes</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="terms.html">Terms</a>
+      <a href="refund.html">Refunds</a>
+      <a href="https://github.com/StefanKasamakov/radialdeck-releases">Releases</a>
+      <a href="https://github.com/StefanKasamakov/radialdeck-themes">Themes and icons</a>
+      <a href="mailto:hello@radialdeck.com">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="icons.js" defer></script>
+</body>
+</html>
