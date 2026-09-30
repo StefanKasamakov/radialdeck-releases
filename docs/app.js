@@ -322,7 +322,7 @@
     ScrollTrigger.batch('.reveal', { start: 'top 88%', once: true, onEnter: els => gsap.from(els, { opacity: 0, y: 24, duration: .7, stagger: .08, ease: 'power2.out', overwrite: true }) });
     document.querySelectorAll('[data-count]').forEach(el => {
       const target = +el.dataset.count;
-      ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true, onEnter: () => { const o = { v: 0 }; gsap.to(o, { v: target, duration: 1.4, ease: 'expo.out', onUpdate: () => { el.textContent = Math.round(o.v); } }); } });
+      ScrollTrigger.create({ trigger: el, start: 'top 90%', once: true, onEnter: () => { const o = { v: 0 }; gsap.to(o, { v: target, duration: 1.4, ease: 'expo.out', onUpdate: () => { el.textContent = Math.round(o.v).toLocaleString('en-US'); } }); } });
     });
   }
 })();
