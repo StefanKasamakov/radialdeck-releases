@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Your RadialDeck Pro key</title>
+<link rel="icon" href="assets/icon.png">
+<style>
+  body { margin: 0; font-family: "Segoe UI", system-ui, sans-serif; background: #0f1116; color: #f2f3f7; line-height: 1.6; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
+  h1 { letter-spacing: -.02em; margin-bottom: 4px; }
+  p, li { color: #c8ccd6; } a { color: #60a5fa; }
+  form { display: grid; gap: 14px; margin: 28px 0; }
+  label { display: grid; gap: 6px; font-weight: 600; font-size: 15px; }
+  input { font: inherit; padding: 12px 14px; border-radius: 10px; border: 1px solid #2a2f3b; background: #171a22; color: inherit; }
+  input:focus-visible, button:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px; }
+  button { font: inherit; font-weight: 600; padding: 12px 18px; border-radius: 10px; border: 0; background: #3b82f6; color: #fff; cursor: pointer; }
+  button[disabled] { opacity: .6; cursor: default; }
+  .key { margin: 12px 0; padding: 16px; border-radius: 12px; background: #171a22; border: 1px solid #2a2f3b; }
+  .key code { display: block; word-break: break-all; font: 14px/1.5 Consolas, monospace; color: #f2f3f7; }
+  .key .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; font-size: 14px; color: #9aa1b2; }
+  .key button { padding: 8px 14px; font-size: 14px; }
+  .error { color: #fca5a5; }
+</style>
+</head>
+<body><div class="wrap">
+<p><a href="index.html">← RadialDeck</a></p>
+<h1>Your Pro key</h1>
+<p>Enter the e-mail you bought with and the order number from your receipt (it looks like <b>#1042</b>). Lost your key? This brings it back too.</p>
+<form id="f">
+  <label>E-mail <input id="email" type="email" autocomplete="email" required></label>
+  <label>Order number <input id="order" inputmode="numeric" autocomplete="off" placeholder="#1042" required></label>
+  <button id="go">Show my key</button>
+</form>
+<div id="out" aria-live="polite"></div>
+<p>Then open RadialDeck Settings, choose <b>License…</b> and paste the whole line. The key works offline.</p>
+<p>Something wrong? <a href="mailto:hello@radialdeck.com">hello@radialdeck.com</a></p>
+</div>
+<script>
+const f = document.getElementById('f'), out = document.getElementById('out'), go = document.getElementById('go');
+f.addEventListener('submit', async e => {
+  e.preventDefault();
+  go.disabled = true; out.textContent = '';
+  try {
+    const r = await fetch('/api/key', { method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ email: f.email.value, order: f.order.value }) });
+    const data = await r.json();
+    if (!r.ok) { out.innerHTML = '<p class="error"></p>'; out.firstChild.textContent = data.error; return; }
+    data.keys.forEach((k, i) => {
+      const box = document.createElement('div'); box.className = 'key';
+      const code = document.createElement('code'); code.textContent = k.key;
+      const row = document.createElement('div'); row.className = 'row';
+      const note = document.createElement('span'); note.textContent = (i ? 'Earlier key, ' : '') + 'renews ' + k.exp;
+      const copy = document.createElement('button'); copy.type = 'button'; copy.textContent = 'Copy';
+      copy.onclick = async () => { await navigator.clipboard.writeText(k.key); copy.textContent = 'Copied'; };
+      row.append(note, copy); box.append(code, row); out.append(box);
+    });
+  } catch { out.innerHTML = '<p class="error">Could not reach the key service. Try again in a minute.</p>'; }
+  finally { go.disabled = false; }
+});
+</script>
+</body>
+</html>
