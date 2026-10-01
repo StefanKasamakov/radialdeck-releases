@@ -460,3 +460,11 @@ kbd { font-family: var(--font-body); font-size: 12.5px; font-weight: 600; color:
 .cmp th { color: var(--text-2); font-weight: 600; }
 .cmp td:first-child { color: var(--text-2); width: 26%; }
 @media (max-width: 760px) { .doc-cols { grid-template-columns: 1fr; } .cmp { font-size: 14px; } .cmp th, .cmp td { padding: 10px 8px; } }
+
+/* Microsoft Store badge (official artwork) and the direct installer under it */
+.store-badge { display: inline-block; line-height: 0; border-radius: 6px; transition: transform .15s ease; }
+.store-badge:hover { transform: translateY(-1px); }
+.store-badge:focus-visible { outline: 2px solid var(--accent, #3b82f6); outline-offset: 3px; }
+.store-badge img { width: 200px; height: auto; }
+.alt-download { display: block; margin-top: 10px; font-size: 14px; color: inherit; opacity: .7; }
+.alt-download:hover { opacity: 1; }
