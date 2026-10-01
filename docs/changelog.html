@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What&#x27;s new in RadialDeck — release notes</title>
+<meta name="description" content="Every RadialDeck release and what changed in it: new actions, themes, fixes and security work.">
+<link rel="icon" href="assets/icon.png">
+<style>
+  body { margin: 0; font-family: "Segoe UI", system-ui, sans-serif; background: #0f1116; color: #f2f3f7; line-height: 1.6; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 56px 20px 72px; }
+  a { color: #60a5fa; } p, li { color: #c8ccd6; }
+  h1 { font-size: 40px; letter-spacing: -.02em; line-height: 1.1; margin: 18px 0 8px; }
+  .get { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; margin: 22px 0 8px; }
+  .get img { width: 180px; height: auto; display: block; }
+  .ver { border-top: 1px solid #2a2f3b; padding-top: 22px; margin-top: 30px; }
+  .ver h2 { margin: 0; font-size: 26px; } .date { margin: 2px 0 8px; color: #9aa1b2; font-size: 14px; }
+  h3 { font-size: 15px; text-transform: uppercase; letter-spacing: .08em; color: #9aa1b2; margin: 18px 0 6px; }
+  code { font: 13px Consolas, monospace; background: #171a22; padding: 1px 5px; border-radius: 5px; }
+</style>
+<!-- seo -->
+<link rel="canonical" href="https://radialdeck.com/changelog.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RadialDeck">
+<meta property="og:url" content="https://radialdeck.com/changelog.html">
+<meta property="og:title" content="What's new in RadialDeck — release notes">
+<meta property="og:description" content="Every RadialDeck release and what changed in it: new actions, themes, fixes and security work.">
+<meta property="og:image" content="https://radialdeck.com/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What's new in RadialDeck — release notes">
+<meta name="twitter:description" content="Every RadialDeck release and what changed in it: new actions, themes, fixes and security work.">
+<meta name="twitter:image" content="https://radialdeck.com/assets/og.jpg">
+<!-- /seo -->
+</head>
+<body><div class="wrap">
+<p><a href="index.html">← RadialDeck</a></p>
+<h1>What's new</h1>
+<p>Every release and what changed. RadialDeck updates itself; the Microsoft Store version updates through the Store.</p>
+<div class="get">
+  <a href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct"><img src="assets/ms-store-badge.svg" alt="Get it from Microsoft" width="180" height="50"></a>
+  <a href="download">or download the installer (.exe)</a>
+</div>
+<section class="ver" id="v0.10.13"><h2>0.10.13</h2><p class="date">2026-10-01</p>
+<h3>Fixed</h3>
+<ul>
+<li>Settings opened too small for what it holds: at the default size Save and Close were cut off the bottom bar, and the Add / Remove / move buttons sat below the ring preview, out of sight. The window now opens as big as its content needs, as far as the screen allows, also when a smaller size was saved before, and grows when a slice's form gets longer (a macro, a command). The bottom bar keeps only how the ring looks, the gear, and Save / Close; Import, Export, the licence and the themes folder moved into the gear.</li>
+<li>Labels in a ring no longer look crooked. Each label used to find its own distance from the hub and its own size, so a slice and its mirror image sat at different heights. A ring now shares one distance and one size; only a label that cannot fit at all finds its own place.</li>
+<li>A word too long for its slice even at the smallest size is shortened with an ellipsis ("TRANSLITER…") instead of being split over two lines.</li>
+<li>Icons that all but vanished in some themes (Wasteland: dark green on dark green) are readable: an icon colour too close to what it is drawn on falls back to the label colour.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.12"><h2>0.10.12</h2><p class="date">2026-10-01</p>
+<h3>Added</h3>
+<ul>
+<li>Flick without holding the hotkey. After a quick tap the ring waits for a click, and now a flick works there too: rest on a slice with a nested ring and it opens, leave the ring quickly through a slice and it runs. Leaving slowly does nothing, so moving the mouse away is still safe. This also covers letting go of the hotkey a moment before a nested ring opened, which used to leave that ring waiting for a click. On by default; Settings &gt; gear &gt; "Flick without holding the hotkey" turns it off. debug.log now says why a ring waited for a click.</li>
+<li>A photo can come off again: next to Photo… a ✕ appears when the style has one. A style that Photo… made goes away and the style it came from returns; any other style keeps its colours without the picture.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>The Style list shows every style as a small ring with its own icons, in a grid, instead of a long list of names that opened scrolled to the middle.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.11"><h2>0.10.11</h2><p class="date">2026-09-30</p>
+<h3>Added</h3>
+<ul>
+<li>A photo behind the ring, the way a phone keyboard takes one. Settings &gt; Photo… picks a picture; it is scaled down, blurred a little and darkened so the labels stay readable, and the slices turn see-through over it. The result is a theme of its own, the current style plus the picture, carried inside one file so it can be shared like any other. Pictures in a theme can only be embedded data or a file in the themes folder, never a path elsewhere or on another machine.</li>
+<li>Icon packs, the way a phone restyles every icon at once, and each theme brings the pack that suits it: in the Minecraft theme every icon becomes pixel art in an inventory slot, Kanto gets 8-bit buttons, Plumber the Mushroom Kingdom colours, Cyberpunk and the grid themes glowing hexagons, Neon and Synthwave glowing rings, Aero and Frost glossy bubbles, Sakura and Paper stickers, Gold and Arrakis gems. "Icons like the theme" is the default and changes with the theme; any pack can also be picked on its own next to the ring style - fourteen in all, among them Tiles, Bubbles, Mono and Outline. A pack works on whatever icon a slice already has - a Windows symbol, an emoji, a program's icon, your own picture - so nothing has to be redrawn. Your own packs are small *.json files in the iconpacks folder.</li>
+<li>A way back that works while the trigger is still held. Inside a nested ring the hub shows a back arrow; move the pointer out, then rest it in the centre for a quarter of a second and the ring goes up a level. With the right button as the trigger (hold right click) this was missing altogether: going back was a right click, which is the button already in your hand. In click mode a click in the centre goes back, as before, and now it shows.</li>
+<li>Open another ring: a slice can open any ring from your config right where you are, like a nested ring. Keep the text tools in one ring and reach it from the Excel ring, the Outlook ring and the main one, instead of copying the same slices into each. Pick "Open another ring" as the action and choose the ring by name; it counts as a nested ring, so it is Pro, and it cannot sit on the third level, because it opens a level of its own.</li>
+<li>Double-tap the hotkey to keep the ring open. Press it twice quickly and the ring stays on screen for clicks, number keys, arrows and the wheel, however long the first press took; before, the second press closed it. Off by default (Settings › gear); the window is 300 ms, and "doubleTapMs" in config.json takes 150 to 800.</li>
+<li>Keep the ring open while Ctrl, Shift or Alt is held, the way Alt+Tab works: hold Ctrl+Shift, tap Space, flick, and let go of Ctrl+Shift to run the slice, or let go on nothing to close. There is no rush to flick before Space comes up. Off by default (Settings › gear), because letting go of Space is what runs a slice today.</li>
+<li>My icons: your own pictures as slice icons. Pick one with Image file or drop PNG and ICO files on the icon window; they are copied into the icons folder (%APPDATA%\RadialDeck\icons), so a ring keeps its icon when the original file moves, and the whole folder can be copied to another PC. A new "My icons" tab lists them and a button opens the folder.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Long labels stay inside their slice. Each label - its icon and every line of text - is now checked against the real shape of the wedge, which is narrow near the hub and tall only at the sides, and gets the largest size, line width and distance from the hub at which all of it fits, on up to three lines. Before, a long word was allowed over the edge into the next slice ("TRANSLITERATE" in the Neon theme) and many labels were cut short ("Delete duplica…", "Isolate the sel…"). Only a label no slice could hold at a readable size is still shortened, and then inside its own slice.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.10"><h2>0.10.10</h2><p class="date">2026-09-30</p>
+<h3>Added</h3>
+<ul>
+<li>196 recipes, 1,180 in the gallery: a helpdesk pack (flush DNS, printers, services, event log, gpupdate, remote desktop), remote work, Bulgarian office text, more for Excel, Word, PowerPoint and Outlook, AutoCAD and Revit, Explorer, and admin terminals.</li>
+<li>Thirteen new built-in themes, 38 in total, in the look of familiar screens under our own names: Upside Down, Squid, Hyrule, Arrakis, Gotham, Web-slinger, Kanto, Plumber, Light Cycle, Wasteland, Twilight Sky, Wall Maria, Meadow. Dark and light variants, on the site with previews.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>AutoCAD Purge answers its own questions (<code>-PURGE A * N</code>: all, every name, no confirmation) instead of stopping at the first one. Zoom extents cancels a running command first, as AutoCAD's own menu macros do. "Plot PDF" was plain Ctrl+P under a label that promised a PDF, and is gone.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.9"><h2>0.10.9</h2><p class="date">2026-09-28</p>
+<h3>Security</h3>
+<ul>
+<li>An update is checked before it is run. The installer's SHA-256 is published with every release, and it is now compared before anything is started; a file that does not match is refused instead of installed. The download also gets a name nobody can guess, because a fixed path in the temp folder can be created in advance by anything else running as you, and what lands there is executed. This catches a broken download and a swapped file. A release tampered with at the source would carry its own hash, which is what signing the installer is for.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>The 14-day trial no longer starts over when the licence file is deleted: the start is kept in the registry as well, and the earlier of the two dates counts.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Where several people are signed in to one machine at the same time, a Remote Desktop host in particular, only the first session could use <code>--settings</code>, <code>--menu</code>, <code>--reload</code> and ring links; the rest logged an error twice a second and answered nothing. Each session now has a channel of its own, and the command line is unchanged.</li>
+<li>The first-run list showed "in explorer" next to "in EXCEL". The program a ring is tied to reads in lower case throughout.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.8"><h2>0.10.8</h2><p class="date">2026-09-28</p>
+<h3>Added</h3>
+<ul>
+<li>The first run offers rings for the programs you actually have. RadialDeck reads the Start Menu, matches it against the gallery and adds up to six ready-made packs - Excel, Word, VLC, Edge, Acrobat, whatever is there - left unticked, so nothing is created without being asked for.</li>
+<li>Thirteen recipes: the path and name of the selected file in the shapes people actually need (quoted for a terminal, name only, forward slashes for WSL), three renames by rule, decimal to hex and back, Unix time to a readable date, a fresh GUID, and typing the clipboard out one character at a time for RDP sign-in screens, virtual machine consoles and BIOS, where pasting is refused on purpose.</li>
+</ul>
+<h3>Security</h3>
+<ul>
+<li>A recipe no longer reads a file name as code. A file may legally be called <code>$(...)</code>, and PowerShell evaluates that inside a double-quoted string, so a recipe written as <code>(Get-FileHash "{file}").Hash</code> ran whatever the person who named the file chose; a downloaded archive was enough to deliver it. Twenty recipes were affected, and they now receive the selection through the environment, where it is data and not code.</li>
+<li>A ring that arrives from a link can no longer reach off this computer while it is only being previewed. An icon path pointing at another machine handed that machine your Windows credentials, before anything had been saved.</li>
+<li>The warning before such a ring is saved says what each slice runs instead of the label someone chose for it. A slice called "Open Downloads" holding a download-and-run command used to read as harmless.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Pro is now 24 € a year, VAT included (was 19 €). Keys already bought keep working as before.</li>
+<li>Copy text from the screen has its own selection instead of the Windows snipping overlay: the screen freezes, you drag over the text, Esc or a right-click cancels. No Snipping Tool notification, no picture left on the clipboard or in clipboard history, and it works where a company policy removes the Snipping Tool.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Type to find works with a Cyrillic keyboard layout: with Bulgarian or Russian active, the C key types "ц", and English labels were never found. The keys now also count as Latin letters. Typing also works while the hotkey is still held.</li>
+<li>Copy text from the screen reads Cyrillic and English together: with English first in the language list, Windows' English recognizer turned Bulgarian text into "TbpceTe necHM". A Cyrillic recognizer the user has now leads, a snip with almost no Cyrillic still goes to the English one, and an English word it spells in Cyrillic ("Неуу" for "Heyy", "З рт" for "3 pm") takes the English reading of the same spot. The same holds for every other alphabet: a Greek, Russian, Japanese, Chinese, Korean or Arabic recognizer leads over English (Greek words get the same repair), within Latin the user's own language beats English (Polish keeps ą and ł), and when Windows has no recognizer installed for one of the user's languages, the first snip says so and where to add it.</li>
+<li>Opening a shared ring link brings RadialDeck's Settings to the front instead of behind the browser, and the link itself no longer lands in the log.</li>
+<li>Re-opening the first-run screen from Settings replaced everything: all your rings, the theme, the language, the ring size and the update settings. It adds the rings you pick and leaves the rest alone.</li>
+<li>Twenty-three recipes duplicated another one for the same program, so a ring offered for that program showed the same thing twice and wasted a slice: VS Code offered "Palette" twice, Outlook repeated seven of its eight.</li>
+<li>The Developer pack pointed at a recipe that does not exist and made a ring of five slices instead of six.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.7"><h2>0.10.7</h2><p class="date">2026-09-23</p>
+<h3>Fixed</h3>
+<ul>
+<li>Long labels in the top and bottom slices of a full ring ("Terminal here") no longer spill over the edges of the slice: each label gets the width its wedge really has where the text sits, wraps to two lines, and a word that still does not fit gets a smaller font instead of being cut in half.</li>
+<li>The gallery's Windows category showed an empty box instead of its icon.</li>
+<li>Three clipboard recipes (Cyrillic to Latin, wrong keyboard layout, URL slug) showed Bulgarian text in the English gallery.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.6"><h2>0.10.6</h2><p class="date">2026-09-23</p>
+<h3>Added</h3>
+<ul>
+<li>RadialDeck steps aside while a full-screen window is in front (a game, a video, F11, a slideshow): hotkeys are released and hooks removed, which is also what anti-cheat software looks for, and everything comes back when you leave full screen. A maximised window does not count. On by default; the switch is in Settings &gt; Preferences.</li>
+<li>Mouse clicks in macros: <code>click left</code>, <code>click right</code>, <code>click middle</code> or <code>click double</code>, optionally at screen coordinates (<code>click left 640,400</code>); <code>{"click": "left 640,400"}</code> in config.json.</li>
+<li>Type to find: with the ring open, typing letters highlights the first slice whose label starts with them (then one with a word starting with them, then one containing them); Enter picks it, Backspace deletes a letter. Works in any keyboard layout, Cyrillic included. Typed letters never reach the app underneath.</li>
+<li>Copy text from the screen (<code>"type": "ocr"</code>): the slice opens the Windows snipping overlay, you mark an area, and the text in it lands on the clipboard. Uses the OCR built into Windows in the languages you have installed; nothing leaves the PC. Also in the gallery as "Copy text from the screen (OCR)".</li>
+<li>Scroll to adjust (<code>"type": "adjust"</code>): with the ring open, point at the slice and turn the mouse wheel to change the volume, zoom, browser tab or track; the ring stays open while you scroll, and a click mutes, resets the zoom, opens a tab or plays/pauses. Four ready-made slices in the gallery.</li>
+<li>Ready-made rings for known programs: open the ring over a program the gallery knows (Excel, Teams, VLC, Blender and about 90 more) that has no ring of its own, and RadialDeck offers, once per program, to add one built from its recipes. Click the notification to add it.</li>
+<li>Share a ring as a link: the new Share button next to a ring copies https://radialdeck.com/r#…, a page that shows what is in the ring and opens it in RadialDeck. The ring travels inside the link after the '#', which never reaches a server. RadialDeck adds a shared ring to Settings unsaved, so you look it over and press Save yourself, and warns when it would run commands or programs.</li>
+<li>Microsoft Store package: <code>build\msix.ps1</code> builds <code>dist\RadialDeck-&lt;version&gt;.msix</code> (the Store signs it, no certificate needed). In the Store build, Start with Windows uses the package's startup task (Task Manager, Startup apps), updates come from the Store (no update checks, menu item or settings), radialdeck:// links come from the manifest, and "Open folder" buttons find the files where Windows keeps them for packaged apps. The release workflow builds it when the Partner Center identity is set as repository variables.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Settings and the other windows get their own glass look instead of the Windows 11 Mica backdrop: graphite (or milky ceramic in light mode) with soft blue and teal light, frosted panels and a title bar in the same colour. Mica took its tint from the wallpaper (purple and pink on some desktops) and went grey whenever the window lost focus; the new look is the same focused or not. "Solid windows" still gives a flat background.</li>
+<li>Every action type has an icon in the action list and next to the chosen action.</li>
+<li>radialdeck.com's Download buttons fetch the installer directly instead of opening the GitHub release page. Every release also carries a copy named <code>RadialDeckSetup.exe</code>, the fixed name behind <code>…/releases/latest/download/RadialDeckSetup.exe</code>.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>"Switch to it if it is already open" no longer crowds the Label field below it.</li>
+<li>Saving in Settings no longer forgets settings it does not show, such as a skipped update version.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.5"><h2>0.10.5</h2><p class="date">2026-09-23</p>
+<h3>Changed</h3>
+<ul>
+<li>Pro becomes a yearly subscription (19 € a year, cancel any time) instead of a one-time purchase. After 12 paid months the version you have stays Pro for good; a late renewal keeps working for 14 days. Keys stay offline: the paid-until date and the version you keep are part of the signed key. Existing lifetime keys are unaffected.</li>
+<li>Team is 10 € per seat per year, from 5 seats.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.4"><h2>0.10.4</h2><p class="date">2026-09-23</p>
+<h3>Changed</h3>
+<ul>
+<li>Arrow keys point like a joystick instead of walking round the ring: up is the top slice, right the right one, and two arrows together (up+right) pick the diagonal.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.3"><h2>0.10.3</h2><p class="date">2026-09-23</p>
+<h3>Added</h3>
+<ul>
+<li>"Help" and "Report a problem…" in the tray menu. The report opens a prefilled e-mail with the version and Windows build and selects debug.log so it can be attached; nothing is sent unless you send the mail.</li>
+<li>Before a config file is migrated to a newer format, the original is kept as <code>config.v&lt;N&gt;.backup.json</code>.</li>
+<li><code>{selection}</code>: the text selected in the app you are in, copied only when a slice that uses it runs, so there is no need to press Ctrl+C first. Commands and transforms can take it as input ("input": "selection", or "Selected text" in Settings). Terminals are copied with Ctrl+Shift+C, and with nothing selected the clipboard is left untouched.</li>
+<li>"Switch to it if it is already open" for app slices (<code>"focus": true</code>): brings the open window forward instead of starting another copy, and using it again cycles through that app's windows.</li>
+<li>Open windows ring (<code>"type": "windows"</code>): a slice that opens a ring of your open windows, front-most first, with their app icons; flick at one to switch to it. Titles are shown on the ring but never written to the log.</li>
+<li>"Keep the window on top" (<code>"type": "topmost"</code>) toggles always-on-top for the window you are in; Windows has no built-in way to do this. The gallery gains it together with move-to-other-monitor, maximize, minimize, snap left/right and the open windows ring.</li>
+<li>Shift+click (or Shift+1..8) in click mode runs the slice and keeps the ring open, for pressing Vol+ a few times or launching several things in a row.</li>
+<li>Hold the right mouse button as a trigger ("RightHold", or right-click the hotkey box in Settings). A quick right click is replayed as a normal one so context menus still open, and a right-drag is let through as soon as the mouse moves; only a press held for a quarter of a second opens the ring. The right button is watched only while some ring uses it.</li>
+<li>Terms of use and a refund policy (30 days, no questions asked) on the website; the privacy policy now spells out what is kept from a purchase, why, for how long, and how to have it deleted or complain.</li>
+<li>Arrow keys pick slices: right/down walk clockwise, left/up the other way, Enter selects, Backspace goes back a level. Empty positions are skipped, and moving the mouse hands the highlight back to the cursor.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>The ring and windows are drawn in software instead of through Direct3D. On an Intel Arc laptop that cut the app's private memory from 129 MB to 57 MB idle (193 MB to 89 MB with Settings open) with no visible difference. <code>RADIALDECK_GPU=1</code> switches Direct3D back on.</li>
+<li>The Pro preset only uses what a stock Windows PC has: zip and unzip use Windows' own archive commands instead of 7-Zip, and the Claude Code, Ghostscript, pandoc, ffmpeg, Notepad++, Everything, Git, Cyrillic and Obsidian slices are gone. "Translate BG" is now "Translate".</li>
+<li>Free now runs two rings (not tied to an app) and every action type except macros / Repeat and the clipboard history ring: transforms, clipboard input and output for commands, Explorer placeholders and <code>{selection}</code> are free. Pro (29 €, one-time) adds unlimited rings, app rings, nested rings, macros, the clipboard history ring and command-line control. The site, README and licence window now say exactly this.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Errors on background threads and in unobserved tasks are now written to debug.log instead of vanishing.</li>
+</ul>
+<h3>Removed</h3>
+<ul>
+<li>The two gallery recipes that opened Claude Code in a fixed <code>%USERPROFILE%\Projects</code> folder, and Claude Code from the Developer starter pack.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.2"><h2>0.10.2</h2><p class="date">2026-09-21</p>
+<h3>Added</h3>
+<ul>
+<li>Four recorded clips of the real application on the website, in a "Recorded, not mocked up" section: clipboard, Explorer, Outlook and a nested ring. <code>build/record-gif.ps1</code> and <code>build/gif.py</code> produce them over a neutral backdrop, so no part of a real desktop can end up in a recording.</li>
+<li>The website explains the "Windows protected your PC" box and how to check the installer's SHA-256, which every release page now lists.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>The application is installed as a folder instead of one self-extracting executable. The download is smaller, and a compressed self-extracting exe is one of the shapes antivirus heuristics distrust.</li>
+<li>The installer names RadialDeck as the publisher.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.1"><h2>0.10.1</h2><p class="date">2026-09-21</p>
+<h3>Added</h3>
+<ul>
+<li>Updates now look like updates: a window that names the new version, shows what changed, and offers Install now, Later or Skip this version. It opens for a check you asked for and whenever a new version turns up while automatic installation is off. Skipping one version never hides the next.</li>
+<li>The version is on the Settings title bar, and the Preferences flyout has a "Check for updates" button next to it instead of a line of text you could not act on.</li>
+</ul>
+</section>
+<section class="ver" id="v0.10.0"><h2>0.10.0</h2><p class="date">2026-09-21</p>
+<h3>Fixed</h3>
+<ul>
+<li>Settings dropped every pin on Save: the editor and the preview were right, the file was not.</li>
+<li>Picking a language other than English or Bulgarian did not stick: the config validator still only accepted those two and quietly reset everything else to "system". It now accepts every language that ships.</li>
+<li>A machine started against a central config (<code>--config</code>) stayed on it: the autostart entry and the silent self-update now carry the path through, instead of quietly handing the app back the local config after an update or a sign-in.</li>
+<li><code>/ALLUSERS</code> works on a silent command line, so a device-targeted deployment can install machine-wide.</li>
+</ul>
+<h3>Added</h3>
+<ul>
+<li>A theme studio on the website: build a ring theme in the browser with a live preview that is the same renderer the application uses, then download the file or open a pull request against the community themes repository with one button. The gallery page shows all 25 built-in themes plus whatever the community has sent in.</li>
+<li>A clipboard history ring (Pro). Add a "Clipboard history ring" slice and flicking at it opens a ring of the last things you copied; flick at one to paste it back, exactly as it was. Nothing about it is stored: the entries live in memory only, never reach config.json or the log, and are forgotten when RadialDeck closes. Windows is only asked about the clipboard at all once a ring actually uses the feature, so it stays off for everyone else.</li>
+<li>Slices can be pinned to a position. A pinned slice keeps its place on the ring when you add or remove others, so the flick you have learned keeps working; unpinned slices fill whatever is left and a position nobody claims stays empty rather than pulling its neighbours around. Tick "Keep this slice at position N" in Settings, drag a slice onto an empty position, or set <code>"pin": 1..8</code> in config.json.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.11"><h2>0.9.11</h2><p class="date">2026-09-17</p>
+<h3>Changed</h3>
+<ul>
+<li>Default trigger is now Ctrl+Shift+Space (Ctrl+Alt+Space is taken by Claude Desktop on many machines). Fallback order: Ctrl+Alt+Space, then Ctrl+Alt+R. Existing configs keep whatever hotkey they have.</li>
+<li>Release workflow: the GitHub release steps have a timeout and a retry instead of hanging.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.10"><h2>0.9.10</h2><p class="date">2026-09-17</p>
+<h3>Added</h3>
+<ul>
+<li>Eleven new built-in themes, 25 in total: Retro Handheld (four-shade green pixels), Vault (amber CRT), Synthwave, Gridline, Inferno, Test Chamber, Overworld, Sakura, Frost, Onyx &amp; Gold, Stealth. All have dark and light variants and are in the community repo with previews.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Website: the Styles section renders the ring with the exact values the app uses (<code>site/themes.js</code> is generated from the theme files; patterns, glow, fonts and stroke are reproduced in SVG), has its own preview ring and a dark/light switch, and no longer jumps to the top when you pick a theme. The playground's Explorer and Outlook now show real results (files appear, a terminal opens, replies and templates compose, the calendar shows) and carry no personal data.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.9"><h2>0.9.9</h2><p class="date">2026-09-17</p>
+<h3>Added</h3>
+<ul>
+<li>Interface in 14 languages: English, Bulgarian, German, French, Spanish, Italian, Portuguese, Polish, Turkish, Russian, Ukrainian, Japanese, Chinese (Simplified), Korean. Pick it in Preferences; "System" follows Windows. Any <code>Localization/&lt;code&gt;.json</code> dropped into the source is picked up automatically. Gallery recipe texts stay English/Bulgarian for now.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Website: "What it does" rings have their labels back inside the slices, the nested-ring demo is a Windows ring with Power / Media / Servers / Portals sub-rings (hub or Esc goes back), and a "Test it out" playground lets you hold, flick and release inside a fake Notepad / Explorer / Outlook window.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.8"><h2>0.9.8</h2><p class="date">2026-09-17</p>
+<h3>Added</h3>
+<ul>
+<li>New logo: a rounded tile with the eight-slice ring and one lit slice. Same mark in the app icon, tray, installer and website (<code>--render-logo</code> draws it at every size).</li>
+<li>Preferences: "Keep the ring dark in light mode" and "Solid windows (no Mica)" for people whose windows go grey or black when unfocused.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Onboarding card: the miniature is now a real scaled-down ring with a moving highlight instead of a rotating wedge that looked broken.</li>
+<li>Ring labels and theme previews for the website are rendered at 1x for a lighter page.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.7"><h2>0.9.7</h2><p class="date">2026-09-17</p>
+<h3>Added</h3>
+<ul>
+<li>Themes can now carry a look, not just colours: <code>pattern</code> (pixels, gloss, stripes, dots, scanlines, grid), <code>patternColor</code>, <code>glow</code> + <code>glowRadius</code> on the highlighted slice, <code>font</code>, <code>labelSize</code>, <code>labelUppercase</code>. New built-in themes: Minecraft, Windows 7 Aero, Cyberpunk, Blueprint (14 total).</li>
+<li>Settings: a gear button opens Preferences (language, ring size 70-150%, start with Windows, updates, show welcome again, config folder). The bottom bar keeps Theme, Style, Import/Export, Save.</li>
+<li><code>RadialDeck.exe --render-themes &lt;folder&gt;</code> renders every theme to PNG (previews for the themes repo and the site).</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Slice labels wrap to two lines and shrink a little instead of being cut off with an ellipsis.</li>
+<li>Settings and other windows use Mica instead of acrylic, so they no longer turn flat grey when they lose focus.</li>
+<li>Update check runs every 6 hours instead of once a day.</li>
+<li>Release workflow uploads to an existing release in the public repo instead of failing.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>New landing page (site/): interactive ring demo in the hero, pinned "how it works" choreography, bento features, live theme picker, GSAP + Lenis motion, reduced-motion safe.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.6"><h2>0.9.6</h2><p class="date">2026-09-17</p>
+<h3>Added</h3>
+<ul>
+<li>Mouse-button triggers: a ring can open on Mouse4, Mouse5 or the middle button, alone or with Ctrl/Alt/Shift/Win ("Ctrl+Mouse4"). Click the hotkey box with that button to set it. The low-level mouse hook exists only while such a trigger is configured and never looks at movement or left/right clicks; the app underneath never sees the button.</li>
+<li>Ring styles: 10 built-in themes (Glass, Midnight, Neon, Paper, Nord, Catppuccin Mocha, Dracula, Terminal, Sunset, Mono), each with dark and light variants, picked in Settings with live preview. Your own themes go in %APPDATA%/RadialDeck/themes/*.json; the community collection is radialdeck.com/themes.html.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.5"><h2>0.9.5</h2><p class="date">2026-09-17</p>
+<h3>Added</h3>
+<ul>
+<li>A brief "✓ label" toast after hidden commands (flush DNS, git pull...) that otherwise show nothing.</li>
+<li>docs/TEAM.md: silent install, shared <code>--config</code> on a share, licence file, Intune example, scripting.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Installers used by a click-to-install update are deleted after the new version starts; old installers in %TEMP% are cleaned up.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.4"><h2>0.9.4</h2><p class="date">2026-09-17</p>
+<h3>Added</h3>
+<ul>
+<li>Automatic updates like a normal app: the new version is downloaded quietly and applied at the next start (or on quit). A toast informs; a click applies it right away. Settings: "Install automatically" (default on) next to "Check for updates". A broken download never loops: two attempts, then the marker is dropped.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.3"><h2>0.9.3</h2><p class="date">2026-09-17</p>
+<h3>Changed</h3>
+<ul>
+<li>Updates and downloads come from the public releases-only repository <code>radialdeck-releases</code>, so the source can stay private. 0.9.2 pointed at the private repo and never saw an update; install 0.9.3 by hand once.</li>
+<li>Release workflow also publishes to that repository when the <code>RELEASES_TOKEN</code> secret is set.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.2"><h2>0.9.2</h2><p class="date">2026-09-17</p>
+<h3>Added</h3>
+<ul>
+<li>Self-update: once a day (and from the tray, "Check for updates") the app asks GitHub Releases for a newer installer; a click on the toast downloads it and installs silently, then the app relaunches. Off switch in Settings; documented in the privacy policy. <code>RadialDeck.exe --check-updates</code> triggers it from scripts.</li>
+<li>Portable presets that use <code>{home}</code> instead of absolute profile paths.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.1"><h2>0.9.1</h2><p class="date">2026-09-16</p>
+<h3>Changed</h3>
+<ul>
+<li>Silent installs close the running instance themselves instead of stopping at the AppMutex prompt.</li>
+<li>Site: four clean ring screenshots (Clipboard, Explorer, Outlook, Windows) on the landing page.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li><code>RadialDeck.exe --menu X</code> (and every other command-line call) opened Settings in the running instance about a second later: the exiting second copy raised the shared show-settings event.</li>
+<li>Control pipe: the client waits for the server's acknowledgement instead of tearing the pipe down mid-read.</li>
+<li>Toast notifications sat over the taskbar on a scaled primary monitor; positioned in physical pixels now.</li>
+<li><code>sendkeys</code> accepts a lone modifier ("Alt W F F" for Office key tips, "Win").</li>
+<li>Word count toast uses singular/plural correctly.</li>
+</ul>
+</section>
+<section class="ver" id="v0.9.0"><h2>0.9.0</h2><p class="date">2026-09-16</p>
+<h3>Added</h3>
+<ul>
+<li><code>transform</code> action: 33 built-in clipboard transformations in C# (case, lines, URL, Base64, JSON, slug, Cyrillic transliteration, keyboard-layout fix, word count). Instant, no PowerShell process. Gallery clipboard recipes use it; 16 new recipes.</li>
+<li>Gallery: greyed-out recipes whose tool has a known winget package get an "Install" button; the catalogue re-checks when winget finishes.</li>
+<li>Own glass toast notifications (bottom-right, no focus steal) replace the tray balloons Windows 11 delays.</li>
+<li>Bulgarian titles and descriptions for every gallery recipe (985 of 985).</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Undo history in Settings is capped at 50 snapshots and ~8 MB.</li>
+</ul>
+</section>
+<section class="ver" id="v0.8.0"><h2>0.8.0</h2><p class="date">2026-09-16</p>
+<h3>Added</h3>
+<ul>
+<li>Low-level keyboard hook while the ring is visible, so Esc and 1-8 no longer reach the app underneath.</li>
+<li>Gallery grew to 969 recipes across 15 categories for 90+ popular apps; every recipe has an icon.</li>
+<li>Trial reminders on day 11 and 14.</li>
+<li>Settings remembers its size and position; hover highlight in the ring preview.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>Save keeps Settings open and shows "Saved"; Close asks about unsaved changes.</li>
+<li>"Add from gallery" moved above the ring preview.</li>
+<li>Ring preview keeps a minimum size when the per-app condition expander opens; the left card scrolls instead.</li>
+<li>Pausing hotkeys really unregisters them, so the hotkey capture box receives the keystroke.</li>
+<li>Hotkey capture shows the effective fallback when the configured combination is taken.</li>
+<li>Tray icon picks the right size for the monitor DPI.</li>
+<li><code>debug.log</code> rotates at 1 MB and no longer records window titles.</li>
+</ul>
+</section>
+<section class="ver" id="v0.7.0"><h2>0.7.0</h2><p class="date">2026-09-16</p>
+<h3>Added</h3>
+<ul>
+<li>Offline licensing: <code>RD1-</code> keys (ECDSA P-256), 14-day trial, Free/Pro gating.</li>
+<li>Landing page and privacy policy in <code>site/</code>.</li>
+<li>Onboarding card after Welcome; Welcome checks that hotkeys are free and picks a substitute.</li>
+<li>Undo/Redo in Settings, drag-to-reorder slices, drop files from Explorer, symbol icon picker.</li>
+<li>Localization EN/BG with a language setting.</li>
+<li>Desktop selection for <code>{file}</code> placeholders.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Nested rings are anchored: the cursor is warped to the centre so the ring no longer drifts.</li>
+</ul>
+</section>
+<section class="ver" id="v0.6.0"><h2>0.6.0</h2><p class="date">2026-09-16</p>
+<h3>Added</h3>
+<ul>
+<li>Multiple rings, per-app rings via <code>conditions</code>, nested rings up to three levels, <code>--config</code> override.</li>
+<li>Pro actions: command clipboard in/out, macros, Explorer file context, repeat last, control pipe (<code>--menu</code>, <code>--reload</code>, <code>--pause</code>, <code>--resume</code>, <code>--settings</code>).</li>
+<li>Recipe gallery with first-run packs and a Test button.</li>
+<li>Media and volume keys in key chords.</li>
+<li>Presets: <code>it-admin</code>, <code>pro</code>.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Config serialisation of derived properties; broken JSON no longer crashes startup.</li>
+</ul>
+</section>
+<section class="ver" id="v0.5.0"><h2>0.5.0</h2><p class="date">2026-09-16</p>
+<h3>Added</h3>
+<ul>
+<li>Phase 1: non-activating overlay ring, hotkey trigger, angle hit-testing, mixed DPI.</li>
+<li>Phase 2: <code>launch</code>, <code>command</code>, <code>sendkeys</code>, <code>paste</code> actions.</li>
+<li>Phase 3: <code>config.json</code> with hot-reload and a Settings window.</li>
+<li>Phase 4: glass theme (light/dark, Win11 acrylic), autostart, single instance, app picker, 1-8 slices.</li>
+<li>Phase 5: Inno Setup installer, signing pipeline, IT Admin preset, import/export.</li>
+</ul>
+</section>
+</div></body>
+</html>

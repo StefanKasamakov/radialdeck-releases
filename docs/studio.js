@@ -1,7 +1,7 @@
 /* RadialDeck theme studio: build a ring theme in the browser and leave with a file the app can read.
    The preview is the shared renderer from ring.js, so what you see here is what Windows draws. */
 (() => {
-  const { I, buildRing, themeById, THEMES, themeRing, sliceAt } = window.RDRing;
+  const { I, buildRing, themeById, THEMES, themeRing, setPhoto, sliceAt } = window.RDRing;
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const THEMES_REPO = 'StefanKasamakov/radialdeck-themes';
 
@@ -55,6 +55,7 @@
     frame = requestAnimationFrame(() => {
       frame = 0;
       themeRing(ring, V());
+      setPhoto(ring, theme.photo);
       stage.classList.toggle('is-light', mode === 'light');
       document.getElementById('studio-name-out').textContent = `${theme.name || 'Untitled'} · ${mode}`;
       if (!document.getElementById('studio-json-box').hasAttribute('hidden')) {
@@ -174,67 +175,116 @@
   }
 
   const syncs = [];
+  let openGroup = 'Colours';
   function build() {
     panel.innerHTML = '';
     syncs.length = 0;
 
+    // One section open at a time (a native <details> accordion); rebuilding keeps the one you were in.
+    let box = panel;
     const group = (title) => {
-      const h = document.createElement('h3');
-      h.className = 'ctl-group';
-      h.textContent = title;
-      panel.appendChild(h);
+      const d = document.createElement('details');
+      d.className = 'ctl-group';
+      d.name = 'studio-group';
+      d.open = title === openGroup;
+      d.innerHTML = `<summary>${title}</summary>`;
+      d.addEventListener('toggle', () => { if (d.open) openGroup = title; });
+      box = document.createElement('div');
+      box.className = 'ctl-body';
+      d.appendChild(box);
+      panel.appendChild(d);
     };
+    const add = (el) => box.appendChild(el);
+
+    group('Background photo');
+    const pick = document.createElement('div');
+    pick.className = 'ctl-photo';
+    pick.innerHTML = `<label class="btn btn-ghost btn-sm">${theme.photo ? 'Change photo' : 'Choose a photo'}<input type="file" accept="image/*" hidden></label>`
+      + (theme.photo ? '<button type="button" class="btn btn-ghost btn-sm">Remove</button>' : '');
+    pick.querySelector('input').addEventListener('change', (e) => { if (e.target.files[0]) loadPhoto(e.target.files[0]); });
+    pick.querySelector('button')?.addEventListener('click', () => { theme.photo = null; build(); draw(); });
+    add(row('Photo', 'Behind the ring, like a keyboard wallpaper. It travels inside the theme file.', pick));
+    if (theme.photo) {
+      const P = theme.photo;
+      const pct = (v) => `${Math.round(v * 100)}%`;
+      add(row('Darken', 'Keeps the labels readable on a busy picture.', slider(0, 0.9, 0.05, () => P.dim, (v) => { P.dim = v; }, pct)));
+      add(row('Blur', '', slider(0, 30, 1, () => P.blur, (v) => { P.blur = v; }, (v) => `${v} px`)));
+      add(row('Slice opacity', 'How much of the photo shows through the slices.', slider(0.1, 1, 0.05, () => P.slices, (v) => { P.slices = v; }, pct)));
+    }
 
     group('Colours');
     for (const [field, label, hint, hasAlpha] of COLOURS) {
       const c = colourControl(field, hasAlpha);
       syncs.push(c._sync);
-      panel.appendChild(row(label, hint, c));
+      const r = row(label, hint, c);
+      r.classList.add('is-inline');
+      add(r);
     }
 
     group('Surface');
     const pat = select(PATTERNS.map((p) => [p, p]), () => V().pattern, (v) => { V().pattern = v; });
     syncs.push(pat._sync);
-    panel.appendChild(row('Pattern', 'Drawn over every slice. Pixels for a blocky look, gloss for the Windows 7 shine.', pat));
+    add(row('Pattern', 'Drawn over every slice. Pixels for a blocky look, gloss for the Windows 7 shine.', pat));
 
     const patCol = colourControl('patternColor', true);
     syncs.push(patCol._sync);
-    panel.appendChild(row('Pattern colour', 'Opacity is what makes a pattern subtle or loud.', patCol));
+    const patRow = row('Pattern colour', 'Opacity is what makes a pattern subtle or loud.', patCol);
+    patRow.classList.add('is-inline');
+    add(patRow);
 
     const stroke = slider(0, 6, 0.5, () => V().strokeWidth, (v) => { V().strokeWidth = v; }, (v) => `${v} px`);
     syncs.push(stroke._sync);
-    panel.appendChild(row('Outline width', '', stroke));
+    add(row('Outline width', '', stroke));
 
     const shadow = slider(0, 1, 0.05, () => V().shadowOpacity, (v) => { V().shadowOpacity = v; }, (v) => `${Math.round(v * 100)}%`);
     syncs.push(shadow._sync);
-    panel.appendChild(row('Shadow strength', '', shadow));
+    add(row('Shadow strength', '', shadow));
 
     group('Glow');
     const glowOn = checkbox(() => !!V().glow, (on) => { V().glow = on ? (V().glow || V().hoverTop) : ''; build(); }, 'Glow around the highlighted slice');
     syncs.push(glowOn._sync);
-    panel.appendChild(glowOn);
+    add(glowOn);
 
     if (V().glow) {
       const glowCol = colourControl('glow', true);
       syncs.push(glowCol._sync);
-      panel.appendChild(row('Glow colour', '', glowCol));
+      add(row('Glow colour', '', glowCol));
       const glowR = slider(4, 60, 2, () => V().glowRadius, (v) => { V().glowRadius = v; }, (v) => `${v} px`);
       syncs.push(glowR._sync);
-      panel.appendChild(row('Glow size', '', glowR));
+      add(row('Glow size', '', glowR));
     }
 
     group('Text');
     const font = select(FONTS, () => V().font || '', (v) => { V().font = v; });
     syncs.push(font._sync);
-    panel.appendChild(row('Font', 'Use one Windows ships with, or the labels fall back to Segoe UI on other machines.', font));
+    add(row('Font', 'Use one Windows ships with, or the labels fall back to Segoe UI on other machines.', font));
 
     const size = slider(0, 20, 1, () => V().labelSize, (v) => { V().labelSize = v; }, (v) => (v ? `${v} px` : 'automatic'));
     syncs.push(size._sync);
-    panel.appendChild(row('Label size', '0 lets the ring decide.', size));
+    add(row('Label size', '0 lets the ring decide.', size));
 
     const upper = checkbox(() => V().labelUppercase, (v) => { V().labelUppercase = v; }, 'UPPERCASE LABELS');
     syncs.push(upper._sync);
-    panel.appendChild(upper);
+    add(upper);
+  }
+
+  // Same limits as the app: it keeps a picture up to 3 MB and draws it at most 640 px across,
+  // so a 900 px JPEG is plenty and keeps the theme file small.
+  function loadPhoto(file) {
+    const img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, 900 / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(img.src);
+      openGroup = 'Background photo';
+      theme.photo = { image: c.toDataURL('image/jpeg', 0.85), dim: 0.45, blur: 4, slices: 0.55, ...(theme.photo && { dim: theme.photo.dim, blur: theme.photo.blur, slices: theme.photo.slices }) };
+      build();
+      draw();
+    };
+    img.onerror = () => { URL.revokeObjectURL(img.src); say('That file is not a picture the browser can open.'); };
+    img.src = URL.createObjectURL(file);
   }
 
   const syncAll = () => syncs.forEach((f) => f && f());
@@ -251,7 +301,7 @@
   baseBox.innerHTML = THEMES.map((t) => `<option value="${t.id}">${t.name}</option>`).join('');
   baseBox.addEventListener('change', () => {
     const base = clone(themeById(baseBox.value));
-    theme = { ...base, id: theme.id, name: theme.name, author: theme.author };
+    theme = { ...base, id: theme.id, name: theme.name, author: theme.author, photo: theme.photo };
     build();
     draw();
   });
@@ -286,13 +336,16 @@
     id: slug(),
     name: theme.name || 'My theme',
     author: theme.author || 'Anonymous',
+    ...(theme.icons && { icons: theme.icons }),
     dark: variantJson(theme.dark),
     light: variantJson(theme.light),
+    ...(theme.photo && { photo: theme.photo }),
   }, null, 2);
 
   const out = document.getElementById('studio-json');
   const fileName = document.getElementById('studio-filename');
-  const refreshJson = () => { out.textContent = fileJson(); };
+  // The photo is tens of kilobytes of base64; the preview shows the rest of the file readably.
+  const refreshJson = () => { out.textContent = fileJson().replace(/"data:image[^"]{40,}"/, (m) => `${m.slice(0, 40)}…"`); };
   const refreshName = () => { fileName.textContent = slug() + '.json'; };
 
   document.getElementById('studio-download').addEventListener('click', () => {
@@ -314,14 +367,26 @@
     }
   });
 
-  document.getElementById('studio-share').addEventListener('click', () => {
-    const url = `https://github.com/${THEMES_REPO}/new/main?filename=themes/${slug()}.json&value=${encodeURIComponent(fileJson())}`;
-    if (url.length > 7500) {
-      say('This theme is too long for a pre-filled link. Download the file and attach it to a pull request instead.');
-      return;
+  // The gallery takes submissions through a small Worker: it queues them, and each one is looked at before it
+  // appears. No account, no GitHub.
+  const SUBMIT = 'https://submit.radialdeck.com/submit';
+  async function send(body) {
+    try {
+      const r = await fetch(SUBMIT, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+      const back = await r.json().catch(() => ({}));
+      return r.ok ? '' : back.error || `The gallery could not take it (${r.status}).`;
+    } catch {
+      return 'Could not reach the gallery. Download the file and email it to hello@radialdeck.com instead.';
     }
-    window.open(url, '_blank', 'noopener');
-    say('GitHub opened with the file ready. Commit it as a pull request and it joins the gallery.');
+  }
+
+  document.getElementById('studio-share').addEventListener('click', async (e) => {
+    const b = e.currentTarget;
+    b.disabled = true;
+    say('Sending…');
+    const error = await send({ kind: 'theme', file: fileJson(), author: theme.author });
+    b.disabled = false;
+    say(error || 'Sent. It shows up in the gallery below once it has been looked at, usually within a few days.');
   });
 
   const status = document.getElementById('studio-status');
@@ -356,25 +421,73 @@
     document.getElementById('studio').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
   });
 
-  // Community themes come from the public repository. No backend, no accounts: a theme is a file
-  // in a pull request. If GitHub cannot be reached the section simply invites you to be the first.
+  // Community themes come from the public repository, where approved submissions are committed. They are
+  // drawn live with the same renderer rather than from preview pictures, which a submission does not have.
+  // Each file is someone else's, so every colour is re-parsed and every other value must keep its type.
   const community = document.getElementById('community-grid');
   const builtIn = new Set(THEMES.map((t) => t.id));
+  const COLOUR_KEYS = new Set(['sliceTop', 'sliceBottom', 'sliceStroke', 'hoverTop', 'hoverBottom', 'hoverStroke', 'hub', 'label', 'labelDim', 'labelEmpty', 'shadow', 'patternColor', 'glow']);
+  const fromArgb = (c) => {
+    const h = String(c || '').replace('#', '');
+    if (!/^([0-9a-f]{6}|[0-9a-f]{8})$/i.test(h)) return '';
+    const n = h.length === 6 ? 'FF' + h : h;
+    const at = (i) => parseInt(n.slice(i, i + 2), 16);
+    return rgba({ a: at(0) / 255, r: at(2), g: at(4), b: at(6) });
+  };
+  const num = (x, d) => (x !== null && x !== '' && Number.isFinite(+x) ? +x : d);
+  function fromFile(f) {
+    const glass = themeById('glass');
+    const variant = (src, base) => {
+      const out = clone(base);
+      for (const [k, val] of Object.entries(src && typeof src === 'object' ? src : {})) {
+        if (COLOUR_KEYS.has(k)) out[k] = fromArgb(val) || (k === 'glow' ? '' : base[k]);
+        else if (k in base && typeof val === typeof base[k]) out[k] = val;
+      }
+      return out;
+    };
+    const p = f.photo;
+    return {
+      id: String(f.id || ''), name: String(f.name || f.id || 'Untitled').slice(0, 40), author: String(f.author || '').slice(0, 40),
+      icons: typeof f.icons === 'string' ? f.icons : '',
+      photo: p && typeof p === 'object' ? { image: String(p.image), dim: num(p.dim, 0.45), blur: num(p.blur, 4), slices: num(p.slices, 0.55) } : null,
+      dark: variant(f.dark, glass.dark), light: variant(f.light, glass.light),
+    };
+  }
+
+  function communityCard(t) {
+    const fig = document.createElement('figure');
+    fig.className = 'gal';
+    fig.innerHTML = '<div class="gal-ring"><div class="ring ring-static"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"></div></div></div>'
+      + '<figcaption><b></b><code></code></figcaption><button class="gal-use" type="button">Open in the studio</button>';
+    fig.querySelector('b').textContent = t.name;
+    fig.querySelector('code').textContent = t.author ? `by ${t.author}` : 'community';
+    const r = fig.querySelector('.ring');
+    themeRing(r, t.dark);
+    setPhoto(r, t.photo);
+    buildRing(r.querySelector('.ring-svg'), r.querySelector('.ring-labels'), RING);
+    fig.querySelector('button').addEventListener('click', () => {
+      theme = { ...clone(t), author: '' };
+      nameBox.value = theme.name;
+      authorBox.value = '';
+      refreshName();
+      build();
+      draw();
+      document.getElementById('studio').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    });
+    return fig;
+  }
+
   fetch(`https://api.github.com/repos/${THEMES_REPO}/contents/themes`)
     .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
-    .then((files) => {
-      const ids = files
-        .filter((f) => f.name.endsWith('.json'))
-        .map((f) => f.name.replace(/\.json$/, ''))
-        .filter((id) => !builtIn.has(id));
-      if (!ids.length) return;
+    .then((files) => Promise.all(files
+      .filter((f) => f.name.endsWith('.json') && !builtIn.has(f.name.replace(/\.json$/, '')))
+      .slice(0, 60)
+      .map((f) => fetch(f.download_url).then((r) => r.json()).then(fromFile).catch(() => null))))
+    .then((themes) => {
+      const ok = themes.filter(Boolean);
+      if (!ok.length) return;
       document.getElementById('community').classList.add('has-themes');
-      community.innerHTML = ids.map((id) => `
-        <figure class="gal">
-          <img src="https://raw.githubusercontent.com/${THEMES_REPO}/main/previews/${id}-dark.png" alt="${id}" loading="lazy" width="356" height="356">
-          <figcaption><b>${id}</b><code>community</code></figcaption>
-          <a class="gal-use" href="https://github.com/${THEMES_REPO}/blob/main/themes/${id}.json">Get the file</a>
-        </figure>`).join('');
+      community.replaceChildren(...ok.map(communityCard));
     })
     .catch(() => { /* offline or rate-limited: the invitation below stands on its own */ });
 

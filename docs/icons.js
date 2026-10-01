@@ -220,10 +220,27 @@
   });
 
   $('icon-download').addEventListener('click', () => download());
-  $('icon-share').addEventListener('click', () => download(() => {
-    status.textContent = `Saved ${slug()}.png. On the GitHub page that opened, drag it in and choose Propose changes.`;
-    window.open(`https://github.com/${REPO}/upload/main/icons`, '_blank', 'noopener');
-  }));
+  // The gallery takes submissions through a small Worker: it queues them, and each one is looked at before it
+  // appears. No account, no GitHub.
+  const SUBMIT = 'https://submit.radialdeck.com/submit';
+  async function send(body) {
+    try {
+      const r = await fetch(SUBMIT, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+      const back = await r.json().catch(() => ({}));
+      return r.ok ? '' : back.error || `The gallery could not take it (${r.status}).`;
+    } catch {
+      return 'Could not reach the gallery. Download the file and email it to hello@radialdeck.com instead.';
+    }
+  }
+
+  $('icon-share').addEventListener('click', async (e) => {
+    const b = e.currentTarget;
+    b.disabled = true;
+    status.textContent = 'Sending…';
+    const error = await send({ kind: 'icon', name: slug(), file: big.toDataURL('image/png') });
+    b.disabled = false;
+    status.textContent = error || 'Sent. It shows up below once it has been looked at, usually within a few days.';
+  });
 
   // Web fonts arrive after the first paint; draw again once they have.
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(render);

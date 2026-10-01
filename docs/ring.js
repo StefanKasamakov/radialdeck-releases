@@ -179,6 +179,19 @@ window.RDRing = (() => {
       }).join('');
     }
   }
+  // A picture behind the slices, as the app draws a theme's "photo": blurred, dimmed, clipped to the ring,
+  // with the resting slices turned see-through. null takes it away again.
+  function setPhoto(ringEl, photo) {
+    let layer = ringEl.querySelector('.ring-photo');
+    // Community files are someone else's: only a picture carried inside the file, never a URL to fetch.
+    if (photo && !/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(String(photo.image))) photo = null;
+    if (!photo) { layer?.remove(); ringEl.style.removeProperty('--r-slice-op'); return; }
+    if (!layer) { layer = document.createElement('div'); layer.className = 'ring-photo'; ringEl.prepend(layer); }
+    layer.style.setProperty('--ph-img', `url("${photo.image}")`);
+    layer.style.setProperty('--ph-blur', `${photo.blur}px`);
+    layer.style.setProperty('--ph-dim', photo.dim);
+    ringEl.style.setProperty('--r-slice-op', Math.max(0.1, photo.slices));
+  }
   function applyThemeEverywhere(v) { document.querySelectorAll('.ring, .how-ring').forEach(r => themeRing(r, v)); }
   function sliceAt(el, clientX, clientY, n) {
     const b = el.getBoundingClientRect();
@@ -190,5 +203,5 @@ window.RDRing = (() => {
   }
 
 
-  return { I, svg, R, RI, C, polar, slicePath, sliceAt, THEMES, themeById, defsFor, themeRing, buildRing, applyThemeEverywhere, DEFAULT_THEME };
+  return { I, svg, R, RI, C, polar, slicePath, sliceAt, THEMES, themeById, defsFor, themeRing, buildRing, setPhoto, applyThemeEverywhere, DEFAULT_THEME };
 })();
