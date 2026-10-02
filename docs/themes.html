@@ -97,12 +97,12 @@
       <div class="studio-actions">
         <button class="btn btn-primary" id="studio-download">Download the file</button>
         <button class="btn" id="studio-copy">Copy JSON</button>
-        <button class="btn" id="studio-share">Share it on GitHub</button>
+        <button class="btn" id="studio-share">Send to the gallery</button>
       </div>
       <p class="studio-status" id="studio-status" role="status" aria-live="polite"></p>
       <p class="studio-note"><b>To use it:</b> put the file in <code>%APPDATA%\RadialDeck\themes</code> and reopen
-        Settings; it appears in the Style list. <b>To share it:</b> "Share it on GitHub" opens the themes
-        repository with your file ready to commit as a pull request.</p>
+        Settings; it appears in the Style list. <b>To share it:</b> "Send to the gallery" sends it for a quick
+        look; once approved it appears in the gallery for everyone. No account needed.</p>
       <p><button class="link-button" id="studio-toggle-json">Show the file</button></p>
       <pre class="studio-json" id="studio-json-box" hidden><code id="studio-json"></code></pre>
     </div>
@@ -138,20 +138,17 @@
 <section class="community" id="community">
   <div class="wrap">
     <p class="eyebrow">From everyone else</p>
-    <h2 class="h2">The gallery is a folder in a public repository.</h2>
-    <p class="sub">There is no account to make and nothing to sign up for. A theme is a file: open a pull request
-      with your JSON and a preview image, and it lands here for everyone.</p>
+    <h2 class="h2">Themes other people made.</h2>
+    <p class="sub">There is no account to make and nothing to sign up for. Send yours from the studio, and after a
+      quick look it lands here for everyone.</p>
     <div class="gallery-grid" id="community-grid"></div>
     <div class="community-cta">
       <h3>How to send yours</h3>
       <ol>
-        <li>Build it in the studio above and press <b>Share it on GitHub</b>. That opens the repository with your
-          file already filled in.</li>
-        <li>Commit it as a pull request. GitHub walks you through it; you do not need to install anything.</li>
-        <li>Add a 300×300 preview if you can. Settings shows one, or run
-          <code>RadialDeck.exe --render-themes &lt;folder&gt;</code> and take yours from there.</li>
+        <li>Build it in the studio above. A photo behind the ring is welcome.</li>
+        <li>Give it a name, and yours if you want the credit.</li>
+        <li>Press <b>Send to the gallery</b>. Each theme is looked at before it goes up, usually within a few days.</li>
       </ol>
-      <p><a class="btn btn-primary" href="https://github.com/StefanKasamakov/radialdeck-themes">Open the themes repository</a></p>
     </div>
   </div>
 </section>

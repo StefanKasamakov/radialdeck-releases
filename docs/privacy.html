@@ -36,8 +36,9 @@
 <h2>Who we are</h2>
 <p>RadialDeck is made and sold by Stefan Kasamakov, Sofia, Bulgaria, who is the controller of the personal data described below. Contact: <a href="mailto:hello@radialdeck.com">hello@radialdeck.com</a>.</p>
 <h2>What RadialDeck collects</h2>
-<p>Nothing about you. The application has no telemetry, no crash reporting, no analytics and no accounts. It never contacts our servers.</p>
-<p>The only network request it makes is an optional update check: every few hours it asks GitHub Releases (api.github.com) for the latest version number and, if you click "install", downloads the installer from GitHub. The request carries no identifier other than the application name and version. GitHub's own <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a> applies to that request. You can turn the check off in Settings ("Check for updates"); the app then makes no network requests at all.</p>
+<p>Nothing about you. The application has no telemetry, no crash reporting, no analytics and no accounts.</p>
+<p>It makes two kinds of network request. The first is an optional update check: every few hours it asks GitHub Releases (api.github.com) for the latest version number and, if you click "install", downloads the installer from GitHub. The request carries no identifier other than the application name and version. GitHub's own <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a> applies to that request. You can turn the check off in Settings ("Check for updates"); the app then makes no network requests at all.</p>
+<p>The second happens only if you have entered a subscription key: once a day the application asks radialdeck.com about that key, sending the key’s random id and nothing else (no name, no e-mail, no information about your computer). The answer is today’s date, a renewed key when your subscription has renewed, and whether the payment was refunded. If radialdeck.com cannot be reached, the key keeps working offline. A perpetual key, the free version and the trial never make this request.</p>
 <h2>What stays on your computer</h2>
 <ul>
   <li><code>%APPDATA%\RadialDeck\config.json</code>: your rings and actions. Yours to edit, export or delete.</li>
