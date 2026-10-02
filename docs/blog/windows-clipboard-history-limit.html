@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Windows clipboard history: the 25-item limit and how to work with it</title>
+<meta name="description" content="Win+V keeps your last 25 copies, up to 4 MB each, and forgets them when you restart. What it keeps, what it drops, how pinning works, and faster ways to paste the things you copy most.">
+<link rel="icon" href="../assets/icon.png"><link rel="apple-touch-icon" href="../assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="blog.css">
+<link rel="alternate" type="application/rss+xml" title="RadialDeck blog" href="feed.xml">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Windows clipboard history: the 25-item limit and how to work with it", "description": "Win+V keeps your last 25 copies, up to 4 MB each, and forgets them when you restart. What it keeps, what it drops, how pinning works, and faster ways to paste the things you copy most.", "datePublished": "2026-10-02", "dateModified": "2026-10-02", "keywords": "windows clipboard history limit, windows clipboard history, clipboard history windows 11, increase clipboard history limit, win+v clipboard", "image": "https://radialdeck.com/assets/og.jpg", "mainEntityOfPage": "https://radialdeck.com/blog/windows-clipboard-history-limit.html", "author": {"@type": "Organization", "name": "Kasa Labs", "url": "https://radialdeck.com/"}, "publisher": {"@type": "Organization", "name": "Kasa Labs", "url": "https://radialdeck.com/", "logo": {"@type": "ImageObject", "url": "https://radialdeck.com/assets/logo-512.png"}}}</script>
+<!-- seo -->
+<link rel="canonical" href="https://radialdeck.com/blog/windows-clipboard-history-limit.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="RadialDeck">
+<meta property="og:url" content="https://radialdeck.com/blog/windows-clipboard-history-limit.html">
+<meta property="og:title" content="Windows clipboard history: the 25-item limit and how to work with it">
+<meta property="og:description" content="Win+V keeps your last 25 copies, up to 4 MB each, and forgets them when you restart. What it keeps, what it drops, how pinning works, and faster ways to paste the things you copy most.">
+<meta property="og:image" content="https://radialdeck.com/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Windows clipboard history: the 25-item limit and how to work with it">
+<meta name="twitter:description" content="Win+V keeps your last 25 copies, up to 4 MB each, and forgets them when you restart. What it keeps, what it drops, how pinning works, and faster ways to paste the things you copy most.">
+<meta name="twitter:image" content="https://radialdeck.com/assets/og.jpg">
+<!-- /seo -->
+<!-- stats --><script>(function(){try{var q=new URLSearchParams(location.search);if(q.has('me'))q.get('me')==='off'?localStorage.removeItem('rd-me'):localStorage.setItem('rd-me','1');if(localStorage.getItem('rd-me'))return}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"3c578d6cc8ec449fbc8337276fef6eb6"}');document.head.appendChild(s)})()</script><!-- /stats -->
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../index.html" aria-label="RadialDeck home">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M34.27 6.77 A46 46 0 0 1 65.73 6.77 L57.18 30.27 A21 21 0 0 0 42.82 30.27 Z" fill="currentColor" opacity=".85"/><path d="M69.44 8.31 A46 46 0 0 1 91.69 30.56 L69.03 41.13 A21 21 0 0 0 58.87 30.97 Z" fill="var(--accent, #3b82f6)" transform="translate(2.12 -2.12)"/><path d="M93.23 34.27 A46 46 0 0 1 93.23 65.73 L69.73 57.18 A21 21 0 0 0 69.73 42.82 Z" fill="currentColor" opacity=".85"/><path d="M91.69 69.44 A46 46 0 0 1 69.44 91.69 L58.87 69.03 A21 21 0 0 0 69.03 58.87 Z" fill="currentColor" opacity=".85"/><path d="M65.73 93.23 A46 46 0 0 1 34.27 93.23 L42.82 69.73 A21 21 0 0 0 57.18 69.73 Z" fill="currentColor" opacity=".85"/><path d="M30.56 91.69 A46 46 0 0 1 8.31 69.44 L30.97 58.87 A21 21 0 0 0 41.13 69.03 Z" fill="currentColor" opacity=".85"/><path d="M6.77 65.73 A46 46 0 0 1 6.77 34.27 L30.27 42.82 A21 21 0 0 0 30.27 57.18 Z" fill="currentColor" opacity=".85"/><path d="M8.31 30.56 A46 46 0 0 1 30.56 8.31 L41.13 30.97 A21 21 0 0 0 30.97 41.13 Z" fill="currentColor" opacity=".85"/><circle cx="50" cy="50" r="13" fill="var(--accent, #3b82f6)"/></svg>
+      <span>RadialDeck</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="../index.html">Home</a>
+      <a href="../features.html">Features</a>
+      <a href="../for/index.html">Programs</a>
+      <a href="../themes.html">Themes</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../index.html#pricing">Pricing</a>
+    </nav>
+    <details class="nav-menu">
+      <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+      <div class="nav-menu-panel" onclick="this.parentNode.open = false">
+        <a href="../index.html">Home</a>
+        <a href="../features.html">Features</a>
+        <a href="../for/index.html">Programs</a>
+        <a href="../themes.html">Themes</a>
+        <a href="../icons.html">Icons</a>
+        <a href="../blog/index.html">Blog</a>
+        <a href="../index.html#pricing">Pricing</a>
+        <a href="../index.html#faq">Questions</a>
+      </div>
+    </details>
+    <a class="btn btn-primary btn-sm" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Download
+    </a>
+  </div>
+</header>
+
+<main id="main" class="doc">
+<section class="doc-hero">
+  <div class="wrap post-head">
+    <p class="eyebrow"><a href="index.html">Blog</a> · <time datetime="2026-10-02">2 October 2026</time> · 4 min read</p>
+    <h1 class="display">Windows clipboard history: the 25-item limit and how to work with it</h1>
+    <p class="lead">Win+V keeps your last 25 copies, up to 4 MB each, and forgets them when you restart. What it keeps, what it drops, how pinning works, and faster ways to paste the things you copy most.</p>
+  </div>
+</section>
+<article class="doc-section">
+  <div class="wrap post">
+<p>Windows has kept a clipboard history since Windows 10. Press <span class="keys"><kbd>Win</kbd>+<kbd>V</kbd></span> and you see the last things you copied, not just the latest one. It is one of the most useful features most people never switch on. It also has limits that surprise people the first time they hit them.</p>
+<h2 id="turning-it-on">Turning it on</h2>
+<p>Clipboard history is off by default. The first time you press <span class="keys"><kbd>Win</kbd>+<kbd>V</kbd></span>, Windows offers to turn it on. You can also switch it on in <b>Settings › System › Clipboard › Clipboard history</b>.</p>
+<p>Once it is on, <span class="keys"><kbd>Win</kbd>+<kbd>V</kbd></span> opens a small panel near the cursor. Click an entry, or move to it with the arrow keys and press <span class="keys"><kbd>Enter</kbd></span>, and it is pasted where you were typing.</p>
+<h2 id="the-limits">The limits</h2>
+<p>From Microsoft&#x27;s own documentation:</p>
+<ul><li><b>25 entries.</b> Clipboard history keeps the last 25 things you copied. The 26th pushes the oldest one out.</li><li><b>4 MB per item.</b> Anything larger is not kept in the history.</li><li><b>Text, HTML and bitmap images.</b> Other formats, such as files copied in Explorer, are not kept.</li><li><b>Cleared on restart.</b> Restarting the PC empties the history, except for items you have pinned.</li></ul>
+<p>There is no setting to raise the 25-entry limit. If you search for &quot;increase clipboard history limit&quot;, you will find registry edits and third-party clipboard managers. The registry tips are not documented by Microsoft, so we would not rely on them.</p>
+<h2 id="pinning-the-part-people-miss">Pinning: the part people miss</h2>
+<p>Next to each entry in the <span class="keys"><kbd>Win</kbd>+<kbd>V</kbd></span> panel is a <b>…</b> menu with <b>Pin</b>. A pinned entry:</p>
+<ul><li>stays when you restart,</li><li>stays when you choose <b>Clear all</b>.</li></ul>
+<p>Pin the text you paste over and over: your email address, a standard reply, a project code, an address. It turns clipboard history into a small snippet library.</p>
+<p>To remove one entry, use <b>…</b> › <b>Delete</b>. To clear everything except pinned items, use <b>Clear all</b> at the top of the panel or the <b>Clear</b> button in Settings.</p>
+<h2 id="sync-across-devices">Sync across devices</h2>
+<p>In <b>Settings › System › Clipboard</b> you can also sync the clipboard across your devices signed in with the same Microsoft account. Think about what you copy before switching it on on a work PC: passwords and customer data copied on one device will appear on the others.</p>
+<h2 id="paste-as-plain-text">Paste as plain text</h2>
+<p>A common annoyance with clipboard history is formatting. You copy from a web page and paste into an email, and the fonts and colours come along. In the <span class="keys"><kbd>Win</kbd>+<kbd>V</kbd></span> panel, the <b>…</b> menu has <b>Paste as text</b>. Many programs also have their own shortcut for it: <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></span> pastes plain text in most web browsers and a number of other programs, though not in all of them.</p>
+<h2 id="when-win-v-shows-nothing">When Win+V shows nothing</h2>
+<p>If <span class="keys"><kbd>Win</kbd>+<kbd>V</kbd></span> opens an empty panel or nothing at all:</p>
+<ul><li><b>It is switched off.</b> Turn it on in <b>Settings › System › Clipboard</b>. Items copied before that are not in the history.</li><li><b>You restarted.</b> Only pinned items survive a restart.</li><li><b>Your organisation turned it off.</b> On managed work PCs, an administrator can disable clipboard history with a policy. The switch in Settings is then greyed out.</li><li><b>The item was too large or not text or an image.</b> Anything over 4 MB, and formats other than text, HTML and bitmaps, are not kept.</li></ul>
+<h2 id="when-25-is-not-the-problem">When 25 is not the problem</h2>
+<p>Usually the limit is not what slows people down. It is the steps: <span class="keys"><kbd>Win</kbd>+<kbd>V</kbd></span>, scroll, find the entry, click. For the handful of things you paste dozens of times a day, there are faster routes.</p>
+<p>RadialDeck, the radial menu for Windows that we make, has two ideas here.</p>
+<h3>A ring of your last copies (Pro)</h3>
+<p>Add a <b>Clipboard history ring</b> slice to your ring. Flick at it and a second ring opens with the last things you copied as slices; flick at one and it is pasted, exactly as it was. Each slice is labelled with the start of the copied text, so you pick by direction rather than by scrolling a list.</p>
+<p>It is private by design. The entries live only in memory: they are never written to disk or to the configuration file, and they are gone when RadialDeck closes. RadialDeck only reads the clipboard at all once one of your rings actually uses this slice.</p>
+<h3>Fix the text instead of storing more of it</h3>
+<p>Often you do not need an older copy. You need the current one changed. RadialDeck has 32 text transforms that work on what you copied or selected:</p>
+<ul><li><b>Paste plain</b> removes all formatting.</li><li><b>UPPER</b>, <b>lower</b> and <b>Title Case</b> change the case.</li><li><b>Clean URL</b> strips tracking parameters from a link.</li><li><b>JSON pretty</b> formats JSON so you can read it.</li><li><b>Trim spaces</b>, <b>Sort lines</b>, <b>Remove duplicates</b> and <b>Count</b> for lists and quick checks.</li></ul>
+<figure><img src="../assets/rings/clip.png" alt="The clipboard ring: Paste plain, UPPER, lower, Trim spaces, Clean URL, JSON pretty, Count and Translate" width="308" height="308" loading="lazy"><figcaption>The clipboard ring: Paste plain, UPPER, lower, Trim spaces, Clean URL, JSON pretty, Count and Translate</figcaption></figure>
+<h3>Snippets as slices</h3>
+<p>For text you paste all the time, a <b>Paste</b> slice holds the text itself: your signature, a standard answer, an IBAN, a support macro. It does not depend on the clipboard at all, so it survives restarts and never gets pushed out.</p>
+<h2 id="a-sensible-setup">A sensible setup</h2>
+<ol><li><b>Turn on <span class="keys"><kbd>Win</kbd>+<kbd>V</kbd></span></b> and pin the five things you paste most.</li><li><b>Use Paste as text</b> (or <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></span> where the program supports it) when formatting gets in the way.</li><li><b>Put repeated snippets in a ring</b> if you paste them many times a day.</li><li><b>Keep sync off</b> on work machines unless you need it.</li></ol>
+<p>The text transforms and paste slices are in RadialDeck&#x27;s free version (two rings). The clipboard history ring is part of Pro, 24 € a year with VAT included, with a 14-day trial. Get it from the <a class="inline-link" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N" rel="noopener">Microsoft Store</a>.</p>
+    <section class="try" aria-labelledby="try-h">
+      <h2 id="try-h">Try it in RadialDeck</h2>
+      <p>Free for two rings, with a 14-day trial of everything in Pro. Windows 10 and 11, from the Microsoft Store.</p>
+      <a class="store-badge" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct"><img src="../assets/ms-store-badge.svg" alt="Get it from Microsoft" width="200" height="55"></a>
+      <a class="alt-download" href="../download">or download the installer (.exe)</a>
+      <nav class="rel rel-grid" aria-label="Programs in this article"><a href="../for/excel.html"><span class="rel-name"><img class="app-ico" src="../assets/apps/excel.png" width="24" height="24" alt="" loading="lazy">Excel</span></a><a href="../for/word.html"><span class="rel-name"><img class="app-ico" src="../assets/apps/word.png" width="24" height="24" alt="" loading="lazy">Word</span></a><a href="../for/outlook.html"><span class="rel-name"><img class="app-ico" src="../assets/apps/outlook.png" width="24" height="24" alt="" loading="lazy">Outlook</span></a><a href="../for/notion.html"><span class="rel-name"><img class="app-ico" src="../assets/apps/notion.png" width="24" height="24" alt="" loading="lazy">Notion</span></a></nav>
+    </section>
+    <nav class="more" aria-label="More from the blog"><h2>More from the blog</h2><ul><li><a class="inline-link" href="radial-menu-windows-11.html">Radial menu for Windows 11: what a pie menu is and how to set one up</a></li><li><a class="inline-link" href="quick-launch-windows-11-alternative.html">Quick Launch in Windows 11: where it went and four alternatives</a></li><li><a class="inline-link" href="outlook-quick-steps-examples.html">Outlook Quick Steps: useful examples, their limits, and a faster way to reply</a></li><li><a class="inline-link" href="kando-alternative.html">Kando alternatives for Windows: three ways to get a pie menu</a></li><li><a class="inline-link" href="copy-text-from-screen-windows-11.html">How to copy text from the screen in Windows 11</a></li><li><a class="inline-link" href="excel-paste-values-shortcut.html">Excel paste values shortcut, and what to do when it does not work</a></li><li><a class="inline-link" href="autohotkey-alternative-with-gui.html">An AutoHotkey alternative with a GUI: shortcuts and macros without scripts</a></li></ul></nav>
+  </div>
+</article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 RadialDeck by Kasa Labs</span>
+    <nav aria-label="Footer">
+      <a href="../for/index.html">Programs</a>
+      <a href="../rings.html">Shared rings</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../privacy.html">Privacy</a>
+      <a href="../terms.html">Terms</a>
+      <a href="../refund.html">Refunds</a>
+      <a href="../changelog.html">Releases</a>
+      <a href="../themes.html">Themes</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

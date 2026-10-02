@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog — RadialDeck: faster ways to work in Windows</title>
+<meta name="description" content="Practical guides for Windows, Excel and Outlook: radial menus, Quick Launch, clipboard history, paste values, copying text from the screen and more.">
+<link rel="icon" href="../assets/icon.png"><link rel="apple-touch-icon" href="../assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="blog.css">
+<link rel="alternate" type="application/rss+xml" title="RadialDeck blog" href="feed.xml">
+<!-- seo -->
+<link rel="canonical" href="https://radialdeck.com/blog/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="RadialDeck">
+<meta property="og:url" content="https://radialdeck.com/blog/">
+<meta property="og:title" content="Blog — RadialDeck: faster ways to work in Windows">
+<meta property="og:description" content="Practical guides for Windows, Excel and Outlook: radial menus, Quick Launch, clipboard history, paste values, copying text from the screen and more.">
+<meta property="og:image" content="https://radialdeck.com/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Blog — RadialDeck: faster ways to work in Windows">
+<meta name="twitter:description" content="Practical guides for Windows, Excel and Outlook: radial menus, Quick Launch, clipboard history, paste values, copying text from the screen and more.">
+<meta name="twitter:image" content="https://radialdeck.com/assets/og.jpg">
+<!-- /seo -->
+<!-- stats --><script>(function(){try{var q=new URLSearchParams(location.search);if(q.has('me'))q.get('me')==='off'?localStorage.removeItem('rd-me'):localStorage.setItem('rd-me','1');if(localStorage.getItem('rd-me'))return}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"3c578d6cc8ec449fbc8337276fef6eb6"}');document.head.appendChild(s)})()</script><!-- /stats -->
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../index.html" aria-label="RadialDeck home">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M34.27 6.77 A46 46 0 0 1 65.73 6.77 L57.18 30.27 A21 21 0 0 0 42.82 30.27 Z" fill="currentColor" opacity=".85"/><path d="M69.44 8.31 A46 46 0 0 1 91.69 30.56 L69.03 41.13 A21 21 0 0 0 58.87 30.97 Z" fill="var(--accent, #3b82f6)" transform="translate(2.12 -2.12)"/><path d="M93.23 34.27 A46 46 0 0 1 93.23 65.73 L69.73 57.18 A21 21 0 0 0 69.73 42.82 Z" fill="currentColor" opacity=".85"/><path d="M91.69 69.44 A46 46 0 0 1 69.44 91.69 L58.87 69.03 A21 21 0 0 0 69.03 58.87 Z" fill="currentColor" opacity=".85"/><path d="M65.73 93.23 A46 46 0 0 1 34.27 93.23 L42.82 69.73 A21 21 0 0 0 57.18 69.73 Z" fill="currentColor" opacity=".85"/><path d="M30.56 91.69 A46 46 0 0 1 8.31 69.44 L30.97 58.87 A21 21 0 0 0 41.13 69.03 Z" fill="currentColor" opacity=".85"/><path d="M6.77 65.73 A46 46 0 0 1 6.77 34.27 L30.27 42.82 A21 21 0 0 0 30.27 57.18 Z" fill="currentColor" opacity=".85"/><path d="M8.31 30.56 A46 46 0 0 1 30.56 8.31 L41.13 30.97 A21 21 0 0 0 30.97 41.13 Z" fill="currentColor" opacity=".85"/><circle cx="50" cy="50" r="13" fill="var(--accent, #3b82f6)"/></svg>
+      <span>RadialDeck</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="../index.html">Home</a>
+      <a href="../features.html">Features</a>
+      <a href="../for/index.html">Programs</a>
+      <a href="../themes.html">Themes</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../index.html#pricing">Pricing</a>
+    </nav>
+    <details class="nav-menu">
+      <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+      <div class="nav-menu-panel" onclick="this.parentNode.open = false">
+        <a href="../index.html">Home</a>
+        <a href="../features.html">Features</a>
+        <a href="../for/index.html">Programs</a>
+        <a href="../themes.html">Themes</a>
+        <a href="../icons.html">Icons</a>
+        <a href="../blog/index.html">Blog</a>
+        <a href="../index.html#pricing">Pricing</a>
+        <a href="../index.html#faq">Questions</a>
+      </div>
+    </details>
+    <a class="btn btn-primary btn-sm" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Download
+    </a>
+  </div>
+</header>
+
+<main id="main" class="doc">
+<section class="doc-hero">
+  <div class="wrap">
+    <p class="eyebrow">Blog</p>
+    <h1 class="display">Faster ways to work in Windows.</h1>
+    <p class="lead">Short, practical guides: the built-in way first, then how a radial menu does it in one move. <a class="inline-link" href="feed.xml">RSS feed</a></p>
+  </div>
+</section>
+<section class="doc-section">
+  <div class="wrap post-grid">
+    <a class="post-card" href="windows-clipboard-history-limit.html">
+      <time datetime="2026-10-02">2 October 2026</time>
+      <h2>Windows clipboard history: the 25-item limit and how to work with it</h2>
+      <p>Win+V keeps your last 25 copies, up to 4 MB each, and forgets them when you restart. What it keeps, what it drops, how pinning works, and faster ways to paste the things you copy most.</p>
+      <span class="read">Read · 4 min</span>
+    </a>
+    <a class="post-card" href="radial-menu-windows-11.html">
+      <time datetime="2026-10-02">2 October 2026</time>
+      <h2>Radial menu for Windows 11: what a pie menu is and how to set one up</h2>
+      <p>A radial (pie) menu puts your commands in a circle around the cursor, so you pick one by direction instead of reading a list. Why that is faster, what Windows 11 offers, and how to add one in a few minutes.</p>
+      <span class="read">Read · 6 min</span>
+    </a>
+    <a class="post-card" href="quick-launch-windows-11-alternative.html">
+      <time datetime="2026-10-02">2 October 2026</time>
+      <h2>Quick Launch in Windows 11: where it went and four alternatives</h2>
+      <p>Windows 11 removed taskbar toolbars, and with them the old Quick Launch bar. What still works for opening programs fast, from taskbar pins and Win+number to a launcher ring under the cursor.</p>
+      <span class="read">Read · 4 min</span>
+    </a>
+    <a class="post-card" href="outlook-quick-steps-examples.html">
+      <time datetime="2026-10-02">2 October 2026</time>
+      <h2>Outlook Quick Steps: useful examples, their limits, and a faster way to reply</h2>
+      <p>Quick Steps bundle several Outlook actions into one click. Practical examples to set up today, what changes in the new Outlook, where Quick Steps stop, and how a ring under the cursor covers the rest.</p>
+      <span class="read">Read · 4 min</span>
+    </a>
+    <a class="post-card" href="kando-alternative.html">
+      <time datetime="2026-10-02">2 October 2026</time>
+      <h2>Kando alternatives for Windows: three ways to get a pie menu</h2>
+      <p>Kando is a good free pie menu. If you are on Windows and want something different, here is a fair comparison of Kando, RadialDeck and a pie menu you script yourself in AutoHotkey.</p>
+      <span class="read">Read · 4 min</span>
+    </a>
+    <a class="post-card" href="copy-text-from-screen-windows-11.html">
+      <time datetime="2026-10-02">2 October 2026</time>
+      <h2>How to copy text from the screen in Windows 11</h2>
+      <p>Text in a picture, a video, an error dialog or a PDF scan you cannot select? Windows 11 can read it for you. Four ways to copy text from anywhere on the screen, and when each one is the right tool.</p>
+      <span class="read">Read · 4 min</span>
+    </a>
+    <a class="post-card" href="excel-paste-values-shortcut.html">
+      <time datetime="2026-10-02">2 October 2026</time>
+      <h2>Excel paste values shortcut, and what to do when it does not work</h2>
+      <p>Every keyboard way to paste values only in Excel for Windows, why each one sometimes fails, and how to turn paste values into one flick of the mouse.</p>
+      <span class="read">Read · 4 min</span>
+    </a>
+    <a class="post-card" href="autohotkey-alternative-with-gui.html">
+      <time datetime="2026-10-02">2 October 2026</time>
+      <h2>An AutoHotkey alternative with a GUI: shortcuts and macros without scripts</h2>
+      <p>AutoHotkey can automate almost anything on Windows, but you have to write and maintain scripts. When that is worth it, when a tool you configure with clicks is easier, and how to move common AutoHotkey jobs into a radial menu.</p>
+      <span class="read">Read · 4 min</span>
+    </a>
+  </div>
+</section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 RadialDeck by Kasa Labs</span>
+    <nav aria-label="Footer">
+      <a href="../for/index.html">Programs</a>
+      <a href="../rings.html">Shared rings</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../privacy.html">Privacy</a>
+      <a href="../terms.html">Terms</a>
+      <a href="../refund.html">Refunds</a>
+      <a href="../changelog.html">Releases</a>
+      <a href="../themes.html">Themes</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

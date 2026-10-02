@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radial menu for Windows 11: what a pie menu is and how to set one up</title>
+<meta name="description" content="A radial (pie) menu puts your commands in a circle around the cursor, so you pick one by direction instead of reading a list. Why that is faster, what Windows 11 offers, and how to add one in a few minutes.">
+<link rel="icon" href="../assets/icon.png"><link rel="apple-touch-icon" href="../assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="blog.css">
+<link rel="alternate" type="application/rss+xml" title="RadialDeck blog" href="feed.xml">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Radial menu for Windows 11: what a pie menu is and how to set one up", "description": "A radial (pie) menu puts your commands in a circle around the cursor, so you pick one by direction instead of reading a list. Why that is faster, what Windows 11 offers, and how to add one in a few minutes.", "datePublished": "2026-10-02", "dateModified": "2026-10-02", "keywords": "radial menu windows 11, pie menu windows 11, radial menu windows, pie menu windows, radial menu app", "image": "https://radialdeck.com/assets/og.jpg", "mainEntityOfPage": "https://radialdeck.com/blog/radial-menu-windows-11.html", "author": {"@type": "Organization", "name": "Kasa Labs", "url": "https://radialdeck.com/"}, "publisher": {"@type": "Organization", "name": "Kasa Labs", "url": "https://radialdeck.com/", "logo": {"@type": "ImageObject", "url": "https://radialdeck.com/assets/logo-512.png"}}}</script>
+<!-- seo -->
+<link rel="canonical" href="https://radialdeck.com/blog/radial-menu-windows-11.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="RadialDeck">
+<meta property="og:url" content="https://radialdeck.com/blog/radial-menu-windows-11.html">
+<meta property="og:title" content="Radial menu for Windows 11: what a pie menu is and how to set one up">
+<meta property="og:description" content="A radial (pie) menu puts your commands in a circle around the cursor, so you pick one by direction instead of reading a list. Why that is faster, what Windows 11 offers, and how to add one in a few minutes.">
+<meta property="og:image" content="https://radialdeck.com/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Radial menu for Windows 11: what a pie menu is and how to set one up">
+<meta name="twitter:description" content="A radial (pie) menu puts your commands in a circle around the cursor, so you pick one by direction instead of reading a list. Why that is faster, what Windows 11 offers, and how to add one in a few minutes.">
+<meta name="twitter:image" content="https://radialdeck.com/assets/og.jpg">
+<!-- /seo -->
+<!-- stats --><script>(function(){try{var q=new URLSearchParams(location.search);if(q.has('me'))q.get('me')==='off'?localStorage.removeItem('rd-me'):localStorage.setItem('rd-me','1');if(localStorage.getItem('rd-me'))return}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"3c578d6cc8ec449fbc8337276fef6eb6"}');document.head.appendChild(s)})()</script><!-- /stats -->
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../index.html" aria-label="RadialDeck home">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M34.27 6.77 A46 46 0 0 1 65.73 6.77 L57.18 30.27 A21 21 0 0 0 42.82 30.27 Z" fill="currentColor" opacity=".85"/><path d="M69.44 8.31 A46 46 0 0 1 91.69 30.56 L69.03 41.13 A21 21 0 0 0 58.87 30.97 Z" fill="var(--accent, #3b82f6)" transform="translate(2.12 -2.12)"/><path d="M93.23 34.27 A46 46 0 0 1 93.23 65.73 L69.73 57.18 A21 21 0 0 0 69.73 42.82 Z" fill="currentColor" opacity=".85"/><path d="M91.69 69.44 A46 46 0 0 1 69.44 91.69 L58.87 69.03 A21 21 0 0 0 69.03 58.87 Z" fill="currentColor" opacity=".85"/><path d="M65.73 93.23 A46 46 0 0 1 34.27 93.23 L42.82 69.73 A21 21 0 0 0 57.18 69.73 Z" fill="currentColor" opacity=".85"/><path d="M30.56 91.69 A46 46 0 0 1 8.31 69.44 L30.97 58.87 A21 21 0 0 0 41.13 69.03 Z" fill="currentColor" opacity=".85"/><path d="M6.77 65.73 A46 46 0 0 1 6.77 34.27 L30.27 42.82 A21 21 0 0 0 30.27 57.18 Z" fill="currentColor" opacity=".85"/><path d="M8.31 30.56 A46 46 0 0 1 30.56 8.31 L41.13 30.97 A21 21 0 0 0 30.97 41.13 Z" fill="currentColor" opacity=".85"/><circle cx="50" cy="50" r="13" fill="var(--accent, #3b82f6)"/></svg>
+      <span>RadialDeck</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="../index.html">Home</a>
+      <a href="../features.html">Features</a>
+      <a href="../for/index.html">Programs</a>
+      <a href="../themes.html">Themes</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../index.html#pricing">Pricing</a>
+    </nav>
+    <details class="nav-menu">
+      <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+      <div class="nav-menu-panel" onclick="this.parentNode.open = false">
+        <a href="../index.html">Home</a>
+        <a href="../features.html">Features</a>
+        <a href="../for/index.html">Programs</a>
+        <a href="../themes.html">Themes</a>
+        <a href="../icons.html">Icons</a>
+        <a href="../blog/index.html">Blog</a>
+        <a href="../index.html#pricing">Pricing</a>
+        <a href="../index.html#faq">Questions</a>
+      </div>
+    </details>
+    <a class="btn btn-primary btn-sm" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Download
+    </a>
+  </div>
+</header>
+
+<main id="main" class="doc">
+<section class="doc-hero">
+  <div class="wrap post-head">
+    <p class="eyebrow"><a href="index.html">Blog</a> · <time datetime="2026-10-02">2 October 2026</time> · 6 min read</p>
+    <h1 class="display">Radial menu for Windows 11: what a pie menu is and how to set one up</h1>
+    <p class="lead">A radial (pie) menu puts your commands in a circle around the cursor, so you pick one by direction instead of reading a list. Why that is faster, what Windows 11 offers, and how to add one in a few minutes.</p>
+  </div>
+</section>
+<article class="doc-section">
+  <div class="wrap post">
+<p>Most menus on a computer are lists. You open them, read down until you find what you want, and click it. A <b>radial menu</b>, also called a <b>pie menu</b>, arranges the same commands in a circle around the mouse pointer. You open it, move a little in one direction, and let go. Nothing to read once you know where things are.</p>
+<p>If you have played a game with a weapon wheel, or used Blender, Maya or a drawing tablet&#x27;s on-screen ring, you have already used one. This guide explains why the shape matters, what Windows 11 gives you out of the box, and how to set up a radial menu that works in every program you use.</p>
+<h2 id="how-a-radial-menu-works">How a radial menu works</h2>
+<p>A radial menu has three parts:</p>
+<ul><li><b>A trigger.</b> A hotkey you hold, a mouse button, or a tap. The menu appears centred on the pointer.</li><li><b>Slices.</b> Usually six or eight commands around the centre, each at a fixed angle: top, top-right, right and so on.</li><li><b>A selection.</b> You move toward a slice and release the trigger, or click. The command runs and the menu disappears.</li></ul>
+<p>The important detail is that every slice sits at the same short distance from where the menu opened. In a list, the tenth item is ten rows away from the first. In a ring, all eight items are one flick away.</p>
+<h2 id="why-direction-beats-a-list">Why direction beats a list</h2>
+<p>Two pieces of research explain why this feels faster once you get used to it.</p>
+<p><b>Fitts&#x27;s law</b> describes how long it takes to point at something: the time grows with the distance to the target and shrinks as the target gets bigger. A pie menu does well on both counts. Every slice starts right next to the pointer, and each slice is a wide wedge that keeps growing the further out you move, so there is a lot of room to land in.</p>
+<p>In 1988, Jack Callahan, Don Hopkins, Mark Weiser and Ben Shneiderman compared eight-item pie menus with eight-item linear menus in a study at the University of Maryland. The pie menus were about 15% faster and produced fewer selection errors.</p>
+<p>The second effect is <b>muscle memory</b>. Later work on &quot;marking menus&quot; by Gordon Kurtenbach and Bill Buxton showed that once people know where an item is, they stop looking: they select it by the direction of a quick stroke, often before the menu has finished drawing. &quot;Paste values is up-right&quot; becomes something your hand knows, the way you know where the brake pedal is.</p>
+<p>That is the real promise of a radial menu. It is not that the first use is faster. It is that the twentieth use takes no thought at all.</p>
+<h2 id="what-windows-11-has-built-in">What Windows 11 has built in</h2>
+<p>Windows 11 does not ship a general radial menu. The closest built-in tools are:</p>
+<ul><li><b>Right-click menus.</b> These are context menus, but they are lists, and in Windows 11 many items sit behind &quot;Show more options&quot;.</li><li><b>Taskbar shortcuts.</b> <span class="keys"><kbd>Win</kbd>+<kbd>1</kbd></span> to <span class="keys"><kbd>Win</kbd>+<kbd>9</kbd></span> open or switch to the app pinned in that position on the taskbar.</li><li><b>Keyboard shortcuts.</b> Every program has its own, and you have to remember them per program.</li><li><b>Pen menu.</b> On pen devices, Windows can show a small pen menu with a few apps, but it is tied to the pen.</li></ul>
+<p>These all work, and they are worth learning. What none of them gives you is one gesture that works in every program and changes with the program in front.</p>
+<h2 id="options-for-a-pie-menu-on-windows">Options for a pie menu on Windows</h2>
+<p>If you want a real radial menu, you have three broad routes:</p>
+<ol><li><b>A dedicated pie menu app.</b> Kando is a free, open-source pie menu for Windows, macOS and Linux. RadialDeck is a Windows-only radial menu with a gallery of ready-made actions. Both let you build menus that open with a shortcut.</li><li><b>A script.</b> With AutoHotkey you can draw your own pie menu and wire every slice to a script. Flexible, but you write and maintain it yourself.</li><li><b>Hardware software.</b> Some mice and tablets come with their own ring menus, tied to that device.</li></ol>
+<p>We compare the first two in more detail in <a class="inline-link" href="kando-alternative.html">Kando alternatives for Windows</a>.</p>
+<h2 id="setting-up-a-radial-menu-with-radialdeck">Setting up a radial menu with RadialDeck</h2>
+<p>RadialDeck is the radial menu we make, so here is how it works in practice.</p>
+<h3>1. Install it</h3>
+<p>Get it from the <a class="inline-link" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N" rel="noopener">Microsoft Store</a>. On first run, a Welcome window picks a free hotkey for you <span class="keys">(<kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Space</kbd></span> unless something else already uses it) and offers ready-made packs for the programs it finds installed.</p>
+<h3>2. Learn the three ways to pick a slice</h3>
+<p>A short tour walks you through them, one at a time:</p>
+<ul><li><b>Hold and flick.</b> Hold the hotkey, move toward a slice, let go.</li><li><b>Tap and click.</b> Tap the hotkey without holding it and the ring waits for a click. Arrow keys and the number keys 1 to 8 work too.</li><li><b>Type to find.</b> With the ring open, type the first letters of a slice and press <span class="keys"><kbd>Enter</kbd></span>.</li></ul>
+<p>You can also open the ring with a side mouse button, the middle button or by holding the right button.</p>
+<h3>3. Give each program its own ring</h3>
+<p>This is where a radial menu stops being a launcher and starts saving real time. The same hotkey can open a different ring in Excel, Outlook, Explorer, AutoCAD or your browser. In Excel your up-right slice can be &quot;Paste values&quot;; in Outlook the same direction can be &quot;Reply with a template&quot;.</p>
+<figure><img src="../assets/rings/excel.png" alt="An Excel ring, drawn by RadialDeck itself" width="308" height="308" loading="lazy"><figcaption>An Excel ring, drawn by RadialDeck itself</figcaption></figure>
+<p>The gallery has 1,180 ready-made actions for 86 programs, so most rings are a few clicks to assemble. You can still write your own: launch a program or file, send any keyboard shortcut, paste a text snippet, run a PowerShell or cmd command, or fix the text you copied.</p>
+<h3>4. Keep it to eight</h3>
+<p>A ring holds up to eight slices. That limit is deliberate: eight directions are easy to tell apart without looking. If you need more, put a second ring inside a slice (marked with ⋮) and keep the most-used eight on top.</p>
+<h2 id="tips-that-make-it-stick">Tips that make it stick</h2>
+<ul><li><b>Put your most common action at the top.</b> Up is the easiest direction for most people.</li><li><b>Keep the same directions across programs.</b> If &quot;Copy path&quot; is left in Explorer, make &quot;Copy&quot; left everywhere you can.</li><li><b>Use it for the boring, repeated steps.</b> Five-key sequences you do twenty times a day are the best candidates.</li><li><b>Give it a week.</b> The speed comes from muscle memory, and that takes a few days of use.</li></ul>
+<h2 id="free-and-pro">Free and Pro</h2>
+<p>RadialDeck is free for two rings with up to eight slices each, with every action except macros. Pro is 24 € a year with VAT included and adds unlimited rings, rings per program, nested rings, macros and a clipboard history ring. There is a 14-day trial of everything, so you can try rings per program before deciding.</p>
+<p>A radial menu will not replace your keyboard shortcuts. It replaces the moment where you stop, reach for the mouse, open a menu and read. If that moment happens a lot in your day, try one for a week.</p>
+    <section class="try" aria-labelledby="try-h">
+      <h2 id="try-h">Try it in RadialDeck</h2>
+      <p>Free for two rings, with a 14-day trial of everything in Pro. Windows 10 and 11, from the Microsoft Store.</p>
+      <a class="store-badge" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct"><img src="../assets/ms-store-badge.svg" alt="Get it from Microsoft" width="200" height="55"></a>
+      <a class="alt-download" href="../download">or download the installer (.exe)</a>
+      <nav class="rel rel-grid" aria-label="Programs in this article"><a href="../for/excel.html"><span class="rel-name"><img class="app-ico" src="../assets/apps/excel.png" width="24" height="24" alt="" loading="lazy">Excel</span></a><a href="../for/outlook.html"><span class="rel-name"><img class="app-ico" src="../assets/apps/outlook.png" width="24" height="24" alt="" loading="lazy">Outlook</span></a><a href="../for/word.html"><span class="rel-name"><img class="app-ico" src="../assets/apps/word.png" width="24" height="24" alt="" loading="lazy">Word</span></a><a href="../for/autocad.html"><span class="rel-name"><img class="app-ico" src="../assets/apps/autocad.svg" width="24" height="24" alt="" loading="lazy">AutoCAD</span></a></nav>
+    </section>
+    <nav class="more" aria-label="More from the blog"><h2>More from the blog</h2><ul><li><a class="inline-link" href="windows-clipboard-history-limit.html">Windows clipboard history: the 25-item limit and how to work with it</a></li><li><a class="inline-link" href="quick-launch-windows-11-alternative.html">Quick Launch in Windows 11: where it went and four alternatives</a></li><li><a class="inline-link" href="outlook-quick-steps-examples.html">Outlook Quick Steps: useful examples, their limits, and a faster way to reply</a></li><li><a class="inline-link" href="kando-alternative.html">Kando alternatives for Windows: three ways to get a pie menu</a></li><li><a class="inline-link" href="copy-text-from-screen-windows-11.html">How to copy text from the screen in Windows 11</a></li><li><a class="inline-link" href="excel-paste-values-shortcut.html">Excel paste values shortcut, and what to do when it does not work</a></li><li><a class="inline-link" href="autohotkey-alternative-with-gui.html">An AutoHotkey alternative with a GUI: shortcuts and macros without scripts</a></li></ul></nav>
+  </div>
+</article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 RadialDeck by Kasa Labs</span>
+    <nav aria-label="Footer">
+      <a href="../for/index.html">Programs</a>
+      <a href="../rings.html">Shared rings</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../privacy.html">Privacy</a>
+      <a href="../terms.html">Terms</a>
+      <a href="../refund.html">Refunds</a>
+      <a href="../changelog.html">Releases</a>
+      <a href="../themes.html">Themes</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
