@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VS Code shortcuts cheat sheet for Windows</title>
+<meta name="description" content="The Visual Studio Code keyboard shortcuts on Windows that pay off every day, from the Command Palette and multi-cursor editing to navigation and the terminal, with tips to make them stick.">
+<link rel="icon" href="../assets/icon.png"><link rel="apple-touch-icon" href="../assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="blog.css">
+<link rel="alternate" type="application/rss+xml" title="RadialDeck blog" href="feed.xml">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "VS Code shortcuts cheat sheet for Windows", "description": "The Visual Studio Code keyboard shortcuts on Windows that pay off every day, from the Command Palette and multi-cursor editing to navigation and the terminal, with tips to make them stick.", "datePublished": "2026-10-02", "dateModified": "2026-10-02", "keywords": "vs code shortcuts cheat sheet, vs code shortcuts, visual studio code keyboard shortcuts, vscode shortcuts windows, vs code keyboard shortcuts list", "image": "https://radialdeck.com/assets/og.jpg", "mainEntityOfPage": "https://radialdeck.com/blog/vs-code-shortcuts.html", "author": {"@type": "Organization", "name": "Kasa Labs", "url": "https://radialdeck.com/"}, "publisher": {"@type": "Organization", "name": "Kasa Labs", "url": "https://radialdeck.com/", "logo": {"@type": "ImageObject", "url": "https://radialdeck.com/assets/logo-512.png"}}}</script>
+<!-- seo -->
+<link rel="canonical" href="https://radialdeck.com/blog/vs-code-shortcuts.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="RadialDeck">
+<meta property="og:url" content="https://radialdeck.com/blog/vs-code-shortcuts.html">
+<meta property="og:title" content="VS Code shortcuts cheat sheet for Windows">
+<meta property="og:description" content="The Visual Studio Code keyboard shortcuts on Windows that pay off every day, from the Command Palette and multi-cursor editing to navigation and the terminal, with tips to make them stick.">
+<meta property="og:image" content="https://radialdeck.com/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="VS Code shortcuts cheat sheet for Windows">
+<meta name="twitter:description" content="The Visual Studio Code keyboard shortcuts on Windows that pay off every day, from the Command Palette and multi-cursor editing to navigation and the terminal, with tips to make them stick.">
+<meta name="twitter:image" content="https://radialdeck.com/assets/og.jpg">
+<!-- /seo -->
+<!-- stats --><script>(function(){try{var q=new URLSearchParams(location.search);if(q.has('me'))q.get('me')==='off'?localStorage.removeItem('rd-me'):localStorage.setItem('rd-me','1');if(localStorage.getItem('rd-me'))return}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"3c578d6cc8ec449fbc8337276fef6eb6"}');document.head.appendChild(s)})()</script><!-- /stats -->
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../index.html" aria-label="RadialDeck home">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M34.27 6.77 A46 46 0 0 1 65.73 6.77 L57.18 30.27 A21 21 0 0 0 42.82 30.27 Z" fill="currentColor" opacity=".85"/><path d="M69.44 8.31 A46 46 0 0 1 91.69 30.56 L69.03 41.13 A21 21 0 0 0 58.87 30.97 Z" fill="var(--accent, #3b82f6)" transform="translate(2.12 -2.12)"/><path d="M93.23 34.27 A46 46 0 0 1 93.23 65.73 L69.73 57.18 A21 21 0 0 0 69.73 42.82 Z" fill="currentColor" opacity=".85"/><path d="M91.69 69.44 A46 46 0 0 1 69.44 91.69 L58.87 69.03 A21 21 0 0 0 69.03 58.87 Z" fill="currentColor" opacity=".85"/><path d="M65.73 93.23 A46 46 0 0 1 34.27 93.23 L42.82 69.73 A21 21 0 0 0 57.18 69.73 Z" fill="currentColor" opacity=".85"/><path d="M30.56 91.69 A46 46 0 0 1 8.31 69.44 L30.97 58.87 A21 21 0 0 0 41.13 69.03 Z" fill="currentColor" opacity=".85"/><path d="M6.77 65.73 A46 46 0 0 1 6.77 34.27 L30.27 42.82 A21 21 0 0 0 30.27 57.18 Z" fill="currentColor" opacity=".85"/><path d="M8.31 30.56 A46 46 0 0 1 30.56 8.31 L41.13 30.97 A21 21 0 0 0 30.97 41.13 Z" fill="currentColor" opacity=".85"/><circle cx="50" cy="50" r="13" fill="var(--accent, #3b82f6)"/></svg>
+      <span>RadialDeck</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="../index.html">Home</a>
+      <a href="../features.html">Features</a>
+      <a href="../for/index.html">Programs</a>
+      <a href="../themes.html">Themes</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../index.html#pricing">Pricing</a>
+    </nav>
+    <details class="nav-menu">
+      <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+      <div class="nav-menu-panel" onclick="this.parentNode.open = false">
+        <a href="../index.html">Home</a>
+        <a href="../features.html">Features</a>
+        <a href="../for/index.html">Programs</a>
+        <a href="../themes.html">Themes</a>
+        <a href="../icons.html">Icons</a>
+        <a href="../blog/index.html">Blog</a>
+        <a href="../index.html#pricing">Pricing</a>
+        <a href="../index.html#faq">Questions</a>
+      </div>
+    </details>
+    <a class="btn btn-primary btn-sm" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Download
+    </a>
+  </div>
+</header>
+
+<main id="main" class="doc">
+<section class="doc-hero">
+  <div class="wrap post-head">
+    <p class="eyebrow"><a href="index.html">Blog</a> · <time datetime="2026-10-02">2 October 2026</time> · 4 min read</p>
+    <h1 class="display">VS Code shortcuts cheat sheet for Windows</h1>
+    <p class="lead">The Visual Studio Code keyboard shortcuts on Windows that pay off every day, from the Command Palette and multi-cursor editing to navigation and the terminal, with tips to make them stick.</p>
+  </div>
+</section>
+<article class="doc-section">
+  <div class="wrap post">
+<p>VS Code has a shortcut for almost everything, and one shortcut that finds all the others. Learn that one first, then the dozen editing and navigation keys you will use every hour.</p>
+<p>The list is for VS Code on Windows with the default keymap, from the official Windows keyboard shortcut reference and the VS Code documentation. Extensions and keymap packs can change keys; <b>File &gt; Preferences &gt; Keyboard Shortcuts</b> <span class="keys">(<kbd>Ctrl</kbd>+<kbd>K</kbd></span> <span class="keys"><kbd>Ctrl</kbd>+<kbd>S</kbd></span>) shows what is active and lets you search by key. To change one, find the command there, double-click it and press the new keys.</p>
+<h2 id="the-one-to-learn-first">The one to learn first</h2>
+<ul><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></span> or <span class="keys"><kbd>F1</kbd></span> opens the Command Palette. Every command in VS Code is there, and the list shows each command&#x27;s shortcut next to its name.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>P</kbd></span> opens Quick Open: type part of a file name and press <span class="keys"><kbd>Enter</kbd></span>.</li></ul>
+<p>Quick Open does more than files. Type <b>&gt;</b> to switch to commands, <b>@</b> for symbols in the current file, <b>:</b> followed by a number for a line.</p>
+<h2 id="editing-lines">Editing lines</h2>
+<ul><li><span class="keys"><kbd>Alt</kbd>+<kbd>Up</kbd></span> and <span class="keys"><kbd>Alt</kbd>+<kbd>Down</kbd></span> move the current line up or down.</li><li><span class="keys"><kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>Up</kbd></span> and <span class="keys"><kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>Down</kbd></span> copy the line up or down.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd></span> deletes the line.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Enter</kbd></span> inserts a line below, <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Enter</kbd></span> above, wherever the cursor is in the line.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>L</kbd></span> selects the current line.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>/</kbd></span> comments or uncomments the line.</li><li><span class="keys"><kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>A</kbd></span> toggles a block comment.</li><li><span class="keys"><kbd>Alt</kbd>+<kbd>Z</kbd></span> turns word wrap on or off.</li></ul>
+<h2 id="indent-and-fold">Indent and fold</h2>
+<ul><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>]</kbd></span> indents the line.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>[</kbd></span> outdents it.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>[</kbd></span> folds the current region.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>]</kbd></span> unfolds it.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>K</kbd></span> <span class="keys"><kbd>Ctrl</kbd>+<kbd>0</kbd></span> folds everything, <span class="keys"><kbd>Ctrl</kbd>+<kbd>K</kbd></span> <span class="keys"><kbd>Ctrl</kbd>+<kbd>J</kbd></span> unfolds everything.</li></ul>
+<h2 id="multiple-cursors">Multiple cursors</h2>
+<ul><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>D</kbd></span> selects the next occurrence of the current word. Press it again for the one after.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd></span> selects every occurrence at once.</li><li><span class="keys"><kbd>Alt</kbd>+<kbd>Click</kbd></span> adds a cursor where you click.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Up</kbd></span> and <span class="keys"><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>Down</kbd></span> add a cursor on the line above or below.</li></ul>
+<p>Start with <span class="keys"><kbd>Ctrl</kbd>+<kbd>D</kbd></span>. Put the cursor on a variable name, press <span class="keys"><kbd>Ctrl</kbd>+<kbd>D</kbd></span> a few times, type the new name, and every selected occurrence changes together.</p>
+<h2 id="finding">Finding</h2>
+<ul><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>F</kbd></span> finds in the file, <span class="keys"><kbd>Ctrl</kbd>+<kbd>H</kbd></span> replaces.</li><li><span class="keys"><kbd>F3</kbd></span> and <span class="keys"><kbd>Shift</kbd>+<kbd>F3</kbd></span> go to the next and previous match.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd></span> searches in all files.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>H</kbd></span> replaces in all files.</li></ul>
+<h2 id="navigating-code">Navigating code</h2>
+<ul><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>G</kbd></span> goes to a line number.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd></span> goes to a symbol in the current file.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>T</kbd></span> goes to a symbol anywhere in the workspace.</li><li><span class="keys"><kbd>F12</kbd></span> goes to the definition, <span class="keys"><kbd>Alt</kbd>+<kbd>F12</kbd></span> peeks at it in place.</li><li><span class="keys"><kbd>Shift</kbd>+<kbd>F12</kbd></span> shows the references.</li><li><span class="keys"><kbd>F2</kbd></span> renames the symbol everywhere it is used.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>.</kbd></span> shows quick fixes and refactorings.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd></span> opens the Problems panel, <span class="keys"><kbd>F8</kbd></span> jumps to the next problem.</li></ul>
+<h2 id="formatting">Formatting</h2>
+<ul><li><span class="keys"><kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>F</kbd></span> formats the whole document.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>K</kbd></span> <span class="keys"><kbd>Ctrl</kbd>+<kbd>F</kbd></span> formats only the selection.</li></ul>
+<h2 id="editors-and-layout">Editors and layout</h2>
+<ul><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>\</kbd></span> splits the editor.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>1</kbd></span>, <span class="keys"><kbd>Ctrl</kbd>+<kbd>2</kbd></span>, <span class="keys"><kbd>Ctrl</kbd>+<kbd>3</kbd></span> move the focus to the first, second or third editor group.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>W</kbd></span> closes the editor, <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>T</kbd></span> reopens the last one you closed.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>B</kbd></span> shows or hides the side bar.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>E</kbd></span> Explorer, <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>G</kbd></span> Source Control, <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>D</kbd></span> Run and Debug, <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>X</kbd></span> Extensions.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>K</kbd></span> <span class="keys"><kbd>Z</kbd></span> enters Zen Mode; <span class="keys"><kbd>Esc</kbd></span> twice leaves it.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>=</kbd></span> and <span class="keys"><kbd>Ctrl</kbd>+<kbd>-</kbd></span> zoom the whole window, <span class="keys"><kbd>F11</kbd></span> switches to full screen.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>,</kbd></span> opens Settings.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>U</kbd></span> shows the Output panel, <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>V</kbd></span> opens a Markdown preview.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>K</kbd></span> <span class="keys"><kbd>R</kbd></span> reveals the active file in File Explorer.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>K</kbd></span> <span class="keys"><kbd>P</kbd></span> copies the path of the active file.</li></ul>
+<h2 id="terminal-and-debugging">Terminal and debugging</h2>
+<ul><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>`</kbd></span> shows or hides the integrated terminal.</li><li><span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>`</kbd></span> opens a new terminal.</li><li><span class="keys"><kbd>F5</kbd></span> starts or continues debugging, <span class="keys"><kbd>Shift</kbd>+<kbd>F5</kbd></span> stops.</li><li><span class="keys"><kbd>F9</kbd></span> toggles a breakpoint.</li><li><span class="keys"><kbd>F10</kbd></span> steps over, <span class="keys"><kbd>F11</kbd></span> steps into.</li></ul>
+<h2 id="how-to-remember-them">How to remember them</h2>
+<ol><li><b>Let the Command Palette teach you.</b> Every time you run a command from <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></span>, read the shortcut printed next to it. Use the key the next time.</li><li><b>Alt moves, Shift+Alt copies.</b> <span class="keys"><kbd>Alt</kbd>+<kbd>Up</kbd></span> moves a line, <span class="keys"><kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>Up</kbd></span> copies it.</li><li><b>Ctrl+Shift plus a letter opens a view:</b> <b>E</b>xplorer, <b>F</b>ind in files, <b>G</b>it, <b>D</b>ebug, e<b>X</b>tensions.</li><li><b>Ctrl+K is a prefix.</b> Press <span class="keys"><kbd>Ctrl</kbd>+<kbd>K</kbd></span>, let go, then press the second key. Z for Zen, P for path, R for reveal, S for shortcuts.</li><li><b>Two a week.</b> <span class="keys"><kbd>Ctrl</kbd>+<kbd>D</kbd></span> and <span class="keys"><kbd>Alt</kbd>+<kbd>Up</kbd></span> first, because they replace the most mouse work in plain editing.</li></ol>
+<h2 id="a-vs-code-ring">A VS Code ring</h2>
+<p>RadialDeck is the radial menu for Windows that we make. When VS Code is in front, the hotkey or a side mouse button opens a VS Code ring. Hold, flick toward a slice, let go.</p>
+<p>The gallery has 11 ready-made VS Code slices: <b>Command palette</b>, <b>Format document</b>, <b>Zen mode</b>, <b>Quick open</b>, <b>Debug</b>, <b>Sidebar</b>, <b>Find in files</b>, <b>Source control</b>, <b>Settings</b>, <b>Terminal</b> and <b>Comment</b>. The <a class="inline-link" href="../for/vs-code.html">VS Code page</a> lists what each one does.</p>
+<p>It earns its place when you are reading code with one hand on the mouse, and for the two-step chords like <span class="keys"><kbd>Ctrl</kbd>+<kbd>K</kbd></span> <span class="keys"><kbd>Z</kbd></span> that are easy to forget. The gallery&#x27;s File Explorer slices include <b>VS Code in this folder</b> and <b>Terminal in this folder</b>, which open the folder you are looking at.</p>
+<h2 id="quick-reference">Quick reference</h2>
+<ul><li><b>Find anything:</b> <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>P</kbd></span>, <span class="keys"><kbd>Ctrl</kbd>+<kbd>P</kbd></span>, <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>F</kbd></span></li><li><b>Edit lines:</b> <span class="keys"><kbd>Alt</kbd>+<kbd>Up</kbd></span>, <span class="keys"><kbd>Shift</kbd>+<kbd>Alt</kbd>+<kbd>Down</kbd></span>, <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>K</kbd></span>, <span class="keys"><kbd>Ctrl</kbd>+<kbd>/</kbd></span></li><li><b>Multi-cursor:</b> <span class="keys"><kbd>Ctrl</kbd>+<kbd>D</kbd></span>, <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>L</kbd></span>, <span class="keys"><kbd>Alt</kbd>+<kbd>Click</kbd></span></li><li><b>Navigate:</b> <span class="keys"><kbd>F12</kbd></span>, <span class="keys"><kbd>Shift</kbd>+<kbd>F12</kbd></span>, <span class="keys"><kbd>F2</kbd></span>, <span class="keys"><kbd>Ctrl</kbd>+<kbd>G</kbd></span></li><li><b>Layout:</b> <span class="keys"><kbd>Ctrl</kbd>+<kbd>B</kbd></span>, <span class="keys"><kbd>Ctrl</kbd>+<kbd>\</kbd></span>, <span class="keys"><kbd>Ctrl</kbd>+<kbd>K</kbd></span> <span class="keys"><kbd>Z</kbd></span></li></ul>
+<p>RadialDeck is free for two rings and has a 14-day trial of Pro, which adds a ring per program such as VS Code. It is in the <a class="inline-link" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N" rel="noopener">Microsoft Store</a>.</p>
+    <section class="try" aria-labelledby="try-h">
+      <h2 id="try-h">Try it in RadialDeck</h2>
+      <p>Free for two rings, with a 14-day trial of everything in Pro. Windows 10 and 11, from the Microsoft Store.</p>
+      <a class="store-badge" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct"><img src="../assets/ms-store-badge.svg" alt="Get it from Microsoft" width="200" height="55"></a>
+      <a class="alt-download" href="../download">or download the installer (.exe)</a>
+      <nav class="rel rel-grid" aria-label="Programs in this article"><a href="../for/vs-code.html"><span class="rel-name"><span class="app-ico app-mono" style="--hue:207;--s:24px" aria-hidden="true">VS</span>VS Code</span></a><a href="../for/windows-terminal.html"><span class="rel-name"><img class="app-ico" src="../assets/apps/windows-terminal.png" width="24" height="24" alt="" loading="lazy">Windows Terminal</span></a><a href="../for/visual-studio.html"><span class="rel-name"><span class="app-ico app-mono" style="--hue:268;--s:24px" aria-hidden="true">VS</span>Visual Studio</span></a></nav>
+    </section>
+    <nav class="more" aria-label="More from the blog"><h2>More from the blog</h2><ul><li><a class="inline-link" href="word-shortcuts.html">Word shortcut keys worth learning, grouped by task</a></li><li><a class="inline-link" href="word-strikethrough-shortcut.html">Word shortcut for strikethrough: there is none by default, so make one</a></li><li><a class="inline-link" href="windows-clipboard-history-limit.html">Windows clipboard history: the 25-item limit and how to work with it</a></li><li><a class="inline-link" href="vs-code-comment-shortcut.html">VS Code shortcut to comment out code (line and block)</a></li><li><a class="inline-link" href="vs-code-shortcuts-not-working.html">VS Code shortcut not working? How to find out which key binding wins</a></li><li><a class="inline-link" href="vlc-playback-speed-shortcut.html">VLC shortcut for playback speed: faster, slower and back to normal</a></li><li><a class="inline-link" href="teams-shortcuts-not-working.html">Teams shortcuts not working? Why Ctrl+Shift+M and others do nothing</a></li><li><a class="inline-link" href="teams-mute-shortcut.html">Teams shortcut to mute and unmute (and hold-to-talk)</a></li><li><a class="inline-link" href="teams-shortcuts.html">Teams shortcut keys for meetings, calls and chat</a></li><li><a class="inline-link" href="sketchup-shortcuts.html">SketchUp shortcut keys: the single letters that run the program</a></li><li><a class="inline-link" href="revit-shortcuts.html">Revit shortcut keys: the two-letter codes worth learning</a></li><li><a class="inline-link" href="revit-shortcuts-not-working.html">Revit keyboard shortcuts not working? The input language, KeyboardShortcuts.xml and other causes</a></li><li><a class="inline-link" href="remote-desktop-shortcuts.html">Remote Desktop shortcut keys for Windows 11 and 10</a></li><li><a class="inline-link" href="radial-menu-windows-11.html">Radial menu for Windows 11: what a pie menu is and how to set one up</a></li><li><a class="inline-link" href="quick-launch-windows-11-alternative.html">Quick Launch in Windows 11: where it went and four alternatives</a></li><li><a class="inline-link" href="premiere-pro-shortcuts.html">Premiere Pro shortcut keys for Windows: an editor&#x27;s short list</a></li><li><a class="inline-link" href="powerpoint-shortcuts.html">PowerPoint shortcut keys for building and presenting slides</a></li><li><a class="inline-link" href="photoshop-shortcuts-not-working.html">Photoshop shortcuts not working in Windows 11? Causes and fixes in order</a></li><li><a class="inline-link" href="photoshop-shortcuts.html">Photoshop shortcut keys for Windows that are worth the effort</a></li><li><a class="inline-link" href="photoshop-brush-size-shortcut.html">Photoshop shortcut for brush size (and hardness)</a></li><li><a class="inline-link" href="outlook-shortcuts.html">Outlook shortcuts for Windows: new Outlook and classic, side by side</a></li><li><a class="inline-link" href="outlook-move-email-to-folder-shortcut.html">Outlook shortcut to move an email to a folder</a></li><li><a class="inline-link" href="outlook-mark-as-read-shortcut.html">Outlook shortcut to mark as read (and as unread)</a></li><li><a class="inline-link" href="outlook-shortcuts-not-working.html">Outlook keyboard shortcuts not working? New Outlook and classic Outlook fixes</a></li><li><a class="inline-link" href="outlook-quick-steps-examples.html">Outlook Quick Steps: useful examples, their limits, and a faster way to reply</a></li><li><a class="inline-link" href="kando-alternative.html">Kando alternatives for Windows: three ways to get a pie menu</a></li><li><a class="inline-link" href="copy-text-from-screen-windows-11.html">How to copy text from the screen in Windows 11</a></li><li><a class="inline-link" href="file-explorer-shortcuts.html">File Explorer shortcut keys in Windows 11 (and what changed from 10)</a></li><li><a class="inline-link" href="file-explorer-new-folder-shortcut.html">File Explorer shortcut for a new folder in Windows 11</a></li><li><a class="inline-link" href="excel-shortcuts.html">Excel shortcuts that matter: a cheat sheet for Windows</a></li><li><a class="inline-link" href="excel-shortcuts-not-working.html">Excel shortcuts not working in Windows 11? Check these causes in order</a></li><li><a class="inline-link" href="excel-insert-row-shortcut.html">Excel shortcut to insert a row (and why Ctrl+Plus sometimes does nothing)</a></li><li><a class="inline-link" href="excel-paste-values-shortcut.html">Excel paste values shortcut, and what to do when it does not work</a></li><li><a class="inline-link" href="discord-mute-shortcut.html">Discord shortcut to mute your mic (and deafen)</a></li><li><a class="inline-link" href="chrome-shortcuts-not-working.html">Chrome shortcuts not working in Windows 11? Find out what takes the keys</a></li><li><a class="inline-link" href="chrome-shortcuts.html">Chrome shortcuts list: the keys that tame your tabs</a></li><li><a class="inline-link" href="blender-shortcuts.html">Blender shortcuts cheat sheet: the keys you use every minute</a></li><li><a class="inline-link" href="autocad-shortcuts.html">AutoCAD shortcut keys and commands that save time</a></li><li><a class="inline-link" href="autocad-commands-not-working.html">AutoCAD commands not working or not showing at the cursor? What to check</a></li><li><a class="inline-link" href="autohotkey-alternative-with-gui.html">An AutoHotkey alternative with a GUI: shortcuts and macros without scripts</a></li></ul></nav>
+  </div>
+</article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 RadialDeck by Kasa Labs</span>
+    <nav aria-label="Footer">
+      <a href="../for/index.html">Programs</a>
+      <a href="../rings.html">Shared rings</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../privacy.html">Privacy</a>
+      <a href="../terms.html">Terms</a>
+      <a href="../refund.html">Refunds</a>
+      <a href="../changelog.html">Releases</a>
+      <a href="../themes.html">Themes</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

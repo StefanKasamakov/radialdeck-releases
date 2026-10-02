@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revit keyboard shortcuts not working? The input language, KeyboardShortcuts.xml and other causes</title>
+<meta name="description" content="Why Revit's two-letter shortcuts stop working, from the Windows input language to a damaged KeyboardShortcuts.xml after an update, and how to fix each one.">
+<link rel="icon" href="../assets/icon.png"><link rel="apple-touch-icon" href="../assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="blog.css">
+<link rel="alternate" type="application/rss+xml" title="RadialDeck blog" href="feed.xml">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Revit keyboard shortcuts not working? The input language, KeyboardShortcuts.xml and other causes", "description": "Why Revit's two-letter shortcuts stop working, from the Windows input language to a damaged KeyboardShortcuts.xml after an update, and how to fix each one.", "datePublished": "2026-10-02", "dateModified": "2026-10-02", "keywords": "revit shortcuts not working, revit keyboard shortcuts not working, revit hotkeys not working, revit shortcuts stopped working, revit keyboard shortcuts missing", "image": "https://radialdeck.com/assets/og.jpg", "mainEntityOfPage": "https://radialdeck.com/blog/revit-shortcuts-not-working.html", "author": {"@type": "Organization", "name": "Kasa Labs", "url": "https://radialdeck.com/"}, "publisher": {"@type": "Organization", "name": "Kasa Labs", "url": "https://radialdeck.com/", "logo": {"@type": "ImageObject", "url": "https://radialdeck.com/assets/logo-512.png"}}}</script>
+<!-- seo -->
+<link rel="canonical" href="https://radialdeck.com/blog/revit-shortcuts-not-working.html">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="RadialDeck">
+<meta property="og:url" content="https://radialdeck.com/blog/revit-shortcuts-not-working.html">
+<meta property="og:title" content="Revit keyboard shortcuts not working? The input language, KeyboardShortcuts.xml and other causes">
+<meta property="og:description" content="Why Revit's two-letter shortcuts stop working, from the Windows input language to a damaged KeyboardShortcuts.xml after an update, and how to fix each one.">
+<meta property="og:image" content="https://radialdeck.com/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Revit keyboard shortcuts not working? The input language, KeyboardShortcuts.xml and other causes">
+<meta name="twitter:description" content="Why Revit's two-letter shortcuts stop working, from the Windows input language to a damaged KeyboardShortcuts.xml after an update, and how to fix each one.">
+<meta name="twitter:image" content="https://radialdeck.com/assets/og.jpg">
+<!-- /seo -->
+<!-- stats --><script>(function(){try{var q=new URLSearchParams(location.search);if(q.has('me'))q.get('me')==='off'?localStorage.removeItem('rd-me'):localStorage.setItem('rd-me','1');if(localStorage.getItem('rd-me'))return}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"3c578d6cc8ec449fbc8337276fef6eb6"}');document.head.appendChild(s)})()</script><!-- /stats -->
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="wrap nav-inner">
+    <a class="brand" href="../index.html" aria-label="RadialDeck home">
+      <svg class="brand-mark" viewBox="0 0 100 100" aria-hidden="true"><path d="M34.27 6.77 A46 46 0 0 1 65.73 6.77 L57.18 30.27 A21 21 0 0 0 42.82 30.27 Z" fill="currentColor" opacity=".85"/><path d="M69.44 8.31 A46 46 0 0 1 91.69 30.56 L69.03 41.13 A21 21 0 0 0 58.87 30.97 Z" fill="var(--accent, #3b82f6)" transform="translate(2.12 -2.12)"/><path d="M93.23 34.27 A46 46 0 0 1 93.23 65.73 L69.73 57.18 A21 21 0 0 0 69.73 42.82 Z" fill="currentColor" opacity=".85"/><path d="M91.69 69.44 A46 46 0 0 1 69.44 91.69 L58.87 69.03 A21 21 0 0 0 69.03 58.87 Z" fill="currentColor" opacity=".85"/><path d="M65.73 93.23 A46 46 0 0 1 34.27 93.23 L42.82 69.73 A21 21 0 0 0 57.18 69.73 Z" fill="currentColor" opacity=".85"/><path d="M30.56 91.69 A46 46 0 0 1 8.31 69.44 L30.97 58.87 A21 21 0 0 0 41.13 69.03 Z" fill="currentColor" opacity=".85"/><path d="M6.77 65.73 A46 46 0 0 1 6.77 34.27 L30.27 42.82 A21 21 0 0 0 30.27 57.18 Z" fill="currentColor" opacity=".85"/><path d="M8.31 30.56 A46 46 0 0 1 30.56 8.31 L41.13 30.97 A21 21 0 0 0 30.97 41.13 Z" fill="currentColor" opacity=".85"/><circle cx="50" cy="50" r="13" fill="var(--accent, #3b82f6)"/></svg>
+      <span>RadialDeck</span>
+    </a>
+    <nav aria-label="Primary">
+      <a href="../index.html">Home</a>
+      <a href="../features.html">Features</a>
+      <a href="../for/index.html">Programs</a>
+      <a href="../themes.html">Themes</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../index.html#pricing">Pricing</a>
+    </nav>
+    <details class="nav-menu">
+      <summary aria-label="Menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></summary>
+      <div class="nav-menu-panel" onclick="this.parentNode.open = false">
+        <a href="../index.html">Home</a>
+        <a href="../features.html">Features</a>
+        <a href="../for/index.html">Programs</a>
+        <a href="../themes.html">Themes</a>
+        <a href="../icons.html">Icons</a>
+        <a href="../blog/index.html">Blog</a>
+        <a href="../index.html#pricing">Pricing</a>
+        <a href="../index.html#faq">Questions</a>
+      </div>
+    </details>
+    <a class="btn btn-primary btn-sm" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Download
+    </a>
+  </div>
+</header>
+
+<main id="main" class="doc">
+<section class="doc-hero">
+  <div class="wrap post-head">
+    <p class="eyebrow"><a href="index.html">Blog</a> · <time datetime="2026-10-02">2 October 2026</time> · 5 min read</p>
+    <h1 class="display">Revit keyboard shortcuts not working? The input language, KeyboardShortcuts.xml and other causes</h1>
+    <p class="lead">Why Revit&#x27;s two-letter shortcuts stop working, from the Windows input language to a damaged KeyboardShortcuts.xml after an update, and how to fix each one.</p>
+  </div>
+</section>
+<article class="doc-section">
+  <div class="wrap post">
+<p>Revit shortcuts work differently from most Windows programs. Instead of <span class="keys"><kbd>Ctrl</kbd></span> combinations, Revit uses short letter sequences: <span class="keys"><kbd>W</kbd></span> <span class="keys"><kbd>A</kbd></span> for Wall, <span class="keys"><kbd>D</kbd></span> <span class="keys"><kbd>R</kbd></span> for Door, <span class="keys"><kbd>A</kbd></span> <span class="keys"><kbd>L</kbd></span> for Align, <span class="keys"><kbd>T</kbd></span> <span class="keys"><kbd>R</kbd></span> for Trim. You type the letters in the drawing area and Revit runs the command. That design explains most of the ways it breaks.</p>
+<h2 id="1-the-windows-input-language-is-not-english">1. The Windows input language is not English</h2>
+<p>This is the most common cause when shortcuts suddenly stop working for no visible reason. Revit matches the <b>letters</b> you type against its list of shortcuts. If Windows has switched to another input language, the same keys type other letters. On a Russian or Bulgarian layout, <span class="keys"><kbd>W</kbd></span> <span class="keys"><kbd>A</kbd></span> comes out as Cyrillic letters, which match no shortcut, so nothing happens.</p>
+<p>The switch is easy to make without noticing: <span class="keys"><kbd>Win</kbd>+<kbd>Space</kbd></span> and <span class="keys"><kbd>Alt</kbd>+<kbd>Shift</kbd></span> both change the layout, and Windows can keep a different layout per window.</p>
+<p><b>Check:</b> look at the language indicator next to the clock while Revit is in front.</p>
+<p><b>Fix:</b> press <span class="keys"><kbd>Win</kbd>+<kbd>Space</kbd></span> until it shows ENG (or the language your shortcuts were made for). If you type in two languages all day, consider giving yourself a habit of switching back before you model, or removing layouts you rarely use in <b>Settings &gt; Time &amp; language &gt; Language &amp; region</b>.</p>
+<h2 id="2-the-drawing-area-does-not-have-focus">2. The drawing area does not have focus</h2>
+<p>Revit reads shortcut letters when the drawing area has focus. If the cursor is in the Properties palette, the Project Browser or a text box, the letters go there instead.</p>
+<p><b>Check:</b> click once in an empty part of the view, press <span class="keys"><kbd>Esc</kbd></span> twice to clear any command, and type the shortcut again.</p>
+<h2 id="3-keyboardshortcuts-xml-is-damaged-or-missing">3. KeyboardShortcuts.xml is damaged or missing</h2>
+<p>Revit keeps your shortcuts in a file called <b>KeyboardShortcuts.xml</b> in your user profile:</p>
+<p><code>%APPDATA%\Autodesk\Revit\Autodesk Revit 20xx\</code></p>
+<p>(with your version in place of 20xx). After an update, a crash, or a sync of a profile from another computer, this file can lose entries or stop loading. Autodesk&#x27;s support article on missing keyboard shortcuts describes this case.</p>
+<p><b>Fix, as Autodesk describes it:</b></p>
+<ol><li>Close Revit.</li><li>In the folder above, rename <b>KeyboardShortcuts.xml</b> to something like <b>Backup_KeyboardShortcuts.old</b>.</li><li>Start Revit. It creates the file again with the default shortcuts.</li></ol>
+<p>If you had custom shortcuts, export them first from <b>View &gt; User Interface &gt; Keyboard Shortcuts</b> (or type <span class="keys"><kbd>K</kbd></span> <span class="keys"><kbd>S</kbd></span>) with <b>Export</b>, and bring them back after the reset with <b>Import</b> in the same dialog. Offices that share one shortcut file can keep the exported XML on a network drive and import it on each computer.</p>
+<h2 id="4-a-shortcut-was-changed-or-removed">4. A shortcut was changed or removed</h2>
+<p>Shortcuts are easy to change and hard to notice: someone assigns <span class="keys"><kbd>W</kbd></span> <span class="keys"><kbd>A</kbd></span> to another command, or a shared office file replaces yours.</p>
+<p><b>Check:</b> open <b>Keyboard Shortcuts</b> <span class="keys">(<kbd>K</kbd></span> <span class="keys"><kbd>S</kbd></span>), search for the command and see which keys it has. Then search by the keys themselves: if the same letters are assigned to two commands, the one that runs may not be the one you expect, so remove the assignment you do not need.</p>
+<h2 id="5-an-add-in-or-another-program-takes-the-keys">5. An add-in or another program takes the keys</h2>
+<p>Revit add-ins can register their own commands, and those commands can be given shortcuts in the same dialog, so an add-in command can end up on the letters you expect for a built-in tool. System-wide tools are the other suspect: clipboard managers, screen recorders, translation tools and keyboard utilities can take a key before Revit sees it.</p>
+<p><b>Check:</b> if shortcuts fail only with a certain add-in installed, remove or disable that add-in according to its maker&#x27;s instructions and test again. For system tools, close tray programs one at a time and try the shortcut after each.</p>
+<h2 id="6-shortcuts-that-end-with-a-modifier-or-a-function-key">6. Shortcuts that end with a modifier or a function key</h2>
+<p>Most Revit shortcuts are plain letters, but some built-in ones and many custom ones use <span class="keys"><kbd>Ctrl</kbd></span>, <span class="keys"><kbd>Shift</kbd></span> or the function keys. On a laptop, the top row may send brightness and volume first. Hold <span class="keys"><kbd>Fn</kbd></span> with the key, or turn on <b>Fn Lock</b> (on many keyboards <span class="keys"><kbd>Fn</kbd>+<kbd>Esc</kbd></span>), so that <span class="keys"><kbd>F8</kbd></span> reaches Revit as <span class="keys"><kbd>F8</kbd></span>.</p>
+<h2 id="where-a-radial-menu-helps-and-where-it-does-not">Where a radial menu helps, and where it does not</h2>
+<p>RadialDeck is the radial menu for Windows that we make. When Revit is in front, the same hotkey opens a Revit ring with commands such as Wall, Door, Window, Align, Trim, Move, Copy and Tag by category. The gallery has 20 Revit actions. You flick toward a command instead of remembering its two letters.</p>
+<p>To be precise about how it works: the Revit recipes in our gallery <b>press the same keys</b> you would, as key strokes <span class="keys">(<kbd>W</kbd></span> then <span class="keys"><kbd>A</kbd></span> for Wall). That has two consequences:</p>
+<ul><li><b>A ring does not fix cause 1.</b> If Windows is set to a Cyrillic layout, those key strokes produce Cyrillic letters inside Revit, exactly as your own typing does, and the command does not run. Switch the input language to English first.</li><li><b>A ring does not get past causes 3 and 5 either.</b> A damaged shortcut file or an add-in that took the letters blocks the ring&#x27;s keys as it blocks yours. Cause 6 is different: on most laptops Fn Lock is handled inside the keyboard itself, and a slice you set to send <span class="keys"><kbd>F8</kbd></span> sends it to Windows directly.</li><li><b>A ring does help with cause 4 and with memory.</b> You no longer need to remember which letters a command has; you pick <b>Tag by category</b> or <b>Section box</b> by name.</li></ul>
+<p>If your office uses custom Revit shortcuts, change the slices to send your keys instead. Each slice is a &quot;Send keys&quot; action, and you edit the keys in Settings.</p>
+<p>The Revit recipes and the rest of what the gallery has for CAD and BIM programs are on the <a class="inline-link" href="../for/revit.html">Revit page</a>.</p>
+<h2 id="quick-checklist">Quick checklist</h2>
+<ol><li>Language indicator shows ENG? If not, <span class="keys"><kbd>Win</kbd>+<kbd>Space</kbd></span>.</li><li>Click in the view and press <span class="keys"><kbd>Esc</kbd></span> twice.</li><li>Rename <b>KeyboardShortcuts.xml</b> and restart Revit.</li><li>Check the command in <b>Keyboard Shortcuts</b> <span class="keys">(<kbd>K</kbd></span> <span class="keys"><kbd>S</kbd></span>).</li><li>Disable add-ins and close tray tools one at a time.</li><li>Use <span class="keys"><kbd>Fn</kbd></span> or Fn Lock for shortcuts on function keys.</li></ol>
+<p>RadialDeck is free for two rings and has a 14-day trial of Pro, which adds a ring per program such as the Revit ring. It is in the <a class="inline-link" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N" rel="noopener">Microsoft Store</a>.</p>
+    <section class="try" aria-labelledby="try-h">
+      <h2 id="try-h">Try it in RadialDeck</h2>
+      <p>Free for two rings, with a 14-day trial of everything in Pro. Windows 10 and 11, from the Microsoft Store.</p>
+      <a class="store-badge" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct"><img src="../assets/ms-store-badge.svg" alt="Get it from Microsoft" width="200" height="55"></a>
+      <a class="alt-download" href="../download">or download the installer (.exe)</a>
+      <nav class="rel rel-grid" aria-label="Programs in this article"><a href="../for/revit.html"><span class="rel-name"><span class="app-ico app-mono" style="--hue:205;--s:24px" aria-hidden="true">R</span>Revit</span></a><a href="../for/autocad.html"><span class="rel-name"><img class="app-ico" src="../assets/apps/autocad.svg" width="24" height="24" alt="" loading="lazy">AutoCAD</span></a><a href="../for/sketchup.html"><span class="rel-name"><img class="app-ico" src="../assets/apps/sketchup.svg" width="24" height="24" alt="" loading="lazy">SketchUp</span></a></nav>
+    </section>
+    <nav class="more" aria-label="More from the blog"><h2>More from the blog</h2><ul><li><a class="inline-link" href="word-shortcuts.html">Word shortcut keys worth learning, grouped by task</a></li><li><a class="inline-link" href="word-strikethrough-shortcut.html">Word shortcut for strikethrough: there is none by default, so make one</a></li><li><a class="inline-link" href="windows-clipboard-history-limit.html">Windows clipboard history: the 25-item limit and how to work with it</a></li><li><a class="inline-link" href="vs-code-shortcuts.html">VS Code shortcuts cheat sheet for Windows</a></li><li><a class="inline-link" href="vs-code-comment-shortcut.html">VS Code shortcut to comment out code (line and block)</a></li><li><a class="inline-link" href="vs-code-shortcuts-not-working.html">VS Code shortcut not working? How to find out which key binding wins</a></li><li><a class="inline-link" href="vlc-playback-speed-shortcut.html">VLC shortcut for playback speed: faster, slower and back to normal</a></li><li><a class="inline-link" href="teams-shortcuts-not-working.html">Teams shortcuts not working? Why Ctrl+Shift+M and others do nothing</a></li><li><a class="inline-link" href="teams-mute-shortcut.html">Teams shortcut to mute and unmute (and hold-to-talk)</a></li><li><a class="inline-link" href="teams-shortcuts.html">Teams shortcut keys for meetings, calls and chat</a></li><li><a class="inline-link" href="sketchup-shortcuts.html">SketchUp shortcut keys: the single letters that run the program</a></li><li><a class="inline-link" href="revit-shortcuts.html">Revit shortcut keys: the two-letter codes worth learning</a></li><li><a class="inline-link" href="remote-desktop-shortcuts.html">Remote Desktop shortcut keys for Windows 11 and 10</a></li><li><a class="inline-link" href="radial-menu-windows-11.html">Radial menu for Windows 11: what a pie menu is and how to set one up</a></li><li><a class="inline-link" href="quick-launch-windows-11-alternative.html">Quick Launch in Windows 11: where it went and four alternatives</a></li><li><a class="inline-link" href="premiere-pro-shortcuts.html">Premiere Pro shortcut keys for Windows: an editor&#x27;s short list</a></li><li><a class="inline-link" href="powerpoint-shortcuts.html">PowerPoint shortcut keys for building and presenting slides</a></li><li><a class="inline-link" href="photoshop-shortcuts-not-working.html">Photoshop shortcuts not working in Windows 11? Causes and fixes in order</a></li><li><a class="inline-link" href="photoshop-shortcuts.html">Photoshop shortcut keys for Windows that are worth the effort</a></li><li><a class="inline-link" href="photoshop-brush-size-shortcut.html">Photoshop shortcut for brush size (and hardness)</a></li><li><a class="inline-link" href="outlook-shortcuts.html">Outlook shortcuts for Windows: new Outlook and classic, side by side</a></li><li><a class="inline-link" href="outlook-move-email-to-folder-shortcut.html">Outlook shortcut to move an email to a folder</a></li><li><a class="inline-link" href="outlook-mark-as-read-shortcut.html">Outlook shortcut to mark as read (and as unread)</a></li><li><a class="inline-link" href="outlook-shortcuts-not-working.html">Outlook keyboard shortcuts not working? New Outlook and classic Outlook fixes</a></li><li><a class="inline-link" href="outlook-quick-steps-examples.html">Outlook Quick Steps: useful examples, their limits, and a faster way to reply</a></li><li><a class="inline-link" href="kando-alternative.html">Kando alternatives for Windows: three ways to get a pie menu</a></li><li><a class="inline-link" href="copy-text-from-screen-windows-11.html">How to copy text from the screen in Windows 11</a></li><li><a class="inline-link" href="file-explorer-shortcuts.html">File Explorer shortcut keys in Windows 11 (and what changed from 10)</a></li><li><a class="inline-link" href="file-explorer-new-folder-shortcut.html">File Explorer shortcut for a new folder in Windows 11</a></li><li><a class="inline-link" href="excel-shortcuts.html">Excel shortcuts that matter: a cheat sheet for Windows</a></li><li><a class="inline-link" href="excel-shortcuts-not-working.html">Excel shortcuts not working in Windows 11? Check these causes in order</a></li><li><a class="inline-link" href="excel-insert-row-shortcut.html">Excel shortcut to insert a row (and why Ctrl+Plus sometimes does nothing)</a></li><li><a class="inline-link" href="excel-paste-values-shortcut.html">Excel paste values shortcut, and what to do when it does not work</a></li><li><a class="inline-link" href="discord-mute-shortcut.html">Discord shortcut to mute your mic (and deafen)</a></li><li><a class="inline-link" href="chrome-shortcuts-not-working.html">Chrome shortcuts not working in Windows 11? Find out what takes the keys</a></li><li><a class="inline-link" href="chrome-shortcuts.html">Chrome shortcuts list: the keys that tame your tabs</a></li><li><a class="inline-link" href="blender-shortcuts.html">Blender shortcuts cheat sheet: the keys you use every minute</a></li><li><a class="inline-link" href="autocad-shortcuts.html">AutoCAD shortcut keys and commands that save time</a></li><li><a class="inline-link" href="autocad-commands-not-working.html">AutoCAD commands not working or not showing at the cursor? What to check</a></li><li><a class="inline-link" href="autohotkey-alternative-with-gui.html">An AutoHotkey alternative with a GUI: shortcuts and macros without scripts</a></li></ul></nav>
+  </div>
+</article>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <span>© 2026 RadialDeck by Kasa Labs</span>
+    <nav aria-label="Footer">
+      <a href="../for/index.html">Programs</a>
+      <a href="../rings.html">Shared rings</a>
+      <a href="../blog/index.html">Blog</a>
+      <a href="../privacy.html">Privacy</a>
+      <a href="../terms.html">Terms</a>
+      <a href="../refund.html">Refunds</a>
+      <a href="../changelog.html">Releases</a>
+      <a href="../themes.html">Themes</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
