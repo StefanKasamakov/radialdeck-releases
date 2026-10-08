@@ -19,7 +19,8 @@
 .try h2 { margin: 0; }
 .try p { margin: 0; }
 .try .alt-download { margin-top: 0; }
-.try .rel-grid { width: 100%; margin-top: 8px; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+.try .rel-grid { width: 100%; margin-top: 8px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+.try .rel a > span:last-child { white-space: normal; min-width: 0; }
 .more { margin-top: 40px; }
 .more h2 { font-size: 22px; margin: 0 0 10px; }
 .more ul { list-style: none; padding: 0; gap: 6px; }
