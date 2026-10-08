@@ -13,22 +13,6 @@
 <link rel="stylesheet" href="blog.css">
 <link rel="alternate" type="application/rss+xml" title="RadialDeck blog" href="feed.xml">
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Teams shortcuts not working? Why Ctrl+Shift+M and others do nothing", "description": "Why Microsoft Teams keyboard shortcuts such as mute, camera and raise hand stop working, from window focus and the browser version to layout hotkeys and other apps.", "datePublished": "2026-10-02", "dateModified": "2026-10-02", "keywords": "teams shortcuts not working, teams mute shortcut not working, teams keyboard shortcuts not working, ctrl shift m not working teams, teams hotkeys not working", "image": "https://radialdeck.com/assets/og.jpg", "mainEntityOfPage": "https://radialdeck.com/blog/teams-shortcuts-not-working.html", "author": {"@type": "Organization", "name": "Kasa Labs", "url": "https://radialdeck.com/"}, "publisher": {"@type": "Organization", "name": "Kasa Labs", "url": "https://radialdeck.com/", "logo": {"@type": "ImageObject", "url": "https://radialdeck.com/assets/logo-512.png"}}}</script>
-<!-- seo -->
-<link rel="canonical" href="https://radialdeck.com/blog/teams-shortcuts-not-working.html">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="RadialDeck">
-<meta property="og:url" content="https://radialdeck.com/blog/teams-shortcuts-not-working.html">
-<meta property="og:title" content="Teams shortcuts not working? Why Ctrl+Shift+M and others do nothing">
-<meta property="og:description" content="Why Microsoft Teams keyboard shortcuts such as mute, camera and raise hand stop working, from window focus and the browser version to layout hotkeys and other apps.">
-<meta property="og:image" content="https://radialdeck.com/assets/og.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Teams shortcuts not working? Why Ctrl+Shift+M and others do nothing">
-<meta name="twitter:description" content="Why Microsoft Teams keyboard shortcuts such as mute, camera and raise hand stop working, from window focus and the browser version to layout hotkeys and other apps.">
-<meta name="twitter:image" content="https://radialdeck.com/assets/og.jpg">
-<!-- /seo -->
-<!-- stats --><script>(function(){try{var q=new URLSearchParams(location.search);if(q.has('me'))q.get('me')==='off'?localStorage.removeItem('rd-me'):localStorage.setItem('rd-me','1');if(localStorage.getItem('rd-me'))return}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"3c578d6cc8ec449fbc8337276fef6eb6"}');document.head.appendChild(s)})()</script><!-- /stats -->
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -102,7 +86,7 @@
 <p>Teams sometimes stops responding to keys while the rest of it works. Microsoft&#x27;s own advice for temporary problems is to quit and restart Teams.</p>
 <p><b>Fix:</b> right-click the Teams icon in the notification area and choose <b>Quit</b>, then start it again. Closing the window with X is not enough, because Teams keeps running in the background.</p>
 <h2 id="where-a-radial-menu-helps-and-where-it-does-not">Where a radial menu helps, and where it does not</h2>
-<p>RadialDeck is the radial menu for Windows that we make. When Teams is in front, the same hotkey opens a Teams ring with 10 actions from the gallery: Mute, Camera, Raise hand, Share screen, Leave, Accept call, Decline call, Meeting chat, Search and New chat. Each slice sends the default Teams shortcut, so you do not have to remember whether hand is K or H.</p>
+<p>RadialDeck is the radial menu for Windows that we make. When Teams is in front, the same hotkey opens a Teams ring with 10 actions from the gallery: Mute, Camera, Raise hand, Share screen, Leave, Accept call, Decline call, Admit from lobby, Search and New chat. Each slice sends the default Teams shortcut, so you do not have to remember whether hand is K or H.</p>
 <p>What it does not change, precisely:</p>
 <ul><li><b>Cause 1 still applies.</b> RadialDeck sends the keys to the window that was in front when you opened the ring. If you open the ring over Teams, the keys go to Teams. If you open it over your slides, you get the ring for that program instead, and its keys go to the slides. A ring is not a global mute button.</li><li><b>Causes 4 to 6 still apply.</b> The ring presses <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>M</kbd></span> as your keyboard would. If Windows uses <span class="keys"><kbd>Ctrl</kbd>+<kbd>Shift</kbd></span> for layouts, if another app took the keys, or if Teams is stuck, the ring is blocked too.</li><li><b>What it helps with:</b> finding the right action fast, in the middle of a call, with one flick.</li></ul>
 <p>The gallery&#x27;s recipes are for the new Teams app. All Teams actions are on the <a class="inline-link" href="../for/teams.html">Teams page</a>.</p>
