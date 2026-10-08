@@ -28,6 +28,7 @@
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "RadialDeck", "url": "https://radialdeck.com/", "image": "https://radialdeck.com/assets/og.jpg", "description": "A native Windows radial (pie) menu that knows which app you're in. Hold a key or a mouse button, flick, release: launch apps, send shortcuts, fix clipboard text, act on selected files. 1,180 ready-made actions, 38 themes. Free for two rings.", "applicationCategory": "UtilitiesApplication", "operatingSystem": "Windows 10, Windows 11", "downloadUrl": "https://apps.microsoft.com/detail/9NDJPDW5DV1N", "installUrl": "https://apps.microsoft.com/detail/9NDJPDW5DV1N", "publisher": {"@type": "Organization", "name": "Kasa Labs", "url": "https://radialdeck.com/", "email": "hello@radialdeck.com"}, "offers": [{"@type": "Offer", "name": "Free", "price": "0", "priceCurrency": "EUR"}, {"@type": "Offer", "name": "Pro, per year", "price": "24.00", "priceCurrency": "EUR", "url": "https://radialdeck.lemonsqueezy.com/checkout/buy/b1b8f165-b8ec-4f75-a070-e53a6ee8a151"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Windows says \"Windows protected your PC\". Is it safe?", "acceptedAnswer": {"@type": "Answer", "text": "Install from the Microsoft Store and that box never appears. For the direct installer: That blue box is SmartScreen. It appears for any new program that has not been downloaded often enough yet, not because something was found in it. Click More info, then Run anyway. To be sure you have the genuine file, compare its SHA-256 (PowerShell: Get-FileHash .\\RadialDeck-*-Setup.exe) with the one on the release page."}}, {"@type": "Question", "name": "Does it need admin rights?", "acceptedAnswer": {"@type": "Answer", "text": "No. It installs per user, no UAC prompt. An admin can choose a machine-wide install for a whole helpdesk."}}, {"@type": "Question", "name": "What does it send over the network?", "acceptedAnswer": {"@type": "Answer", "text": "Nothing about you. The only request is an optional check for a newer version on GitHub. You can turn it off, and then it makes no requests at all."}}, {"@type": "Question", "name": "What if my hotkey is taken?", "acceptedAnswer": {"@type": "Answer", "text": "RadialDeck notices, falls back to a free combination and tells you. Or use a side mouse button; those are never taken."}}, {"@type": "Question", "name": "Is it like Kando?", "acceptedAnswer": {"@type": "Answer", "text": "Kando is a lovely open-source pie menu. RadialDeck is native Windows, knows the foreground app, reads your Explorer selection and clipboard, and ships with 1,180 recipes. Try both, or read how they compare."}}, {"@type": "Question", "name": "Can I edit the config by hand?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It is one JSON file in %APPDATA%. Save it and the ring updates immediately; a broken file leaves the previous ring running and reports the line number."}}]}</script>
 <!-- /seo -->
+<!-- phone --><script>if(/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform))document.documentElement.classList.add('is-mobile')</script><script src="/phone.js" defer></script><!-- /phone -->
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -75,15 +76,20 @@
   <div class="hero-bg" aria-hidden="true"></div>
   <div class="wrap hero-grid">
     <div class="hero-copy">
-      <p class="eyebrow"><span class="dot"></span> Native Windows app · no Electron · under 60 MB RAM</p>
+      <p class="eyebrow"><span class="dot"></span> For Windows 10 and 11 · free to start</p>
       <h1 class="display" data-split>Your workday in one gesture.</h1>
       <p class="lead">Hold a key or a mouse button, flick toward a slice, let go. A radial menu that knows which app you're in, which file you selected and what's on your clipboard.</p>
+      <div class="hero-clip" aria-hidden="true">
+        <video muted loop playsinline preload="none" poster="assets/video/hero-loop.jpg" data-src="assets/video/hero-loop.mp4"></video>
+      </div>
       <div class="cta-row">
-        <a class="store-badge" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct"><img src="assets/ms-store-badge.svg" alt="Get it from Microsoft" width="200" height="55"></a>
+        <a class="store-badge pc-only" href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct"><img src="assets/ms-store-badge.svg" alt="Get it from Microsoft" width="200" height="55"></a>
+        <button class="btn btn-primary btn-lg phone-only" type="button" data-send-pc><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v10H4zM9 19h6M12 15v4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>Send the link to my PC</button>
         <a class="btn btn-ghost btn-lg" href="#tour"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>Watch the tour · 1:35</a>
       </div>
-      <a class="alt-download" href="download">or download the installer (.exe)</a>
-      <p class="fine">Free for two rings, forever. Windows 10 1809+ and 11. No account, no telemetry.</p>
+      <a class="alt-download pc-only" href="download">or download the installer (.exe)</a>
+      <p class="fine pc-only">Free for two rings, forever. Windows 10 1809+ and 11. Native app, under 60 MB of memory. No account, no telemetry.</p>
+      <p class="fine phone-only">RadialDeck runs on Windows. Send yourself the link and install it on your PC in thirty seconds. Two rings are free, forever.</p>
     </div>
 
     <div class="hero-demo">
@@ -121,6 +127,7 @@
     <p class="sub">One gesture in Outlook, Excel, Word, PowerPoint, Explorer and AutoCAD. Turn the sound on.</p>
     <div class="tour-frame">
       <video class="tour-video" controls preload="none" playsinline poster="assets/video/tour-poster.jpg" aria-label="RadialDeck tour, 1 minute 35 seconds">
+        <source src="assets/video/tour-720.mp4" type="video/mp4" media="(max-width: 900px)">
         <source src="assets/video/tour.mp4" type="video/mp4">
       </video>
     </div>
@@ -280,6 +287,7 @@
     <p class="eyebrow">What it does</p>
     <h2 class="h2">The ring changes with the app. So does what it can do.</h2>
 
+    <div class="feature-list">
     <div class="feature reveal">
       <div class="feature-media"><div class="ring ring-static" data-ring="outlook" aria-hidden="true"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"><span></span></div></div></div>
       <div class="feature-copy">
@@ -307,6 +315,7 @@
         <h3>Rings inside rings</h3>
         <p>Up to eight slices, three levels deep. A Windows ring holds Power, Media and Portals; rest on Power and a second ring opens under your cursor with Lock, Sleep, Restart, Screen off. Click the centre to go back. Try it in the <a href="#demo" class="inline-link">Nested</a> demo above.</p>
       </div>
+    </div>
     </div>
 
     <ul class="ticks reveal">
@@ -347,7 +356,7 @@
   <div class="wrap stats-grid reveal">
     <div><b data-count="50">50</b><span>ms to first paint</span></div>
     <div><b data-count="1180">1,180</b><span>ready-made recipes</span></div>
-    <div><b data-count="40">40</b><span>MB of RAM idle</span></div>
+    <div><b data-count="57">57</b><span>MB of RAM idle</span></div>
     <div><b>0</b><span>bytes of telemetry</span></div>
   </div>
 </section>

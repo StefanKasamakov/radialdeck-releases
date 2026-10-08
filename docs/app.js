@@ -6,6 +6,13 @@
   document.addEventListener('play', e => {
     document.querySelectorAll('.tour video, .short video').forEach(v => { if (v !== e.target) v.pause(); });
   }, true);
+
+  // The hero clip only shows on phones, so only phones download it. With reduced motion the poster stays.
+  const heroClip = document.querySelector('.hero-clip video');
+  if (heroClip && !reduced && matchMedia('(max-width: 960px)').matches) {
+    heroClip.src = heroClip.dataset.src;
+    heroClip.play().catch(() => {});
+  }
   const hasGsap = typeof gsap !== 'undefined';
 
   const { I, svg, R, RI, slicePath, sliceAt, THEMES, themeById, themeRing, buildRing, applyThemeEverywhere, DEFAULT_THEME } = window.RDRing;

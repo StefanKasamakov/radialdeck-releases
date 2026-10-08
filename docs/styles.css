@@ -520,3 +520,44 @@ kbd { font-family: var(--font-body); font-size: 12.5px; font-weight: 600; color:
 .ring-card h2 { display: inline-flex; align-items: center; gap: 10px; }
 .ring-card h2 .app-ico { width: 28px; height: 28px; border-radius: 7px; }
 .ring-card .cta-row { justify-content: center; gap: 10px; }
+
+/* Phones and tablets: RadialDeck installs on a PC, so the download buttons there send the link instead (phone.js). */
+.phone-only { display: none; }
+.is-mobile .pc-only { display: none; }
+.is-mobile .btn.phone-only { display: inline-flex; }
+.is-mobile p.phone-only { display: block; }
+.pc-sheet { width: min(460px, calc(100% - 24px)); max-width: none; margin: auto auto 12px; padding: 22px 20px 12px; border-radius: 22px; border: 1px solid var(--border-strong); background: #0c1019; color: var(--text); box-shadow: 0 30px 80px -20px rgba(0,0,0,.9); }
+.pc-sheet::backdrop { background: rgba(3, 5, 10, .72); }
+.pc-sheet h2 { font-family: var(--font-display); font-size: 22px; font-weight: 600; letter-spacing: -.01em; margin: 0 0 6px; }
+.pc-sheet p { margin: 0; color: var(--text-2); font-size: 15px; }
+.pc-actions { display: grid; gap: 10px; margin: 18px 0 6px; }
+.pc-actions .btn { justify-content: center; width: 100%; }
+.pc-sheet .pc-more { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.pc-more a { font-size: 14px; color: var(--text-3); text-decoration: underline; text-underline-offset: 3px; padding: 12px 0; }
+.pc-more button { font: inherit; font-size: 14px; color: var(--text-2); background: none; border: 0; padding: 12px 4px; cursor: pointer; }
+
+/* Hero clip: phones and small tablets only. On a PC the live ring next to the headline does this job. */
+.hero-clip { display: none; }
+@media (max-width: 960px) {
+  .hero-clip { display: block; margin: -6px 0 24px; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); background: #05070c; aspect-ratio: 720 / 526; box-shadow: 0 30px 80px -30px rgba(0,0,0,.9); }
+  .hero-clip video { display: block; width: 100%; height: 100%; object-fit: cover; }
+}
+
+/* Phones: long sections become rows you swipe, so the page is about half as tall. The next card peeks in as the hint. */
+@media (max-width: 700px) {
+  .clip-grid, .feature-list, .theme-grid {
+    display: grid; grid-template-columns: none; grid-auto-flow: column; overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+    scrollbar-width: none; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); scroll-padding-inline: var(--gutter);
+  }
+  .clip-grid::-webkit-scrollbar, .feature-list::-webkit-scrollbar, .theme-grid::-webkit-scrollbar { display: none; }
+  .clip-grid, .feature-list { grid-auto-columns: 86%; gap: 14px; }
+  .clip, .feature, .theme { scroll-snap-align: start; }
+  .feature, .feature-flip { grid-template-columns: 1fr; align-content: start; gap: 18px; padding: 8px 0 0; }
+  .feature-media { max-width: none; }
+  .feature-copy p { font-size: 16px; }
+  .theme-grid { grid-auto-columns: 92px; gap: 8px; padding-bottom: 4px; }
+  .theme-strip { gap: 16px; }
+  .prog-tile:nth-child(n+13) { display: none; }
+  .how-ring { width: min(260px, 70vw); }
+  .how { padding-bottom: 40px; }
+}
