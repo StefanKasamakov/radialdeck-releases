@@ -21,7 +21,7 @@
         <button class="btn ${navigator.share ? 'btn-ghost' : 'btn-primary'} btn-lg" data-act="copy">Copy the link</button>
         <a class="btn btn-ghost btn-lg" href="${mail}">Email it to myself</a>
       </div>
-      <p class="pc-more"><a class="pc-store" href="${STORE}">Open the Store page anyway</a><button data-act="close">Close</button></p>`;
+      <p class="pc-more"><a class="store-badge pc-store" href="${STORE}"><img src="/assets/ms-store-badge.svg" alt="See it in the Microsoft Store" width="160" height="44"></a><button data-act="close">Close</button></p>`;
     sheet.addEventListener('click', async e => {
       if (e.target === sheet) return sheet.close(); // a tap on the backdrop
       const act = e.target.closest('[data-act]')?.dataset.act;
@@ -45,7 +45,8 @@
   document.addEventListener('click', e => {
     if (e.target.closest('[data-send-pc]')) { e.preventDefault(); return open(); }
     const a = e.target.closest('a[href]');
-    if (a && !a.closest('.pc-sheet') && isGet(a)) { e.preventDefault(); open(/apps\.microsoft\.com/.test(a.href) ? a.href : STORE); }
+    // Store badges still open the Store page, so people see it is listed there.
+    if (a && !a.closest('.pc-sheet, .store-badge') && isGet(a)) { e.preventDefault(); open(/apps\.microsoft\.com/.test(a.href) ? a.href : STORE); }
   });
 
   // The header button says what it does on a phone.
