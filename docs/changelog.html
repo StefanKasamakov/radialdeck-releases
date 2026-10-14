@@ -44,6 +44,96 @@
   <a href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct"><img src="assets/ms-store-badge.svg" alt="Get it from Microsoft" width="180" height="50"></a>
   <a href="download">or download the installer (.exe)</a>
 </div>
+<section class="ver" id="v0.12.1"><h2>0.12.1</h2><p class="date">2026-10-13</p>
+<h3>Fixed</h3>
+<ul>
+<li>Primary buttons (Save, Create my rings, Activate, Install now, Add from gallery) no longer turn grey under the pointer: they stay blue, a shade darker. In light mode the white label had dropped to about 2:1. The accent blue is darker too (#2563EB), so white text on it reads at 5.2:1 instead of 3.7:1.</li>
+<li>Mouse triggers are shown in words: "hold right button", "back side button", "Ctrl+Shift+back side button" instead of "RightHold", "Mouse4" and "Ctrl+Shift+Mouse4", in the tutorial, the first-run window and the ring list in Settings. The config keeps its own spelling.</li>
+<li>With "hold right button" as the trigger the tutorial skips the "tap without holding" step (a quick right click is the app's own menu), so it ends and slices run again; before, nothing ran until ✕ was clicked.</li>
+<li>Settings fits its screen: on 1920×1080 at 150% the window no longer runs under the taskbar with Save and Close out of reach. It shrinks to the work area of the monitor it is on and the panels scroll.</li>
+<li>Picking "Keys" or "Text" for an empty slice no longer shows a red English error straight away. A slice left unfinished says so, in the app's language, when you save.</li>
+<li>"＋ New ring" and the gallery's "Add as new ring" give the new ring a free shortcut instead of copying the current ring's, which left the new ring never opening. With none free, the box asks for one.</li>
+<li>Settings no longer overwrites changes made while it was open (a slice added with ＋ in the ring, rings added from the welcome window, an edit by hand): with no unsaved edits it shows them, otherwise Save asks first.</li>
+<li>"Click to undo" after adding a slice with ＋ removes just that slice instead of putting back the whole configuration from before.</li>
+</ul>
+</section>
+<section class="ver" id="v0.12.0"><h2>0.12.0</h2><p class="date">2026-10-13</p>
+<h3>Added</h3>
+<ul>
+<li>The first-run window asks how to open the ring: a keyboard shortcut, the side mouse button (Forward) or the middle button. On a mouse with five or more buttons the side button is suggested. The coach card then teaches the chosen trigger, on the user's real first ring.</li>
+<li>Pro is visible before it bites: a Pro tag on gated slice types, rings, the app-only section and gallery recipes, a note under a ring or slice that won't run on Free, a lock on locked slices in the ring, and one line in the first-run window explaining Free and the trial.</li>
+<li>Settings: Undo/Redo buttons, "Reset to defaults…", a "Record" button for keystrokes, "Pick app…" for app-only rings, and a gallery that opens on "For your apps" with a "Popular" list.</li>
+<li>Tray: the icon greys out with a "paused" tooltip while paused; a single click opens Settings.</li>
+<li>"Use for all rings" next to the hotkey gives every ring the same trigger in one click, and says which rings that open everywhere would go quiet.</li>
+<li>Fixed directions: new rings keep eight fixed positions, so adding a slice no longer turns the others. Existing rings keep their layout until "Fixed directions" is ticked.</li>
+<li>The centre of the ring shows where you are: the nested ring's name, and the full label of a slice whose name was cut short.</li>
+<li>Admin windows: Windows doesn't let a normal program send keys to one that runs as administrator. RadialDeck now says so once per program instead of doing nothing.</li>
+<li>A suggested app ring ends with a "Main ring" slice, and the suggestion says that in that app it opens instead of the main ring.</li>
+<li>93 everyday recipes for people who never touch a terminal: undo, save, window screenshot, Documents/Pictures/Recycle Bin, symbols (€ — ° № ± ⌀ m²…), mic on/off in any call app, YouTube and Netflix keys, accessibility (Narrator, text size, pointer, colour filters), Wi-Fi/battery/phone settings, study and small-business templates.</li>
+<li>10 new packs in the first-run window: Everyday basics (Win+Alt+E), Screenshots &amp; files (Win+Alt+S), Symbols (Win+Alt+C), Drawing &amp; spec symbols (Win+Alt+N), Calls in any app (Win+Alt+O), YouTube &amp; Netflix (in Chrome), Easier to see &amp; hear (Win+Alt+A), Home &amp; PC care (Win+Alt+P), Study (Win+Alt+L), Small business (Win+Alt+Q). None is ticked by default.</li>
+<li>Tutorial in the tray menu, and a ticked "Show me how (1 minute)" box at the end of the first-run window. Four short steps: open the ring, pick a slice, close it without a pick, tap instead of holding.</li>
+<li>Ctrl+click a slice in the ring to open it in Settings, on its ring and nested level, ready to change.</li>
+<li>While the ring waits for a click, a faint ＋ in an empty position adds a slice there: the app in front, the copied text, or more in Settings. It is saved at once; the toast undoes it.</li>
+<li>A new slice starts with four big choices (App, Keys, Text, Ready-made) instead of a list of 14 types; "More types…" shows the full list.</li>
+</ul>
+<h3>Changed</h3>
+<ul>
+<li>The first-run window shows the everyday packs first; IT, developer, helpdesk, drawing, accessibility, home PC, study and small-business packs wait behind "More packs".</li>
+<li>The tutorial is practice: while its card is up, a picked slice only shows a check mark on the card and runs nothing, so the steps no longer open real windows (or a terminal). The card says when slices start running for real.</li>
+<li>The tutorial no longer tells touchpad users to hold the keys only: on a laptop it also explains the three-finger tap. Typing to find stays a tip under the ring instead of a tutorial step.</li>
+<li>Bulgarian: the first-run window says "резен" instead of "slice".</li>
+<li>Default hotkeys no longer use Ctrl+Alt, which is AltGr on many keyboard layouts and blocked characters such as ć, ź, @ and €. The packs and fallbacks use Win+Alt instead.</li>
+<li>The first run ticks only Essentials and Windows &amp; media; the default ring is the Essentials ring. Pack descriptions list only the slices that fit.</li>
+<li>Settings is tidier: grouped slice types, one "Appearance" menu, one "How the ring stays open" choice, rarely used options under Advanced. "Open another ring" is a choice inside "Open a ring".</li>
+<li>Messages are in plain words and in your language, titled with the slice's name; toasts queue instead of replacing each other, wait while the pointer is on them and appear on the monitor under the cursor.</li>
+<li>The hovered slice's label switches to black or white when the theme's colour would be hard to read.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Clicking outside the ring to close it ran the slice in that direction. It now just closes.</li>
+<li>Close and Esc in Settings discarded unsaved changes without asking, and the window X ignored changes to the look and options.</li>
+<li>Rings for File Explorer opened on the desktop and taskbar, which also belong to Explorer.</li>
+<li>A side-button trigger could also send the browser Back or Forward when the ring was slow to open.</li>
+<li>After the trial ended, the reminder came back every day; it now shows once.</li>
+<li>"Skip" in the first-run window ignored "Start with Windows".</li>
+<li>A quick tap of the trigger near a screen edge or over the taskbar ran whichever slice pointed at the cursor. Nothing runs now until the mouse moves.</li>
+<li>Remote desktop and virtual machines in full screen (mstsc, msrdc, vmconnect, VMware, VirtualBox) paused the hotkeys; they no longer do. The list is <code>fullscreenPauseExceptions</code> in config.json.</li>
+<li>Renaming a ring broke the slices that open it; they now follow the new name.</li>
+<li>Win+Alt+W and Win+Alt+Y, used by two packs, are taken by Windows or common apps on many PCs; the packs use Win+Alt+X and Win+Alt+U (Win+Alt+H is voice typing on Windows 11).</li>
+<li>35 gallery recipes for Gmail, Google Meet, Google Sheets, Trello, Jira, Asana and Canva send a bare letter (C, R, Space, /…). They are now marked as browser recipes, so the gallery offers them for a browser ring instead of one that opens everywhere and types the letter into Word.</li>
+<li>Web address slices with {clip} or {selection} cut the text at the first &amp; or #; the text is now URL-encoded.</li>
+</ul>
+<h3>Removed</h3>
+<ul>
+<li>The promise that a version stays Pro after 12 paid months. README and the Store listing now describe the network access accurately.</li>
+<li>The unfinished AI text actions, which no release ever switched on: the hidden "ai" action, its connect window, its gallery recipes, its texts and its line in the Pro list. A slice with "type": "ai" in an older config.json still loads with the rest of its ring; it does nothing and says so when the ring is built.</li>
+</ul>
+</section>
+<section class="ver" id="v0.11.4"><h2>0.11.4</h2><p class="date">2026-10-05</p>
+<h3>Fixed</h3>
+<ul>
+<li>A three-finger swipe set to RadialDeck's hotkey often did nothing. Windows shows a frameless full-screen overlay during touchpad gestures, and "pause while a game or video is full screen" took it for one, pausing the hotkeys just as the swipe sent them. Windows' own screens (the gesture overlay, Task View, Alt+Tab, Start, search) no longer count as full screen.</li>
+</ul>
+</section>
+<section class="ver" id="v0.11.3"><h2>0.11.3</h2><p class="date">2026-10-02</p>
+<h3>Added</h3>
+<ul>
+<li>Open the ring with a three-finger tap on a laptop touchpad. Windows can set a touchpad gesture to press a keyboard shortcut; Settings › gear › Laptop touchpad (shown only on a PC with a precision touchpad) explains it and opens the right Windows page, with RadialDeck's hotkeys paused so Windows can record them. With "flick without holding", the tap opens the ring and a slide of the finger picks. A three-finger swipe in each direction can open a different ring. The first-run window mentions it on a laptop.</li>
+</ul>
+</section>
+<section class="ver" id="v0.11.2"><h2>0.11.2</h2><p class="date">2026-10-02</p>
+<h3>Fixed</h3>
+<ul>
+<li>Store apps in the app picker. ChatGPT, Claude, Teams, WhatsApp, Spotify, Calculator and every other Store or packaged app were missing, because the list only knew Start-menu shortcuts that point at an .exe. They are now listed with their own icons and open like any other app.</li>
+</ul>
+</section>
+<section class="ver" id="v0.11.1"><h2>0.11.1</h2><p class="date">2026-10-02</p>
+<h3>Changed</h3>
+<ul>
+<li>Subscriptions renew on their own. Once a day RadialDeck asks radialdeck.com about the key it holds, sending only the key's random id: when the subscription has renewed, the new key arrives without anyone pasting it, and when a payment is refunded, Pro ends. The date in that answer is what expiry is measured against, so a PC clock set back no longer keeps a lapsed subscription on Pro. Perpetual keys, the free version and the trial never ask.</li>
+<li>A subscription key has to be confirmed online at least every 60 days, or 720 hours of use, whichever comes first; after that Pro pauses until the computer can reach radialdeck.com once, and comes back on its own. Anyone online is confirmed daily and never meets the limit.</li>
+</ul>
+</section>
 <section class="ver" id="v0.11.0"><h2>0.11.0</h2><p class="date">2026-10-02</p>
 <h3>Added</h3>
 <ul>

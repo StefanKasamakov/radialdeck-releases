@@ -19,8 +19,12 @@
   button[disabled] { opacity: .6; cursor: default; }
   .key { margin: 12px 0; padding: 16px; border-radius: 12px; background: #171a22; border: 1px solid #2a2f3b; }
   .key code { display: block; word-break: break-all; font: 14px/1.5 Consolas, monospace; color: #f2f3f7; }
-  .key .row { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; font-size: 14px; color: #9aa1b2; }
-  .key button { padding: 8px 14px; font-size: 14px; }
+  .key .row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; font-size: 14px; color: #9aa1b2; }
+  .key .actions { display: flex; gap: 8px; }
+  .key button, .key a.open { font: inherit; font-weight: 600; padding: 8px 14px; font-size: 14px; border-radius: 10px; }
+  .key button { background: #2a2f3b; }
+  .key a.open { background: #3b82f6; color: #fff; text-decoration: none; }
+  .key a.open:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px; }
   .error { color: #fca5a5; }
 </style>
 <!-- stats --><script>(function(){try{var q=new URLSearchParams(location.search);if(q.has('me'))q.get('me')==='off'?localStorage.removeItem('rd-me'):localStorage.setItem('rd-me','1');if(localStorage.getItem('rd-me'))return}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"3c578d6cc8ec449fbc8337276fef6eb6"}');document.head.appendChild(s)})()</script><!-- /stats -->
@@ -36,28 +40,36 @@
   <button id="go">Show my key</button>
 </form>
 <div id="out" aria-live="polite"></div>
-<p>Then open RadialDeck Settings, choose <b>License…</b> and paste the whole line. The key works offline.</p>
+<p><b>Activate in RadialDeck</b> turns Pro on in one click (your browser asks first whether to open RadialDeck). Nothing happens? Copy the key, open RadialDeck Settings, choose <b>License…</b> and paste it. The key works offline.</p>
 <p>Something wrong? <a href="mailto:hello@radialdeck.com">hello@radialdeck.com</a></p>
 </div>
 <script>
 const f = document.getElementById('f'), out = document.getElementById('out'), go = document.getElementById('go');
+// The key with its two ways into the app: one click (radialdeck://activate/, from 0.12.2) or Copy and paste.
+function show(key, note) {
+  const box = document.createElement('div'); box.className = 'key';
+  const code = document.createElement('code'); code.textContent = key;
+  const row = document.createElement('div'); row.className = 'row';
+  const text = document.createElement('span'); text.textContent = note;
+  const actions = document.createElement('div'); actions.className = 'actions';
+  const copy = document.createElement('button'); copy.type = 'button'; copy.textContent = 'Copy';
+  copy.onclick = async () => { await navigator.clipboard.writeText(key); copy.textContent = 'Copied'; };
+  const open = document.createElement('a'); open.className = 'open'; open.href = 'radialdeck://activate/' + key; open.textContent = 'Activate in RadialDeck';
+  actions.append(copy, open); row.append(text, actions); box.append(code, row); out.append(box);
+}
+// The e-mail's activation link brings the key after '#', which never reaches a server.
+const linked = location.hash.slice(1).match(/RD1-[A-Za-z0-9._]+-[A-Za-z0-9._]+/);
+if (linked) show(linked[0], 'Your Pro key');
 f.addEventListener('submit', async e => {
   e.preventDefault();
   go.disabled = true; out.textContent = '';
   try {
     const r = await fetch('/api/key', { method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ email: f.email.value, order: f.order.value }) });
+      body: JSON.stringify({ email: f.email.value.trim(), order: f.order.value.replace(/\s+/g, '') }) });
     const data = await r.json();
     if (!r.ok) { out.innerHTML = '<p class="error"></p>'; out.firstChild.textContent = data.error; return; }
-    data.keys.forEach((k, i) => {
-      const box = document.createElement('div'); box.className = 'key';
-      const code = document.createElement('code'); code.textContent = k.key;
-      const row = document.createElement('div'); row.className = 'row';
-      const note = document.createElement('span'); note.textContent = (i ? 'Earlier key, ' : '') + 'renews ' + k.exp;
-      const copy = document.createElement('button'); copy.type = 'button'; copy.textContent = 'Copy';
-      copy.onclick = async () => { await navigator.clipboard.writeText(k.key); copy.textContent = 'Copied'; };
-      row.append(note, copy); box.append(code, row); out.append(box);
-    });
+    if (!data.keys.length) { out.innerHTML = '<p class="error">This purchase was refunded, so it has no key any more. Questions: hello@radialdeck.com</p>'; return; }
+    data.keys.forEach((k, i) => show(k.key, (i ? 'Earlier key, valid until ' : 'Valid until ') + k.exp));
   } catch { out.innerHTML = '<p class="error">Could not reach the key service. Try again in a minute.</p>'; }
   finally { go.disabled = false; }
 });

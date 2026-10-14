@@ -33,17 +33,18 @@
 <body><div class="wrap">
 <p><a href="index.html">← RadialDeck</a></p>
 <h1>Privacy policy</h1>
-<p>Last updated 2 October 2026.</p>
+<p>Last updated 14 October 2026.</p>
 <h2>Who we are</h2>
 <p>RadialDeck is made and sold by Stefan Kasamakov, Sofia, Bulgaria, who is the controller of the personal data described below. Contact: <a href="mailto:hello@radialdeck.com">hello@radialdeck.com</a>.</p>
 <h2>What RadialDeck collects</h2>
 <p>Nothing about you. The application has no telemetry, no crash reporting, no analytics and no accounts.</p>
-<p>It makes two kinds of network request. The first is an optional update check: every few hours it asks GitHub Releases (api.github.com) for the latest version number and, if you click "install", downloads the installer from GitHub. The request carries no identifier other than the application name and version. GitHub's own <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a> applies to that request. You can turn the check off in Settings ("Check for updates"); the app then makes no network requests at all.</p>
-<p>The second happens only if you have entered a subscription key: once a day the application asks radialdeck.com about that key, sending the key’s random id and nothing else (no name, no e-mail, no information about your computer). The answer is today’s date, a renewed key when your subscription has renewed, and whether the payment was refunded. If radialdeck.com cannot be reached, the key keeps working offline for up to 60 days (or 720 hours of use), after which Pro waits for the next successful check. A perpetual key, the free version and the trial never make this request.</p>
+<p>It makes two kinds of network request. The first is an optional update check: every few hours it asks GitHub Releases (api.github.com) for the latest version number. When there is a newer one, the version installed from radialdeck.com downloads the installer from GitHub quietly by default and installs it the next time RadialDeck starts (or when you quit it); untick "Install automatically" in Settings to be asked first. The Microsoft Store version makes no update check: the Store updates it. The request carries no identifier other than the application name and version. GitHub's own <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">privacy statement</a> applies to that request. You can turn the check off in Settings ("Check for updates"); the app then makes no network requests at all.</p>
+<p>The second happens only if you have entered a subscription key: once a day the application asks radialdeck.com about that key, sending the key’s random id and nothing else (no name, no e-mail, no information about your computer). The answer is today’s date, a renewed key when your subscription has renewed, and whether the payment was refunded. If radialdeck.com cannot be reached, the key keeps working offline for up to 60 days, after which Pro waits for the next successful check. A perpetual key, the free version and the trial never make this request.</p>
 <h2>What stays on your computer</h2>
 <ul>
   <li><code>%APPDATA%\RadialDeck\config.json</code>: your rings and actions. Yours to edit, export or delete.</li>
   <li><code>%APPDATA%\RadialDeck\license.json</code>: your licence key and the date of your first run (for the trial). Verified locally.</li>
+  <li><code>HKEY_CURRENT_USER\Software\RadialDeck</code>: a copy of the trial start date (value <code>t</code>), so the trial is not restarted by deleting <code>license.json</code>, and a few flags for the tips you have already seen.</li>
   <li><code>%APPDATA%\RadialDeck\debug.log</code>: lifecycle events and errors. It never contains keystrokes or clipboard contents.</li>
 </ul>
 <h2>The clipboard history ring</h2>
@@ -55,9 +56,10 @@
 <p>"Report a problem" in the tray menu opens an e-mail in your own mail program and shows you <code>debug.log</code>. Nothing is sent unless you send that e-mail yourself, and you can read the log before attaching it.</p>
 <h2>The website</h2>
 <p>radialdeck.com counts visits with Cloudflare Web Analytics, which sets no cookies and stores nothing in your browser. It records which page was opened, the site you came from, your country and the kind of browser and device, and shows them to us only as totals. Your IP address is not kept and you are not followed from one site to another.</p>
+<p>If you write to us through the <a href="contact.html">contact form</a>, we receive your name, e-mail address, the topic you chose, your message and the IP address it came from (used only to limit each sender to five messages an hour). The message is forwarded to our mailbox through Cloudflare Email Routing and a copy is kept on Cloudflare for 90 days, then deleted automatically. We use it only to answer you.</p>
 <h2>Purchases</h2>
 <p>Pro and Team licences are sold through Lemon Squeezy, which acts as the seller of record and processes your payment details, address and VAT information under its own <a href="https://www.lemonsqueezy.com/privacy">privacy policy</a>. We never see your card.</p>
-<p>From each order we receive your name and e-mail address and keep them together with the licence key issued to you. We use them to deliver the key, to send it to you again if you lose it, to handle refunds and to answer your support e-mails. We do not use them for marketing and we do not sell or share them.</p>
+<p>From each order we receive your name and e-mail address and keep them together with the licence key issued to you. We use them to deliver the key (it is e-mailed to the address on the order through <a href="https://resend.com/legal/privacy-policy">Resend</a>, our e-mail processor), to send it to you again if you lose it, to handle refunds and to answer your support e-mails. We do not use them for marketing and we do not sell or share them.</p>
 <ul>
   <li><b>Legal basis:</b> performing the contract you entered into by buying a licence (GDPR Article 6(1)(b)).</li>
   <li><b>How long:</b> for as long as your licence exists, so a lost key can always be re-sent. Ask us to delete them at any time; the key itself keeps working.</li>
