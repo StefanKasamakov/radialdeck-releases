@@ -18,7 +18,6 @@
   h3 { font-size: 15px; text-transform: uppercase; letter-spacing: .08em; color: #9aa1b2; margin: 18px 0 6px; }
   code { font: 13px Consolas, monospace; background: #171a22; padding: 1px 5px; border-radius: 5px; }
 </style>
-<!-- stats --><script>(function(){try{var q=new URLSearchParams(location.search);if(q.has('me'))q.get('me')==='off'?localStorage.removeItem('rd-me'):localStorage.setItem('rd-me','1');if(localStorage.getItem('rd-me'))return}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"3c578d6cc8ec449fbc8337276fef6eb6"}');document.head.appendChild(s)})()</script><!-- /stats -->
 <!-- seo -->
 <link rel="canonical" href="https://radialdeck.com/changelog.html">
 <meta property="og:type" content="website">
@@ -34,6 +33,7 @@
 <meta name="twitter:description" content="Every RadialDeck release and what changed in it: new actions, themes, fixes and security work.">
 <meta name="twitter:image" content="https://radialdeck.com/assets/og.jpg">
 <!-- /seo -->
+<!-- stats --><script>(function(){try{var q=new URLSearchParams(location.search);if(q.has('me'))q.get('me')==='off'?localStorage.removeItem('rd-me'):localStorage.setItem('rd-me','1');if(localStorage.getItem('rd-me'))return}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"3c578d6cc8ec449fbc8337276fef6eb6"}');document.head.appendChild(s)})()</script><!-- /stats -->
 <!-- phone --><script>if(/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform))document.documentElement.classList.add('is-mobile')</script><script src="/phone.js" defer></script><!-- /phone -->
 </head>
 <body><div class="wrap">
@@ -44,6 +44,26 @@
   <a href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct"><img src="assets/ms-store-badge.svg" alt="Get it from Microsoft" width="180" height="50"></a>
   <a href="download">or download the installer (.exe)</a>
 </div>
+<section class="ver" id="v0.12.2"><h2>0.12.2</h2><p class="date">2026-10-14</p>
+<h3>Added</h3>
+<ul>
+<li>One-click activation: radialdeck://activate/… links (the key e-mail, radialdeck.com/key) turn Pro on, handed to the running RadialDeck if there is one. While another key is active the link only fills the Licence window, so a web page cannot swap a working key without a click.</li>
+<li>The Licence window fills in a key it finds on the clipboard, and "Find my key" fetches and activates the key with the e-mail and order number from the receipt, without leaving the app.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>A PC clock set into the future no longer makes a paid key look expired: once radialdeck.com has given the date, expiry is measured from it plus the time RadialDeck has run since.</li>
+<li>Offline, a subscription now keeps Pro for 60 days on every PC, as the site says: the limit of app run time went from 720 to 1440 hours, which had ended Pro after 30 days on a PC left on day and night.</li>
+<li>license.json is written through a temp file, and a damaged one is kept as license.json.bad with its key recovered instead of being reset.</li>
+<li>A config.json that can't be read is kept as config.broken-&lt;date&gt;.json, and RadialDeck no longer saves over it on its own (an app-ring suggestion or "Skip this version" used to replace your rings with the defaults). Only a save from Settings writes a new one.</li>
+<li>Updates are installed only when the release publishes their SHA-256, and a downloaded installer is checked again before it runs at the next start.</li>
+<li>A mouse trigger that Windows quietly dropped comes back within a minute, and a trigger that can't be set up says so once.</li>
+<li>"Hold right button" leaves the right click alone in windows running as administrator, where Windows blocks the replayed click.</li>
+<li>Microsoft Store build: "Report a problem" opens the folder where the log really is.</li>
+<li>A failed backup copy while upgrading an old config no longer stops the hotkeys from starting.</li>
+<li>The installer is smaller: an unused library was removed.</li>
+</ul>
+</section>
 <section class="ver" id="v0.12.1"><h2>0.12.1</h2><p class="date">2026-10-13</p>
 <h3>Fixed</h3>
 <ul>
