@@ -44,6 +44,18 @@
   <a href="https://apps.microsoft.com/detail/9NDJPDW5DV1N?mode=direct"><img src="assets/ms-store-badge.svg" alt="Get it from Microsoft" width="180" height="50"></a>
   <a href="download">or download the installer (.exe)</a>
 </div>
+<section class="ver" id="v0.12.3"><h2>0.12.3</h2><p class="date">2026-10-16</p>
+<h3>Added</h3>
+<ul>
+<li>Control OBS Studio from a slice: go live, record, mute the mic, switch scene, save a replay. RadialDeck talks to OBS directly, so there are no hotkeys to set up in OBS and it works while OBS is in the background; it reads OBS's password itself. Turn on OBS's WebSocket server once (Tools &gt; WebSocket Server Settings). Each press says what happened ("Mic MUTED", "You are LIVE", "Scene: BRB"), and "LIVE" only once OBS really is.</li>
+<li>"Streaming (OBS)" pack: go live, record, mic, main and BRB scene, replay, Discord mute and music in one ring.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Shortcuts sent by a slice are now held down for 50 ms, like a finger, instead of an instant. Programs that check the keyboard every few milliseconds instead of reading key messages (OBS hotkeys among them) missed 19 of 20 presses.</li>
+<li>If Windows refuses a shortcut halfway, its keys are still let go, so Ctrl or Win can't stay stuck down.</li>
+</ul>
+</section>
 <section class="ver" id="v0.12.2"><h2>0.12.2</h2><p class="date">2026-10-14</p>
 <h3>Added</h3>
 <ul>
