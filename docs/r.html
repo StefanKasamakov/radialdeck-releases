@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RadialDeck — Shared ring</title>
+<title>RadialDeck | Shared ring</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="assets/icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -86,7 +86,7 @@
   const slices = (ring.slices || []).slice(0, 8);
   $('name').textContent = ring.name || 'Ring';
   $('hub').textContent = ring.name || '';
-  document.title = `RadialDeck — ${ring.name || 'Shared ring'}`;
+  document.title = `RadialDeck | ${ring.name || 'Shared ring'}`;
   $('meta').textContent = `${slices.length} slices · opens with ${ring.hotkey || 'your hotkey'}` + (ring.conditions?.app ? ` · only in ${ring.conditions.app}` : '');
 
   let risky = 0;
