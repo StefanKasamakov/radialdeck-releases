@@ -223,6 +223,11 @@ code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-siz
 .footer { border-top: 1px solid var(--border); padding: 28px 0; color: var(--text-3); font-size: 14px; }
 .footer-inner { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .footer nav { display: flex; flex-wrap: wrap; gap: 10px 22px; }
+.footer-id { display: flex; flex-direction: column; gap: 10px; }
+.social { display: flex; gap: 4px; margin-left: -8px; }
+.social a { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 10px; color: var(--text-3); transition: color .15s, background .15s; }
+.social a:hover, .social a:focus-visible { color: var(--text); background: var(--surface-2); }
+.social svg { width: 18px; height: 18px; fill: currentColor; }
 
 /* Nested demo: submenu dots + back hub */
 .ring-label.has-sub::after { content: ""; position: absolute; right: -4px; top: 50%; width: 3px; height: 14px; margin-top: -7px; background: radial-gradient(circle, currentColor 1.4px, transparent 1.6px) 0 0 / 3px 5px repeat-y; opacity: .8; }
