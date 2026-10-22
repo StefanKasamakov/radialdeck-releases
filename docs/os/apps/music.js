@@ -95,14 +95,14 @@
 
   // The gallery's media recipes, labels as there.
   const RING = [
-    { label: 'Play/Pause', icon: 'playpause', tint: '#6ee7a0', say: 'Plays or pauses whatever is playing.', run: () => media().play() },
-    { label: 'Next', icon: P.next, tint: '#7cc4ff', say: 'Next track.', run: () => step(1) },
-    { label: 'Vol +', icon: P.up, tint: '#ffd166', say: 'Volume up. Three steps.', run: () => volume(6) },
-    { label: 'Mute', icon: 'mute', tint: '#ff6b6b', say: 'Mutes the sound, and unmutes it again.', run: () => { media().mute(); flyout(); } },
-    { label: 'Vol −', icon: P.down, tint: '#fdba74', say: 'Volume down. Three steps.', run: () => volume(-6) },
-    { label: 'Prev', icon: P.prev, tint: '#a5b4fc', say: 'Previous track (or the start of this one).', run: () => step(-1) },
-    { label: 'Shuffle', icon: P.shuffle, tint: '#c4a1ff', say: 'Toggle shuffle.', run: () => { st.shuffle = !st.shuffle; paint(); OS.toast('Shuffle', st.shuffle ? 'On' : 'Off', 'os/icons/music.svg'); } },
-    { label: 'Repeat', icon: P.repeat, tint: '#5eead4', say: 'Toggle repeat: all, one, off.', run: () => { st.repeat = { off: 'all', all: 'one', one: 'off' }[st.repeat]; paint(); OS.toast('Repeat', { all: 'The whole playlist', one: 'This song', off: 'Off' }[st.repeat], 'os/icons/music.svg'); } },
+    { label: 'Play/Pause', icon: '⏯', tint: '#6ee7a0', say: 'Plays or pauses whatever is playing.', run: () => media().play() },
+    { label: 'Next', icon: '⏭', tint: '#7cc4ff', say: 'Next track.', run: () => step(1) },
+    { label: 'Vol +', icon: '🔊', tint: '#ffd166', say: 'Volume up. Three steps.', run: () => volume(6) },
+    { label: 'Mute', icon: '🔇', tint: '#ff6b6b', say: 'Mutes the sound, and unmutes it again.', run: () => { media().mute(); flyout(); } },
+    { label: 'Vol −', icon: '🔉', tint: '#fdba74', say: 'Volume down. Three steps.', run: () => volume(-6) },
+    { label: 'Prev', icon: '⏮', tint: '#a5b4fc', say: 'Previous track (or the start of this one).', run: () => step(-1) },
+    { label: 'Shuffle', icon: '🔀', tint: '#c4a1ff', say: 'Toggle shuffle.', run: () => { st.shuffle = !st.shuffle; paint(); OS.toast('Shuffle', st.shuffle ? 'On' : 'Off', 'os/icons/music.svg'); } },
+    { label: 'Repeat', icon: '🔁', tint: '#5eead4', say: 'Toggle repeat: all, one, off.', run: () => { st.repeat = { off: 'all', all: 'one', one: 'off' }[st.repeat]; paint(); OS.toast('Repeat', { all: 'The whole playlist', one: 'This song', off: 'Off' }[st.repeat], 'os/icons/music.svg'); } },
   ];
   OS.register({
     id: 'music',

@@ -278,14 +278,14 @@
     onClose(c) { c.exports?.forEach(u => URL.revokeObjectURL(u)); },
     // The gallery's image recipes: [ and ] for the brush (Photoshop, Krita, GIMP, Paint.NET), Undo, Crop, Export as.
     ring: [
-      { label: 'Undo', icon: P.undo, tint: '#7cc4ff', say: 'Takes back the last thing you did.', run: c => undo(c) },
-      { label: 'Brush +', icon: P.bigger, tint: '#6ee7a0', say: 'The ] key: a bigger brush.', run: c => brush(c, 1) },
-      { label: 'Rotate', icon: P.rotate, tint: '#5eead4', say: 'Turns the picture 90° clockwise.', run: c => change(c, s => { s.rot = (s.rot + 90) % 360; }) },
-      { label: 'Flip', icon: P.flip, tint: '#a5b4fc', say: 'Mirrors the picture left to right.', run: c => change(c, s => { s.flip = !s.flip; }) },
-      { label: 'Export as', icon: P.export, tint: '#fdba74', say: 'Saves a JPG or a PNG of the picture.', run: c => exportDialog(c) },
-      { label: 'Black & white', icon: P.bw, tint: '#e5e7eb', say: 'Takes the colour out, or puts it back.', run: c => change(c, s => { s.bw = !s.bw; }) },
-      { label: 'Crop', icon: P.crop, tint: '#ff7aa8', say: 'Crops to the frame: a tenth off each edge.', run: c => crop(c) },
-      { label: 'Brush −', icon: P.smaller, tint: '#ffd166', say: 'The [ key: a smaller brush.', run: c => brush(c, -1) },
+      { label: 'Undo', icon: '↩', tint: '#7cc4ff', say: 'Takes back the last thing you did.', run: c => undo(c) },
+      { label: 'Brush +', icon: '🖌', tint: '#6ee7a0', say: 'The ] key: a bigger brush.', run: c => brush(c, 1) },
+      { label: 'Rotate', icon: '↻', tint: '#5eead4', say: 'Turns the picture 90° clockwise.', run: c => change(c, s => { s.rot = (s.rot + 90) % 360; }) },
+      { label: 'Flip', icon: '◧', tint: '#a5b4fc', say: 'Mirrors the picture left to right.', run: c => change(c, s => { s.flip = !s.flip; }) },
+      { label: 'Export as', icon: 'fluent:E722', tint: '#fdba74', say: 'Saves a JPG or a PNG of the picture.', run: c => exportDialog(c) },
+      { label: 'Black & white', icon: '◐', tint: '#e5e7eb', say: 'Takes the colour out, or puts it back.', run: c => change(c, s => { s.bw = !s.bw; }) },
+      { label: 'Crop', icon: 'fluent:E7A8', tint: '#ff7aa8', say: 'Crops to the frame: a tenth off each edge.', run: c => crop(c) },
+      { label: 'Brush −', icon: '🖌', tint: '#ffd166', say: 'The [ key: a smaller brush.', run: c => brush(c, -1) },
     ],
   });
 })();

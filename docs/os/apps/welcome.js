@@ -62,14 +62,14 @@
       body.querySelector('.wl-apps').addEventListener('click', e => { const b = e.target.closest('[data-app-open]'); if (b) OS.open(b.dataset.appOpen); });
     },
     ring: [
-      { label: 'Tour', icon: 'ring', tint: '#fdba74', say: 'Thirty seconds: the ring on the desktop, in Excel and in File Explorer.', run: () => tour() },
-      { label: 'Get it free', icon: 'download', tint: '#4cc2ff', say: 'RadialDeck in the Microsoft Store. Free for two rings.', run: () => location.assign(STORE) },
-      { label: 'What it does', icon: 'zap', tint: '#7cc4ff', say: 'Every feature, each with a demo.', run: () => OS.open('features') },
-      { label: 'Tricks', icon: 'hand', tint: '#f9a8d4', say: 'Shortcuts most people never find, one flick away.', run: () => OS.open('tricks') },
+      { label: 'Tour', icon: 'fluent:E71D', tint: '#fdba74', say: 'Thirty seconds: the ring on the desktop, in Excel and in File Explorer.', run: () => tour() },
+      { label: 'Get it free', icon: '⬇', tint: '#4cc2ff', say: 'RadialDeck in the Microsoft Store. Free for two rings.', run: () => location.assign(STORE) },
+      { label: 'What it does', icon: '⚡', tint: '#7cc4ff', say: 'Every feature, each with a demo.', run: () => OS.open('features') },
+      { label: 'Tricks', icon: '👋', tint: '#f9a8d4', say: 'Shortcuts most people never find, one flick away.', run: () => OS.open('tricks') },
       { label: 'Excel', icon: 'img:assets/apps/excel.png', tint: '#6ee7a0', say: "Open Excel and hold the mouse in it: Excel's ring.", run: () => OS.open('excel') },
-      { label: 'Explorer', icon: 'file', tint: '#ffd166', say: 'Files get their own ring: shrink, convert, copy the path.', run: () => OS.open('explorer') },
-      { label: 'Pro', icon: 'shield', tint: '#c4b5fd', say: 'What is free, what Pro adds, and the price.', run: () => OS.open('pro') },
-      { label: 'Close', icon: 'close', tint: '#ff6b6b', say: 'Closes this window. Start here stays on the desktop.', run: c => c?.close() },
+      { label: 'Explorer', icon: 'img:assets/apps/explorer.png', tint: '#ffd166', say: 'Files get their own ring: shrink, convert, copy the path.', run: () => OS.open('explorer') },
+      { label: 'Pro', icon: '💎', tint: '#c4b5fd', say: 'What is free, what Pro adds, and the price.', run: () => OS.open('pro') },
+      { label: 'Close', icon: '✖', tint: '#ff6b6b', say: 'Closes this window. Start here stays on the desktop.', run: c => c?.close() },
     ],
   });
 

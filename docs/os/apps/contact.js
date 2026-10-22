@@ -33,11 +33,11 @@
     },
     onOpen(c, args) { topic(c, args.params?.topic); },
     ring: c => [
-      { label: 'Send', icon: '<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>', tint: '#4cc2ff', say: 'Sends the message. A person answers by e-mail.', run: () => c.send?.() },
-      { label: 'Team licences', icon: 'users', tint: '#fcd34d', say: 'Topic: team or company licences.', run: () => topic(c, 'team') },
-      { label: 'Support', icon: '<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/>', tint: '#93c5fd', say: 'Topic: support or a bug.', run: () => topic(c, 'support') },
-      { label: 'Share a ring', icon: 'ring', tint: '#99f6e4', say: 'Topic: share a ring. Paste its link in the message.', run: () => topic(c, 'ring') },
-      { label: 'Privacy', icon: 'shield', tint: '#6ee7a0', say: 'What happens to your message.', run: () => OS.open('privacy') },
+      { label: 'Send', icon: '🚀', tint: '#4cc2ff', say: 'Sends the message. A person answers by e-mail.', run: () => c.send?.() },
+      { label: 'Team licences', icon: '👥', tint: '#fcd34d', say: 'Topic: team or company licences.', run: () => topic(c, 'team') },
+      { label: 'Support', icon: '❓', tint: '#93c5fd', say: 'Topic: support or a bug.', run: () => topic(c, 'support') },
+      { label: 'Share a ring', icon: 'fluent:E72D', tint: '#99f6e4', say: 'Topic: share a ring. Paste its link in the message.', run: () => topic(c, 'ring') },
+      { label: 'Privacy', icon: '🛡', tint: '#6ee7a0', say: 'What happens to your message.', run: () => OS.open('privacy') },
     ],
   });
 })();

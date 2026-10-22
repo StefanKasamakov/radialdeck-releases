@@ -464,14 +464,14 @@
     onClose(c) { cancelAnimationFrame(c.anim); },
     // The gallery's AutoCAD recipes.
     ring: [
-      { label: 'Zoom extents', icon: I.zoomExt, tint: '#7cc4ff', say: 'Types Z, Enter, E, Enter: the whole drawing fills the window.', run: c => zoomExtents(c) },
-      { label: 'Osnap', icon: I.osnap, tint: '#ffd166', say: 'Turns object snap on or off (F3).', run: c => toggle(c, 'osnap') },
-      { label: 'Ortho', icon: I.ortho, tint: '#6ee7a0', say: 'Turns Ortho mode on or off (F8).', run: c => toggle(c, 'ortho') },
-      { label: 'Polar', icon: I.polar, tint: '#5eead4', say: 'Turns polar tracking on or off (F10).', run: c => toggle(c, 'polar') },
-      { label: 'Plot', icon: I.plot, tint: '#a5b4fc', say: 'Opens Plot (Ctrl+P).', run: c => plot(c) },
-      { label: 'Purge', icon: I.purge, tint: '#ff6b6b', say: 'Removes every unused block, layer, style and linetype in one go, without the dialog.', run: c => purge(c) },
-      { label: 'Properties', icon: I.props, tint: '#c4a1ff', say: 'Shows or hides the Properties palette (Ctrl+1).', run: c => toggleProps(c) },
-      { label: 'Clean screen', icon: I.clean, tint: '#fdba74', say: 'Hides the ribbon and palettes; pick it again for them back (Ctrl+0).', run: c => clean(c) },
+      { label: 'Zoom extents', icon: 'fluent:E8BD', tint: '#7cc4ff', say: 'Types Z, Enter, E, Enter: the whole drawing fills the window.', run: c => zoomExtents(c) },
+      { label: 'Osnap', icon: '🧲', tint: '#ffd166', say: 'Turns object snap on or off (F3).', run: c => toggle(c, 'osnap') },
+      { label: 'Ortho', icon: '📐', tint: '#6ee7a0', say: 'Turns Ortho mode on or off (F8).', run: c => toggle(c, 'ortho') },
+      { label: 'Polar', icon: '🧭', tint: '#5eead4', say: 'Turns polar tracking on or off (F10).', run: c => toggle(c, 'polar') },
+      { label: 'Plot', icon: 'fluent:E790', tint: '#a5b4fc', say: 'Opens Plot (Ctrl+P).', run: c => plot(c) },
+      { label: 'Purge', icon: 'fluent:E790', tint: '#ff6b6b', say: 'Removes every unused block, layer, style and linetype in one go, without the dialog.', run: c => purge(c) },
+      { label: 'Properties', icon: 'ℹ', tint: '#c4a1ff', say: 'Shows or hides the Properties palette (Ctrl+1).', run: c => toggleProps(c) },
+      { label: 'Clean screen', icon: 'fluent:E7F4', tint: '#fdba74', say: 'Hides the ribbon and palettes; pick it again for them back (Ctrl+0).', run: c => clean(c) },
     ],
   });
 })();

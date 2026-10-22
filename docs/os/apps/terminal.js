@@ -163,15 +163,15 @@
     onClose() { T = null; },
     // The gallery's Windows Terminal recipes, and Paste plain from Clipboard.
     ring: [
-      { label: 'New tab', icon: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M12 9v6M9 12h6"/>', tint: '#7cc4ff', say: 'Open new tab.', run: () => newTab() },
-      { label: 'Split', icon: 'snapRight', tint: '#c4a1ff', say: 'A nested ring: point at it and right / down come out as bubbles (Pro).', children: [
-        { label: 'Split right', icon: 'snapRight', tint: '#c4a1ff', say: 'Split pane vertically: a new pane on the right.', run: () => split('row') },
-        { label: 'Split down', icon: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 12h18"/><path d="M3 12h18v8H3z" fill="currentColor" fill-opacity=".35"/>', tint: '#fdba74', say: 'Split pane horizontally: a new pane below.', run: () => split('col') },
+      { label: 'New tab', icon: '➕', tint: '#7cc4ff', say: 'Open new tab.', run: () => newTab() },
+      { label: 'Split', icon: '◨', tint: '#c4a1ff', say: 'A nested ring: point at it and right / down come out as bubbles (Pro).', children: [
+        { label: 'Split right', icon: '◨', tint: '#c4a1ff', say: 'Split pane vertically: a new pane on the right.', run: () => split('row') },
+        { label: 'Split down', icon: '▤', tint: '#fdba74', say: 'Split pane horizontally: a new pane below.', run: () => split('col') },
       ] },
-      { label: 'Clear', icon: '<path d="m7 21-4.3-4.3a1 1 0 0 1 0-1.4l9.6-9.6a1 1 0 0 1 1.4 0l5.6 5.6a1 1 0 0 1 0 1.4L13 21M22 21H7M5 11l9 9"/>', tint: '#5eead4', say: 'Clears the pane (cls).', run: () => { tabNow().active.lines = []; draw(); } },
-      { label: 'Full screen', icon: 'maximize', tint: '#ffd166', say: 'Toggle full screen.', run: c => c?.el.querySelector('.win-max')?.click() },
-      { label: 'Close pane', icon: 'close', tint: '#ff6b6b', say: 'Close current pane/tab.', run: () => closePane() },
-      { label: 'Paste plain', icon: 'clipboard', tint: '#a5b4fc', say: 'Pastes what you copied without fonts, colours or links.', run: pastePlain },
+      { label: 'Clear', icon: '🧹', tint: '#5eead4', say: 'Clears the pane (cls).', run: () => { tabNow().active.lines = []; draw(); } },
+      { label: 'Full screen', icon: 'fluent:E7F4', tint: '#ffd166', say: 'Toggle full screen.', run: c => c?.el.querySelector('.win-max')?.click() },
+      { label: 'Close pane', icon: '✖', tint: '#ff6b6b', say: 'Close current pane/tab.', run: () => closePane() },
+      { label: 'Paste plain', icon: '📄', tint: '#a5b4fc', say: 'Pastes what you copied without fonts, colours or links.', run: pastePlain },
     ],
   });
   function closeTabAt(i) { T.cur = i; const t = tabNow(); t.active = t.root.p || panes(t.root)[0]; t.root = { p: t.active }; closePane(); }

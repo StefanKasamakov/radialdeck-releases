@@ -81,22 +81,14 @@ code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-siz
 .demo-hint { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); margin: 0; font-size: 12.5px; color: var(--text-2); background: rgba(0,0,0,.35); border: 1px solid var(--border); padding: 6px 12px; border-radius: 999px; white-space: nowrap; transition: opacity var(--t-slow); }
 .demo-hint.is-hidden { opacity: 0; }
 .ring { position: relative; width: 78%; aspect-ratio: 1; outline: none; }
-.ring-svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 22px 30px var(--r-shadow, rgba(0,0,0,.55))); }
-.ring-svg .slice { fill: var(--r-fill); stroke: var(--r-stroke); stroke-width: var(--r-stroke-w, 1); transition: fill var(--t-fast); cursor: pointer; }
-.ring-svg .slice.is-hot { fill: var(--r-fill-hot); stroke: var(--r-hover-stroke, #fff); filter: drop-shadow(0 0 var(--r-glow-r, 0px) var(--r-glow)); }
-.ring-svg .slice:not(.is-hot) { fill-opacity: var(--r-slice-op, 1); }
+.ring-svg { width: 100%; height: 100%; display: block; }
+.ring-svg .slice { cursor: pointer; }
 .ring-photo { position: absolute; inset: 3.125%; border-radius: 50%; overflow: hidden; pointer-events: none; }
 .ring-photo::before { content: ""; position: absolute; inset: -8%; background: var(--ph-img) center / cover no-repeat; filter: blur(var(--ph-blur, 4px)); }
 .ring-photo::after { content: ""; position: absolute; inset: 0; background: rgba(0,0,0,var(--ph-dim, .45)); }
 .ring-photo + .ring-svg { position: relative; }
-.ring-svg .slice-pat { fill: var(--r-pat, none); pointer-events: none; }
 .ring-labels { position: absolute; inset: 0; pointer-events: none; }
-.ring-label { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 4px; width: 84px; color: var(--r-label-dim); font-family: var(--r-font, inherit); font-size: var(--r-label-size, 12.5px); font-weight: var(--r-weight, 600); letter-spacing: -.01em; text-align: center; line-height: 1.15; transition: color var(--t-fast); }
-.ring-label svg { width: 24px; height: 24px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.ring-label.is-hot { color: var(--r-label); }
-.ring-label.is-mid { font-size: calc(var(--r-label-size, 12.5px) - 1px); width: 80px; }
-.ring-label.is-long { font-size: calc(var(--r-label-size, 12.5px) - 2px); width: 78px; letter-spacing: -.02em; }
-.ring.is-upper .ring-label span { text-transform: uppercase; letter-spacing: .02em; }
+.ring-label { position: absolute; left: 0; top: 0; transform: translate(-50%, -50%); color: var(--r-label-dim); transition: color var(--t-fast); }
 .ring-static { width: min(400px, 100%); margin: 0 auto; }
 .ring-static .ring-svg .slice { cursor: default; }
 .feature-media { padding: 6%; background: radial-gradient(60% 60% at 50% 45%, rgba(59,130,246,.12), transparent 70%), var(--surface); }
@@ -423,7 +415,6 @@ kbd { font-family: var(--font-body); font-size: 12.5px; font-weight: 600; color:
 .stage-ctx { font-size: 12.5px; font-weight: 500; color: var(--text-2); background: rgba(12,16,25,.8); border: 1px solid var(--border); padding: 5px 12px; border-radius: 999px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; animation: fx-press .25s var(--ease-out); }
 .stage-pointer { position: absolute; left: 50%; top: 50%; width: 26px; height: 26px; margin: -2px 0 0 -4px; fill: #fff; stroke: #0b0d14; stroke-width: 1.4; stroke-linejoin: round; filter: drop-shadow(0 2px 3px rgba(0,0,0,.5)); opacity: 0; transition: transform .38s var(--ease-out), opacity var(--t-base); pointer-events: none; }
 .stage.has-pointer .stage-pointer { opacity: 1; }
-.ring-label img { width: 30px; height: 30px; }
 .stage-hud kbd { font-size: 14px; padding: 4px 10px; animation: fx-press .25s var(--ease-out); }
 @keyframes fx-press { from { transform: translateY(3px); opacity: .4; } }
 .stage-toast { position: absolute; left: 50%; bottom: 16px; transform: translate(-50%, 8px); max-width: 88%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13.5px; font-weight: 500; padding: 8px 14px; border-radius: 12px; background: rgba(12,16,25,.85); border: 1px solid var(--border-strong); opacity: 0; transition: opacity var(--t-base), transform var(--t-base) var(--ease-out); }
@@ -447,11 +438,6 @@ kbd { font-family: var(--font-body); font-size: 12.5px; font-weight: 600; color:
 .features-more { margin: 30px 0 0; }
 .nav nav a[aria-current="page"] { color: var(--text); }
 /* A demo ring smaller than the showcase size: labels and icons shrink with it so they stay in their slices. */
-.stage .ring-label { font-size: max(9px, min(var(--r-label-size, 12.5px), 2.9cqw)); }
-.stage .ring-label.is-mid { font-size: max(9px, min(calc(var(--r-label-size, 12.5px) - 1px), 2.7cqw)); }
-.stage .ring-label.is-long { font-size: max(8.5px, min(calc(var(--r-label-size, 12.5px) - 2px), 2.5cqw)); }
-.stage .ring-label svg { width: clamp(16px, 5.6cqw, 24px); height: clamp(16px, 5.6cqw, 24px); }
-.stage .ring-label img { width: clamp(18px, 6.8cqw, 30px); height: clamp(18px, 6.8cqw, 30px); }
 
 /* Generated program pages (for/), shared rings (rings.html) and the comparison page */
 .doc-hero { padding: clamp(48px, 7vw, 96px) 0 clamp(20px, 3vw, 36px); }

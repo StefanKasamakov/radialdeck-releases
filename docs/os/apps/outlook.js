@@ -10,11 +10,9 @@
   const I = {
     reply: '<path d="M9 17 4 12l5-5"/><path d="M20 18v-2a4 4 0 0 0-4-4H4"/>',
     replyAll: '<path d="M7 17 2 12l5-5M12 17l-5-5 5-5"/><path d="M22 18v-2a4 4 0 0 0-4-4H7"/>',
-    forward: '<path d="m15 17 5-5-5-5"/><path d="M4 18v-2a4 4 0 0 1 4-4h12"/>',
-    template: '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M8 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M16 4h2a2 2 0 0 1 2 2v4M21 14H11"/><path d="m15 10-4 4 4 4"/>',
+    forward: '<path d="m15 17 5-5-5-5"/><path d="M4 18v-2a4 4 0 0 1 4-4h12"/>',
     mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
-    newMail: '<path d="M22 12V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7M19 16v6M16 19h6"/>',
-    read: '<path d="M22 13V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7M16 19l2 2 4-4"/>',
+    newMail: '<path d="M22 12V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h9"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7M19 16v6M16 19h6"/>',
     calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
     archive: '<rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/>',
     send: '<path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/>',
@@ -23,8 +21,7 @@
     draft: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
     trash: '<path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/>',
     clip: '<path d="m21.4 11.1-9.2 9.2a6 6 0 0 1-8.5-8.5l9.2-9.2a4 4 0 0 1 5.7 5.7l-9.2 9.2a2 2 0 0 1-2.8-2.8l8.5-8.5"/>',
-    back: '<path d="m12 19-7-7 7-7M19 12H5"/>',
-    flag: '<path d="M4 22V4a1 1 0 0 1 1-1h12l-2 5 2 5H5"/>',
+    back: '<path d="m12 19-7-7 7-7M19 12H5"/>',
   };
   const ME = { name: 'Alex Morgan', addr: 'alex.morgan@example.com' };
   const hue = s => [...s].reduce((h, ch) => (h * 31 + ch.charCodeAt(0)) % 360, 7);
@@ -259,20 +256,20 @@
     // RadialDeck's Outlook ring (the gallery's "outlook" pack). Two slices follow what is on screen, as the
     // keys do in Outlook: New mail is Send while a draft is open, Calendar is Inbox while the calendar is.
     ring: c => [
-      { label: 'Reply', icon: I.reply, tint: '#7cc4ff', say: 'A nested ring: point at it and Reply, Reply all and Template come out as bubbles (Pro).', children: [
-        { label: 'Reply', icon: I.reply, tint: '#7cc4ff', say: 'Opens a reply to the selected mail, quoted. In Outlook: Ctrl+R.', run: c => reply(c, 'reply') },
-        { label: 'Reply all', icon: I.replyAll, tint: '#93c5fd', say: 'Replies to everyone on the mail. In Outlook: Ctrl+Shift+R.', run: c => reply(c, 'all') },
-        { label: 'Reply + template', icon: I.template, tint: '#fdba74', say: 'Opens a reply and pastes your text. Edit the text after adding.', run: c => reply(c, 'reply', true) },
+      { label: 'Reply', icon: '↩', tint: '#7cc4ff', say: 'A nested ring: point at it and Reply, Reply all and Template come out as bubbles (Pro).', children: [
+        { label: 'Reply', icon: '↩', tint: '#7cc4ff', say: 'Opens a reply to the selected mail, quoted. In Outlook: Ctrl+R.', run: c => reply(c, 'reply') },
+        { label: 'Reply all', icon: '↩↩', tint: '#93c5fd', say: 'Replies to everyone on the mail. In Outlook: Ctrl+Shift+R.', run: c => reply(c, 'all') },
+        { label: 'Reply + template', icon: '📋', tint: '#fdba74', say: 'Opens a reply and pastes your text. Edit the text after adding.', run: c => reply(c, 'reply', true) },
       ] },
-      { label: 'Forward', icon: I.forward, tint: '#a5b4fc', say: 'Forwards the mail with its text. In Outlook: Ctrl+F.', run: c => reply(c, 'forward') },
+      { label: 'Forward', icon: '➡', tint: '#a5b4fc', say: 'Forwards the mail with its text. In Outlook: Ctrl+F.', run: c => reply(c, 'forward') },
       c?.compose
-        ? { label: 'Send', icon: I.send, tint: '#6ee7a0', say: 'Sends the open message. In Outlook: Ctrl+Enter.', run: send }
-        : { label: 'New mail', icon: I.newMail, tint: '#6ee7a0', say: 'A new, empty message. In Outlook: Ctrl+N.', run: newMail },
-      { label: 'Mark read', icon: I.read, tint: '#5eead4', say: 'Marks the selected mail read, or unread again. In Outlook: Ctrl+Q.', run: markRead },
+        ? { label: 'Send', icon: '🚀', tint: '#6ee7a0', say: 'Sends the open message. In Outlook: Ctrl+Enter.', run: send }
+        : { label: 'New mail', icon: '✉', tint: '#6ee7a0', say: 'A new, empty message. In Outlook: Ctrl+N.', run: newMail },
+      { label: 'Mark read', icon: '✓', tint: '#5eead4', say: 'Marks the selected mail read, or unread again. In Outlook: Ctrl+Q.', run: markRead },
       c?.view === 'cal'
-        ? { label: 'Inbox', icon: I.inbox, tint: '#ffd166', say: 'Back to the inbox. In Outlook: Ctrl+1.', run: inbox }
-        : { label: 'Calendar', icon: I.calendar, tint: '#ffd166', say: 'Goes to the calendar. In Outlook: Ctrl+2.', run: c => view(c, 'cal') },
-      { label: 'Archive', icon: I.archive, tint: '#c4a1ff', say: 'Moves the selected mail to Archive. In Outlook: Backspace in the list.', run: archive },
+        ? { label: 'Inbox', icon: '📥', tint: '#ffd166', say: 'Back to the inbox. In Outlook: Ctrl+1.', run: inbox }
+        : { label: 'Calendar', icon: '📅', tint: '#ffd166', say: 'Goes to the calendar. In Outlook: Ctrl+2.', run: c => view(c, 'cal') },
+      { label: 'Archive', icon: '🗄', tint: '#c4a1ff', say: 'Moves the selected mail to Archive. In Outlook: Backspace in the list.', run: archive },
     ],
   });
 })();

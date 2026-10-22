@@ -101,14 +101,7 @@ A pie menu in 60 lines. Hold, flick, let go.
     run: '<path d="M7 4v16l12-8z"/>',
     ext: '<rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><path d="m14 7 3-3 3 3-3 3z"/>',
     gear: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
-    palette: '<path d="M4 6h16M4 12h10M4 18h7"/><path d="m17 15 3 3-3 3"/>',
-    quick: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><circle cx="11.5" cy="14.5" r="2.5"/><path d="m13.3 16.3 1.7 1.7"/>',
-    format: '<path d="M21 6H3M15 12H3M17 18H3"/><path d="m19 10 2 2-2 2"/>',
-    comment: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="m10 8-2 5M14 8l-2 5"/>',
-    terminal: '<path d="m4 17 6-6-6-6M12 19h8"/>',
-    sidebar: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/>',
-    zen: '<path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>',
-    findAll: '<circle cx="10" cy="10" r="6"/><path d="m20 20-5.5-5.5M7 10h6"/>',
+    palette: '<path d="M4 6h16M4 12h10M4 18h7"/><path d="m17 15 3 3-3 3"/>',
     close: '<path d="M18 6 6 18M6 6l12 12"/>',
     chevron: '<path d="m9 18 6-6-6-6"/>',
   };
@@ -459,14 +452,14 @@ A pie menu in 60 lines. Hold, flick, let go.
     onClose(c) { removeEventListener('pointerup', c.up, true); },
     // The gallery's VS Code recipes, labels as there.
     ring: [
-      { label: 'Palette', icon: P.palette, tint: '#7cc4ff', say: 'Opens the command palette (Ctrl+Shift+P).', run: c => palette(c) },
-      { label: 'Quick open', icon: P.quick, tint: '#5eead4', say: 'Go to file (Ctrl+P).', run: c => palette(c, '') },
-      { label: 'Format', icon: P.format, tint: '#6ee7a0', say: 'Formats the whole document (Shift+Alt+F).', run: c => formatDoc(c) },
-      { label: 'Comment', icon: P.comment, tint: '#ffd166', say: 'Toggles a line comment on the selected lines (Ctrl+/).', run: c => comment(c) },
-      { label: 'Terminal', icon: P.terminal, tint: '#fdba74', say: 'Toggles the integrated terminal (Ctrl+`).', run: c => terminal(c) },
-      { label: 'Find in files', icon: P.findAll, tint: '#ff7aa8', say: 'Searches all files for the selected word (Ctrl+Shift+F).', run: c => findInFiles(c) },
-      { label: 'Sidebar', icon: P.sidebar, tint: '#c4a1ff', say: 'Toggles the sidebar (Ctrl+B).', run: c => sidebar(c) },
-      { label: 'Zen', icon: P.zen, tint: '#a5b4fc', say: 'Zen mode: only the code (Ctrl+K Z).', run: c => zen(c) },
+      { label: 'Palette', icon: 'fluent:E943', tint: '#7cc4ff', say: 'Opens the command palette (Ctrl+Shift+P).', run: c => palette(c) },
+      { label: 'Quick open', icon: 'fluent:E8E5', tint: '#5eead4', say: 'Go to file (Ctrl+P).', run: c => palette(c, '') },
+      { label: 'Format', icon: 'fluent:E943', tint: '#6ee7a0', say: 'Formats the whole document (Shift+Alt+F).', run: c => formatDoc(c) },
+      { label: 'Comment', icon: 'fluent:E8BD', tint: '#ffd166', say: 'Toggles a line comment on the selected lines (Ctrl+/).', run: c => comment(c) },
+      { label: 'Terminal', icon: '⌨', tint: '#fdba74', say: 'Toggles the integrated terminal (Ctrl+`).', run: c => terminal(c) },
+      { label: 'Find in files', icon: '🔎', tint: '#ff7aa8', say: 'Searches all files for the selected word (Ctrl+Shift+F).', run: c => findInFiles(c) },
+      { label: 'Sidebar', icon: 'fluent:E700', tint: '#c4a1ff', say: 'Toggles the sidebar (Ctrl+B).', run: c => sidebar(c) },
+      { label: 'Zen', icon: 'fluent:E943', tint: '#a5b4fc', say: 'Zen mode: only the code (Ctrl+K Z).', run: c => zen(c) },
     ],
   });
 

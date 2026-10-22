@@ -7,14 +7,11 @@
   const ROOT = new URL('./', location.href).href;
   const HOME = 'blog/index.html';
   const P = {
-    plus: '<path d="M12 5v14M5 12h14"/>',
-    reopen: '<path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>',
-    reload: '<path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><path d="M21 3v5h-5"/>',
-    address: '<rect x="2" y="7" width="20" height="10" rx="5"/><path d="M7 12h6M16 10v4"/>',
+    plus: '<path d="M12 5v14M5 12h14"/>',
+    reload: '<path d="M21 12a9 9 0 1 1-2.64-6.36L21 8"/><path d="M21 3v5h-5"/>',
     back: '<path d="m12 19-7-7 7-7M19 12H5"/>',
     fwd: '<path d="m12 5 7 7-7 7M5 12h14"/>',
-    private: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/>',
-    camera: '<path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/>',
+    private: '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/><path d="M3 3l18 18"/>',
     lock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
     close: '<path d="M18 6 6 18M6 6l12 12"/>',
     search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/>',
@@ -329,14 +326,14 @@
     },
     // The browser ring from the gallery (Edge and Chrome recipes), as this window does them.
     ring: [
-      { label: 'New tab', icon: P.plus, tint: '#7cc4ff', say: 'Opens a new tab.', run: c => { newTab(c); focusAddr(c); } },
-      { label: 'Address bar', icon: P.address, tint: '#5eead4', say: 'Puts the cursor in the address bar, text selected.', run: c => focusAddr(c) },
-      { label: 'Reload', icon: P.reload, tint: '#6ee7a0', say: 'Loads the page again.', run: c => reload(c) },
-      { label: 'Screenshot', icon: P.camera, tint: '#ff7aa8', say: 'Takes a capture of the page.', run: c => capture(c) },
-      { label: 'Close tab', icon: P.close, tint: '#ff6b6b', say: 'Closes the tab you are on.', run: c => closeTab(c) },
-      { label: 'Private', icon: P.private, tint: '#c4a1ff', say: 'A new private tab.', run: c => { newTab(c, null, { private: true }); focusAddr(c); } },
-      { label: 'Back', icon: P.back, tint: '#fdba74', say: 'Goes back a page.', run: c => c.cur.idx ? step(c, -1) : OS.toast('Back', 'This tab has nowhere to go back to.', ICON) },
-      { label: 'Reopen tab', icon: P.reopen, tint: '#ffd166', say: 'Brings back the last tab you closed.', run: c => reopen(c) },
+      { label: 'New tab', icon: '➕', tint: '#7cc4ff', say: 'Opens a new tab.', run: c => { newTab(c); focusAddr(c); } },
+      { label: 'Address bar', icon: 'fluent:E774', tint: '#5eead4', say: 'Puts the cursor in the address bar, text selected.', run: c => focusAddr(c) },
+      { label: 'Reload', icon: 'fluent:E72C', tint: '#6ee7a0', say: 'Loads the page again.', run: c => reload(c) },
+      { label: 'Screenshot', icon: '📸', tint: '#ff7aa8', say: 'Takes a capture of the page.', run: c => capture(c) },
+      { label: 'Close tab', icon: '✖', tint: '#ff6b6b', say: 'Closes the tab you are on.', run: c => closeTab(c) },
+      { label: 'Private', icon: '🕶', tint: '#c4a1ff', say: 'A new private tab.', run: c => { newTab(c, null, { private: true }); focusAddr(c); } },
+      { label: 'Back', icon: 'fluent:E72B', tint: '#fdba74', say: 'Goes back a page.', run: c => c.cur.idx ? step(c, -1) : OS.toast('Back', 'This tab has nowhere to go back to.', ICON) },
+      { label: 'Reopen tab', icon: '↩', tint: '#ffd166', say: 'Brings back the last tab you closed.', run: c => reopen(c) },
     ],
   });
 

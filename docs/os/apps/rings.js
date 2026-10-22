@@ -26,7 +26,7 @@
     ring: c => [
       ...RING.map(([slug, name, icon]) => ({ label: name, icon, tint: '#99f6e4',
         say: c.body.querySelector(`#ring-${slug} .rg-meta`)?.textContent || `The ${name} ring.`, run: () => show(c, slug) })),
-      { label: 'Copy link', icon: 'link', tint: '#6ee7a0', say: c.card ? `Copies a link to the ${c.card} ring.` : 'Copies a link to this page.',
+      { label: 'Copy link', icon: '🔗', tint: '#6ee7a0', say: c.card ? `Copies a link to the ${c.card} ring.` : 'Copies a link to this page.',
         run: () => OS.share('rings.html' + (c.card ? '#ring-' + c.card : ''), 'Shared RadialDeck rings') },
     ],
   });

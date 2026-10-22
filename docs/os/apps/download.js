@@ -23,10 +23,10 @@
       </div>`;
     },
     ring: [
-      { label: 'Microsoft Store', icon: 'download', tint: '#4cc2ff', say: 'Opens RadialDeck in the Microsoft Store.', run: () => location.assign(STORE) },
-      { label: 'Installer', icon: 'file', tint: '#a5b4fc', say: 'Downloads RadialDeckSetup.exe.', run: () => location.assign('download') },
-      { label: 'Install help', icon: '<circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01"/>', tint: '#93c5fd', say: 'SmartScreen, admin rights, Store or installer.', run: () => OS.open('help', { hash: 'install' }) },
-      { label: 'Pro', icon: '<path d="M6 3h12l4 6-10 12L2 9z"/><path d="M2 9h20"/>', tint: '#c4b5fd', say: 'What Pro adds, and the price.', run: () => OS.open('pro', { hash: 'pricing' }) },
+      { label: 'Microsoft Store', icon: '⬇', tint: '#4cc2ff', say: 'Opens RadialDeck in the Microsoft Store.', run: () => location.assign(STORE) },
+      { label: 'Installer', icon: '📦', tint: '#a5b4fc', say: 'Downloads RadialDeckSetup.exe.', run: () => location.assign('download') },
+      { label: 'Install help', icon: '❓', tint: '#93c5fd', say: 'SmartScreen, admin rights, Store or installer.', run: () => OS.open('help', { hash: 'install' }) },
+      { label: 'Pro', icon: '💎', tint: '#c4b5fd', say: 'What Pro adds, and the price.', run: () => OS.open('pro', { hash: 'pricing' }) },
     ],
   });
 })();

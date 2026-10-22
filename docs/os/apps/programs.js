@@ -65,7 +65,7 @@
     },
     onClose() { P = null; },
     ring: [
-      { label: 'Search', icon: 'search', tint: '#7cc4ff', say: 'Type a program\'s name.', run: () => P?.find.focus() },
+      { label: 'Search', icon: '🔍', tint: '#7cc4ff', say: 'Type a program\'s name.', run: () => P?.find.focus() },
       ...[['Excel & Word', 'file', '#4ade80'], ['Outlook', '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/>', '#5cb3ff'], ['Browser', '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>', '#5eead4'],
         ['Calls & chat', 'users', '#a5a8ff'], ['Media', 'playpause', '#6ee7a0'], ['Developer', '<path d="m16 18 6-6-6-6M8 6l-6 6 6 6"/>', '#c4a1ff'], ['Creative & CAD', 'palette', '#ff7aa8']]
         .map(([label, icon, tint]) => ({ label, icon, tint, say: `The ${label} programs.`, run: () => jump(label) })),

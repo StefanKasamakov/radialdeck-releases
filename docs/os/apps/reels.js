@@ -10,10 +10,8 @@
   const list = () => clips ||= fetch('assets/reels/reels.json').then(r => r.json()).catch(() => []);
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c]);
   const I = {
-    prev: '<path d="m18 15-6-6-6 6"/>', next: '<path d="m6 9 6 6 6-6"/>',
-    share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/>',
-    full: '<path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>',
-    grid: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
+    next: '<path d="m6 9 6 6 6-6"/>',
+    share: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/>',
     play: '<path d="M7 4v16l13-8z" fill="currentColor"/>',
   };
 
@@ -173,13 +171,13 @@
     },
     // Previous up, Next down, as the clips go.
     ring: () => [
-      { label: 'Previous', icon: I.prev, tint: '#a5b4fc', say: 'The clip before this one.', run: () => go(-1) },
+      { label: 'Previous', icon: '⏮', tint: '#a5b4fc', say: 'The clip before this one.', run: () => go(-1) },
       { label: R?.muted ? 'Unmute' : 'Mute', icon: R?.muted ? 'sound' : 'mute', tint: '#ff6b6b', say: R?.muted ? 'Turns the sound on.' : 'Turns the sound off.', run: () => mute() },
-      { label: 'Share', icon: I.share, tint: '#7cc4ff', say: 'A link to this clip: the share sheet, or copied.', run: share },
-      { label: 'Get it', icon: 'download', tint: '#6ee7a0', say: 'RadialDeck in the Microsoft Store. Free for two rings.', run: () => { const pc = document.querySelector('[data-send-pc]'); if (document.documentElement.classList.contains('is-mobile') && pc) pc.click(); else location.href = STORE; } },   // a phone sends the link to a PC (phone.js)
-      { label: 'Next', icon: I.next, tint: '#a5b4fc', say: 'The next clip.', run: () => go(1) },
-      { label: 'Full screen', icon: I.full, tint: '#ffd166', say: 'The clip fills the screen. Esc comes back.', run: full },
-      { label: 'All clips', icon: I.grid, tint: '#c4a1ff', say: 'Every clip at once; pick one.', run: () => grid() },
+      { label: 'Share', icon: 'fluent:E72D', tint: '#7cc4ff', say: 'A link to this clip: the share sheet, or copied.', run: share },
+      { label: 'Get it', icon: '⬇', tint: '#6ee7a0', say: 'RadialDeck in the Microsoft Store. Free for two rings.', run: () => { const pc = document.querySelector('[data-send-pc]'); if (document.documentElement.classList.contains('is-mobile') && pc) pc.click(); else location.href = STORE; } },   // a phone sends the link to a PC (phone.js)
+      { label: 'Next', icon: '⏭', tint: '#a5b4fc', say: 'The next clip.', run: () => go(1) },
+      { label: 'Full screen', icon: 'fluent:E7F4', tint: '#ffd166', say: 'The clip fills the screen. Esc comes back.', run: full },
+      { label: 'All clips', icon: '▦', tint: '#c4a1ff', say: 'Every clip at once; pick one.', run: () => grid() },
       { label: vid() && !vid().paused ? 'Pause' : 'Play', icon: 'playpause', tint: '#5eead4', say: 'Plays or pauses this clip.', run: togglePlay },
     ],
   });

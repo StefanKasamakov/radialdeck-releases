@@ -90,12 +90,12 @@
     },
     onClose() { B = null; },
     ring: [
-      { label: 'Empty bin', icon: 'trash', tint: '#ff6b6b', say: 'Empties the Recycle Bin without opening it.', run: empty },
-      { label: 'Restore', icon: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>', tint: '#6ee7a0', say: 'Puts the selected files back where they were.', run: () => restore(chosen()) },
-      { label: 'Open location', icon: '<path d="m6 14 1.5-2.9A2 2 0 0 1 9.2 10H20a2 2 0 0 1 1.9 2.5l-1.5 6a2 2 0 0 1-2 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.7.9l.8 1.2a2 2 0 0 0 1.7.9H18a2 2 0 0 1 2 2v2"/>', tint: '#ffd166', say: 'Restores the selected file and opens the folder it came from.', run: () => restore(chosen().slice(0, 1), true) },
-      { label: 'Restore all', icon: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 2"/>', tint: '#5eead4', say: 'Everything back where it came from.', run: () => restore([...F().bin]) },
-      { label: 'Delete', icon: '<path d="M18 6 6 18M6 6l12 12"/>', tint: '#ff7aa8', say: 'Deletes the selected files for good.', run: () => remove(chosen()) },
-      { label: 'Select all', icon: '<path d="M18 6 7 17l-5-5M22 10l-7.5 7.5L13 16"/>', tint: '#7cc4ff', say: 'Selects everything in the bin.', run: () => { F().bin.forEach(it => B?.sel.add(it)); draw(); } },
+      { label: 'Empty bin', icon: '🗑', tint: '#ff6b6b', say: 'Empties the Recycle Bin without opening it.', run: empty },
+      { label: 'Restore', icon: 'fluent:E777', tint: '#6ee7a0', say: 'Puts the selected files back where they were.', run: () => restore(chosen()) },
+      { label: 'Open location', icon: 'fluent:E8B7', tint: '#ffd166', say: 'Restores the selected file and opens the folder it came from.', run: () => restore(chosen().slice(0, 1), true) },
+      { label: 'Restore all', icon: '🔄', tint: '#5eead4', say: 'Everything back where it came from.', run: () => restore([...F().bin]) },
+      { label: 'Delete', icon: 'fluent:E74D', tint: '#ff7aa8', say: 'Deletes the selected files for good.', run: () => remove(chosen()) },
+      { label: 'Select all', icon: '🔲', tint: '#7cc4ff', say: 'Selects everything in the bin.', run: () => { F().bin.forEach(it => B?.sel.add(it)); draw(); } },
     ],
   });
   // The desktop's bin starts full; the Everyday ring and the desktop icon find this app through the shell.

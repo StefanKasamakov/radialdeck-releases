@@ -28,9 +28,9 @@
       },
       ring: [
         ...DOCS.map(([d, label, url, icon]) => ({ label, icon, tint: '#cbd5e1', say: `Opens ${url}.`, run: () => OS.open(d) })),
-        { label: 'Print', icon: PRINT, tint: '#a5b4fc', say: 'Prints this document, without the desktop around it.', run: print },
-        { label: 'Copy link', icon: 'link', tint: '#6ee7a0', say: 'Copies the link to this document.', run: c => OS.share(c.app.url, c.app.title) },
-        { label: 'Contact', icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>', tint: '#5eead4', say: 'A question about this? Write to us.', run: () => OS.open('contact') },
+        { label: 'Print', icon: '🖨', tint: '#a5b4fc', say: 'Prints this document, without the desktop around it.', run: print },
+        { label: 'Copy link', icon: '🔗', tint: '#6ee7a0', say: 'Copies the link to this document.', run: c => OS.share(c.app.url, c.app.title) },
+        { label: 'Contact', icon: '💬', tint: '#5eead4', say: 'A question about this? Write to us.', run: () => OS.open('contact') },
       ],
     });
   }

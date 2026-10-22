@@ -8,9 +8,7 @@
   const svg = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
   const I = {
     track: '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
-    count: '<path d="M4 6h16M4 11h16M4 16h9M17 14l2 6M21 14l-2 6"/>',
-    sign: '<path d="M3 21h18"/><path d="M4 16c3-6 5-9 7-9 3 0-2 9 1 9 1.5 0 2.5-3 4-3s1 2 3 2"/>',
-    pdf: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/>',
+    count: '<path d="M4 6h16M4 11h16M4 16h9M17 14l2 6M21 14l-2 6"/>',
     table: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>',
     read: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
     accept: '<path d="M18 6 7 17l-5-5M22 10l-7.5 7.5L13 16"/>',
@@ -282,14 +280,14 @@
     onClose(c) { document.removeEventListener('selectionchange', c.onSel); removeEventListener('pointermove', c.onMove); removeEventListener('pointerup', c.onUp); },
     // RadialDeck's Word ring, labels and wording from the gallery.
     ring: [
-      { label: 'Track changes', icon: I.track, tint: '#f0a3d8', say: 'Turns Track changes on or off. In Word: Ctrl+Shift+E.', run: R(track) },
-      { label: 'Word count', icon: I.count, tint: '#7cc4ff', say: 'Words, characters, paragraphs and lines. In Word: Ctrl+Shift+G.', run: R(count) },
-      { label: 'Signature', icon: I.sign, tint: '#fdba74', say: 'Jumps to the end and adds your signature. Edit the text after adding.', run: R(signature) },
-      { label: 'To PDF', icon: I.pdf, tint: '#ff7aa8', say: 'Saves the document as a PDF.', run: R(pdf) },
-      { label: 'Table 3x3', icon: I.table, tint: '#5eead4', say: 'Inserts a 3x3 table where the cursor is.', run: R(table) },
-      { label: 'Read mode', icon: I.read, tint: '#ffd166', say: 'The page as a book, no ribbon. Again to edit. In Word: Alt W F.', run: R(read) },
-      { label: 'Accept all', icon: I.accept, tint: '#6ee7a0', say: 'Accepts every tracked change. Review › Accept all.', run: R(accept) },
-      { label: 'Clear format', icon: I.clear, tint: '#c4a1ff', say: 'Removes bold, colour and highlight from the selection. In Word: Ctrl+Space.', run: R(clearFormat) },
+      { label: 'Track changes', icon: 'fluent:E768', tint: '#f0a3d8', say: 'Turns Track changes on or off. In Word: Ctrl+Shift+E.', run: R(track) },
+      { label: 'Word count', icon: 'fluent:E8A5', tint: '#7cc4ff', say: 'Words, characters, paragraphs and lines. In Word: Ctrl+Shift+G.', run: R(count) },
+      { label: 'Signature', icon: '✍', tint: '#fdba74', say: 'Jumps to the end and adds your signature. Edit the text after adding.', run: R(signature) },
+      { label: 'To PDF', icon: '📄', tint: '#ff7aa8', say: 'Saves the document as a PDF.', run: R(pdf) },
+      { label: 'Table 3x3', icon: '▦', tint: '#5eead4', say: 'Inserts a 3x3 table where the cursor is.', run: R(table) },
+      { label: 'Read mode', icon: '📖', tint: '#ffd166', say: 'The page as a book, no ribbon. Again to edit. In Word: Alt W F.', run: R(read) },
+      { label: 'Accept all', icon: '✔', tint: '#6ee7a0', say: 'Accepts every tracked change. Review › Accept all.', run: R(accept) },
+      { label: 'Clear format', icon: '🧹', tint: '#c4a1ff', say: 'Removes bold, colour and highlight from the selection. In Word: Ctrl+Space.', run: R(clearFormat) },
     ],
   });
 })();

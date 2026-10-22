@@ -89,19 +89,19 @@ ask Maria about the slides`;
     },
     // The text tricks from the gallery's Clipboard category, labels and descriptions as there.
     ring: [
-      { label: 'Paste plain', icon: 'clipboard', tint: '#a5b4fc', say: 'Pastes what you copied without fonts, colours or links.', run: async c => {
+      { label: 'Paste plain', icon: '📄', tint: '#a5b4fc', say: 'Pastes what you copied without fonts, colours or links.', run: async c => {
         let text = null;
         try { text = await navigator.clipboard.readText(); } catch (_) { }
         if (text === null) return OS.toast('Paste plain', 'This browser keeps the clipboard to itself. Press Ctrl+V: Notepad takes it plain.', 'os/icons/notepad.svg');
         put(c, range(c), text);
       } },
-      { label: 'UPPER', icon: 'caseUp', tint: '#ffd166', say: 'The selected text in capitals.', run: apply(T.upper, 'UPPER') },
-      { label: 'Title Case', icon: 'title', tint: '#fdba74', say: 'First Letter Of Every Word.', run: apply(T.title, 'Title Case') },
-      { label: 'Trim spaces', icon: 'spaces', tint: '#5eead4', say: 'Collapses whitespace into single spaces. Great for text copied from PDFs.', run: apply(T.trim, 'Trim spaces') },
-      { label: 'Count', icon: 'hash', tint: '#c4a1ff', say: 'Shows the count in a balloon.', run: c => OS.toast('Count', T.count(c.ta.value.slice(...range(c))), 'os/icons/notepad.svg') },
-      { label: 'Sort lines', icon: 'sort', tint: '#6ee7a0', say: 'Sorts the lines alphabetically.', run: apply(T.sort, 'Sort lines') },
-      { label: 'Clean link', icon: 'link', tint: '#7cc4ff', say: 'Removes utm_, fbclid, gclid… and keeps the clean URL.', run: apply(T.url, 'Clean link') },
-      { label: 'lower', icon: 'caseDown', tint: '#ff7aa8', say: 'The selected text in small letters.', run: apply(T.lower, 'lower') },
+      { label: 'UPPER', icon: 'fluent:E8C8', tint: '#ffd166', say: 'The selected text in capitals.', run: apply(T.upper, 'UPPER') },
+      { label: 'Title Case', icon: 'fluent:E8A5', tint: '#fdba74', say: 'First Letter Of Every Word.', run: apply(T.title, 'Title Case') },
+      { label: 'Trim spaces', icon: 'fluent:E8A5', tint: '#5eead4', say: 'Collapses whitespace into single spaces. Great for text copied from PDFs.', run: apply(T.trim, 'Trim spaces') },
+      { label: 'Count', icon: '🔢', tint: '#c4a1ff', say: 'Shows the count in a balloon.', run: c => OS.toast('Count', T.count(c.ta.value.slice(...range(c))), 'os/icons/notepad.svg') },
+      { label: 'Sort lines', icon: 'fluent:E8CB', tint: '#6ee7a0', say: 'Sorts the lines alphabetically.', run: apply(T.sort, 'Sort lines') },
+      { label: 'Clean link', icon: '🔗', tint: '#7cc4ff', say: 'Removes utm_, fbclid, gclid… and keeps the clean URL.', run: apply(T.url, 'Clean link') },
+      { label: 'lower', icon: 'fluent:E8C8', tint: '#ff7aa8', say: 'The selected text in small letters.', run: apply(T.lower, 'lower') },
     ],
   });
 

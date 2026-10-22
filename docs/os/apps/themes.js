@@ -3,7 +3,7 @@
    its gallery written from themes.js by build/site-os.py. */
 (() => {
   const ids = () => RDRing.THEMES.map(t => t.id);
-  const SAMPLE = ['theme', 'snip', 'desktop', 'mute', 'lock', 'trash', 'scan', 'playpause'];
+  const SAMPLE = ['🌗', '✂', 'fluent:E8B7', '🔇', '🔒', '🗑', 'fluent:E722', '⏯'];   // the gallery's icons for these slices
   const LABELS = ['Theme', 'Snip', 'Desktop', 'Mute', 'Lock', 'Bin', 'Text', 'Play'];
 
   function page(c, id) {
@@ -55,7 +55,7 @@
         if (a) { e.preventDefault(); page(c, a.getAttribute('href').slice(1)); }
       });
       const ring = root.querySelector('.th-ring');
-      RDRing.buildRing(ring.querySelector('.ring-svg'), ring.querySelector('.ring-labels'), { slices: SAMPLE.map((k, i) => [LABELS[i], OS.icons[k]]) });
+      RDRing.buildRing(ring.querySelector('.ring-svg'), ring.querySelector('.ring-labels'), { slices: SAMPLE.map((k, i) => [LABELS[i], k]) });
       root.querySelector('.th-now').hidden = false;
       root.addEventListener('click', e => {
         const card = e.target.closest('.th-card'), v = e.target.closest('[data-variant]'), act = e.target.closest('[data-act]')?.dataset.act;
@@ -76,12 +76,12 @@
     },
     onClose(c) { removeEventListener('os:ringtheme', c.onTheme); },
     ring: [
-      { label: 'Dark/Light', icon: 'theme', tint: '#ffd166', say: "Switches the theme between its dark and light variant.", run: flip },
-      { label: 'Next theme', icon: '<path d="m9 18 6-6-6-6"/>', tint: '#fda4af', say: 'The next of the 38 themes, on the ring at once.', run: () => step(1) },
-      { label: 'Share theme', icon: 'link', tint: '#6ee7a0', say: 'Copies a link that opens this theme.', run: share },
-      { label: 'Random', icon: '<path d="M2 18h3.5c2 0 3-1 4.5-3l3-6c1-2 2.5-3 4.5-3H22M18 2l4 4-4 4M2 6h3.5c1.4 0 2.3.5 3.2 1.5M22 18h-4.5c-1.4 0-2.3-.5-3.2-1.5M18 22l4-4-4-4"/>', tint: '#ffd166', say: 'Any theme but this one.', run: random },
-      { label: 'Open studio', icon: 'palette', tint: '#c4a1ff', say: 'Design your own theme on the real renderer.', run: c => page(c, 'studio') },
-      { label: 'Previous theme', icon: '<path d="m15 18-6-6 6-6"/>', tint: '#fda4af', say: 'The theme before this one.', run: () => step(-1) },
+      { label: 'Dark/Light', icon: '🌗', tint: '#ffd166', say: "Switches the theme between its dark and light variant.", run: flip },
+      { label: 'Next theme', icon: 'fluent:E76C', tint: '#fda4af', say: 'The next of the 38 themes, on the ring at once.', run: () => step(1) },
+      { label: 'Share theme', icon: '🔗', tint: '#6ee7a0', say: 'Copies a link that opens this theme.', run: share },
+      { label: 'Random', icon: '🔀', tint: '#ffd166', say: 'Any theme but this one.', run: random },
+      { label: 'Open studio', icon: '🎨', tint: '#c4a1ff', say: 'Design your own theme on the real renderer.', run: c => page(c, 'studio') },
+      { label: 'Previous theme', icon: 'fluent:E76B', tint: '#fda4af', say: 'The theme before this one.', run: () => step(-1) },
     ],
   });
 })();

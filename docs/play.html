@@ -198,6 +198,8 @@ body.is-minimised .copy, body.is-minimised .files { transform: translateY(42vh) 
 @media (max-height: 560px) { body { overflow: auto; touch-action: auto; } main { height: auto; min-height: 100svh; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
 </style>
+<!-- stats --><script>(function(){try{var q=new URLSearchParams(location.search);if(q.get('frame')==='laptop')return;if(q.has('me'))q.get('me')==='off'?localStorage.removeItem('rd-me'):localStorage.setItem('rd-me','1');if(localStorage.getItem('rd-me'))return}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"3c578d6cc8ec449fbc8337276fef6eb6"}');document.head.appendChild(s)})()</script><!-- /stats -->
+<!-- phone --><script>if(/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform))document.documentElement.classList.add('is-mobile')</script><script src="/phone.js" defer></script><!-- /phone -->
 </head>
 <body data-stage="everyday">
 
@@ -272,6 +274,7 @@ body.is-minimised .copy, body.is-minimised .files { transform: translateY(42vh) 
 <div class="lock" id="lock" role="dialog" aria-label="Locked"><b id="lock-time"></b><span id="lock-date"></span><small>Click to unlock</small></div>
 
 <script src="themes.js"></script>
+<script src="ring-icons.js"></script>
 <script src="ring.js"></script>
 <script>
 (() => {

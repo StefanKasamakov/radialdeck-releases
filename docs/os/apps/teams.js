@@ -165,14 +165,14 @@
     onClose(c) { clearInterval(c.tick); },
     // RadialDeck's Teams ring. Mute and Camera show the state they will switch from.
     ring: c => [
-      { label: 'Mute', icon: c?.muted ? I.micOff : I.mic, tint: '#ff6b6b', say: 'Mutes or unmutes your mic. In Teams: Ctrl+Shift+M.', run: mute },
-      { label: 'Camera', icon: c?.cam ? I.cam : I.camOff, tint: '#7cc4ff', say: 'Camera on or off. In Teams: Ctrl+Shift+O.', run: cam },
-      { label: 'Raise hand', icon: I.hand, tint: '#ffd166', say: 'Raises or lowers your hand. In Teams: Ctrl+Shift+K.', run: hand },
-      { label: 'Share screen', icon: I.share, tint: '#5eead4', say: 'Starts or stops sharing your screen.', run: share },
-      { label: 'Leave', icon: I.leave, tint: '#ff7a7a', say: 'Leaves the meeting. In Teams: Ctrl+Shift+H.', run: leave },
-      { label: 'New chat', icon: I.chat, tint: '#a5b4fc', say: 'Starts a new chat.', run: chat },
-      { label: 'Search', icon: I.search, tint: '#c4a1ff', say: 'Goes to the search box. In Teams: Ctrl+E.', run: search },
-      { label: 'Admit', icon: I.admit, tint: '#6ee7a0', say: 'Lets in the people waiting in the lobby.', run: admit },
+      { label: 'Mute', icon: '🎙', tint: '#ff6b6b', say: 'Mutes or unmutes your mic. In Teams: Ctrl+Shift+M.', run: mute },
+      { label: 'Camera', icon: '📷', tint: '#7cc4ff', say: 'Camera on or off. In Teams: Ctrl+Shift+O.', run: cam },
+      { label: 'Raise hand', icon: '✋', tint: '#ffd166', say: 'Raises or lowers your hand. In Teams: Ctrl+Shift+K.', run: hand },
+      { label: 'Share screen', icon: '🖥', tint: '#5eead4', say: 'Starts or stops sharing your screen.', run: share },
+      { label: 'Leave', icon: '🚪', tint: '#ff7a7a', say: 'Leaves the meeting. In Teams: Ctrl+Shift+H.', run: leave },
+      { label: 'New chat', icon: 'fluent:E710', tint: '#a5b4fc', say: 'Starts a new chat.', run: chat },
+      { label: 'Search', icon: '🔍', tint: '#c4a1ff', say: 'Goes to the search box. In Teams: Ctrl+E.', run: search },
+      { label: 'Admit', icon: 'fluent:E8FB', tint: '#6ee7a0', say: 'Lets in the people waiting in the lobby.', run: admit },
     ],
   });
 })();

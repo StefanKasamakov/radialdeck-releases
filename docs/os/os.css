@@ -70,15 +70,42 @@ body.is-night .land .window { opacity: .9; }
 .grain { position: fixed; inset: 0; pointer-events: none; opacity: .14; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
 
-/* ---- Desktop icons: a column grid from the top left, as Windows lays them out ---- */
-.os-icons { position: fixed; left: 4px; top: 4px; bottom: 52px; z-index: 4; display: grid; grid-auto-flow: column; grid-template-rows: repeat(auto-fill, 90px); grid-auto-columns: 84px; gap: 2px; align-content: start; }
-.os-icon { display: grid; justify-items: center; align-content: start; gap: 5px; padding: 7px 3px 6px; margin: 0; border: 1px solid transparent; border-radius: 4px; background: none; cursor: default;
-  font: 400 12px/1.25 var(--font-ui); color: #fff; text-align: center; text-decoration: none; text-shadow: 0 1px 3px rgba(0,0,0,.7), 0 0 1px rgba(0,0,0,.5); }
-.os-icon img, .os-icon svg { width: 44px; height: 44px; filter: drop-shadow(0 3px 6px rgba(0,0,0,.35)); pointer-events: none; }
-.os-icon span { max-width: 100%; overflow-wrap: anywhere; }
-.os-icon:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.12); }
-.os-icon.is-selected { background: rgba(120,170,255,.24); border-color: rgba(160,200,255,.4); }
-.os-icon:focus-visible { outline: 1px dashed #fff; outline-offset: -3px; }
+/* ---- Desktop icons, in groups (build/site-os.py GROUPS). The page's ?layout= (html[data-layout], set in its head)
+   picks how: fences (the default: a labelled glass group each, down the left, the Recycle Bin top right), clean (one
+   column of the main ones and All apps; the rest is in Start) or folders (a tile per group that opens beside it).
+   --cw is a cell's width, --ic an icon's size. ---- */
+.os-icons { --cw: 84px; --ic: 40px; --fs: 12px; --pad: 7px 3px 6px; position: fixed; left: 8px; top: 8px; bottom: 56px; z-index: 4; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.os-icon, .os-fence-open { display: grid; justify-items: center; align-content: start; gap: 5px; width: var(--cw); padding: var(--pad); margin: 0; border: 1px solid transparent; border-radius: 6px; background: none; cursor: default;
+  font: 400 var(--fs)/1.25 var(--font-ui); color: #fff; text-align: center; text-decoration: none; text-shadow: 0 1px 3px rgba(0,0,0,.7), 0 0 1px rgba(0,0,0,.5); }
+.os-icon img, .os-icon svg { width: var(--ic); height: var(--ic); filter: drop-shadow(0 3px 6px rgba(0,0,0,.35)); pointer-events: none; }
+.os-icon span, .os-fence-open span { max-width: 100%; overflow-wrap: anywhere; }
+:is(.os-icon, .os-fence-open):hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.12); }
+.os-icon.is-selected, .os-fence.is-open .os-fence-open { background: rgba(120,170,255,.24); border-color: rgba(160,200,255,.4); }
+:is(.os-icon, .os-fence-open):focus-visible { outline: 1px dashed #fff; outline-offset: -3px; }
+.os-fence-box { padding: 6px 6px 7px; border-radius: 12px; background: rgba(14,16,34,.24); border: 1px solid rgba(255,255,255,.14);
+  box-shadow: 0 10px 30px rgba(8,6,24,.16); backdrop-filter: blur(10px) saturate(1.15); -webkit-backdrop-filter: blur(10px) saturate(1.15); }
+.os-fence-h { margin: 0 5px 5px; padding: 1px 0 6px; border-bottom: 1px solid rgba(255,255,255,.12); font: 600 12px/1.2 var(--font-ui); letter-spacing: .01em; color: rgba(255,255,255,.9); text-shadow: 0 1px 2px rgba(0,0,0,.5); }
+.os-fence-grid { display: grid; grid-template-columns: repeat(4, var(--cw)); gap: 2px; }
+.os-fence-open, .os-more { display: none; }
+.os-bin { position: fixed; right: 10px; top: 8px; }
+@media (max-height: 860px) { .os-icons { --cw: 76px; --ic: 34px; --fs: 11.5px; --pad: 5px 2px 4px; } .os-icon, .os-fence-open { gap: 4px; } }
+@media (max-width: 999px) { .os-icons { --cw: 68px; --fs: 11px; } }
+/* Clean: one column, the rest is in Start (All apps opens it). */
+[data-layout="clean"] .os-icons { gap: 2px; }
+[data-layout="clean"] :is(.os-fence, .os-fence-box, .os-fence-grid) { display: contents; }
+[data-layout="clean"] :is(.os-fence-h, .os-icon:not([data-clean])) { display: none; }
+[data-layout="clean"] .os-more { display: grid; }
+[data-layout="clean"] .os-bin { position: static; }
+/* Folders: a tile per group (its first four icons in small); the group opens beside it, over the desktop. */
+[data-layout="folders"] .os-fence { position: relative; }
+[data-layout="folders"] .os-fence-open { display: grid; }
+.os-fence-mini { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; width: calc(var(--ic) + 8px); height: calc(var(--ic) + 8px); padding: calc(var(--ic) * .13); border-radius: calc(var(--ic) * .28);
+  background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.32); box-shadow: 0 3px 8px rgba(0,0,0,.2); }
+.os-fence-mini img { width: 100%; height: 100%; }
+[data-layout="folders"] .os-fence-box { position: absolute; left: calc(100% + 8px); top: 0; display: none; background: rgba(16,18,36,.78); box-shadow: 0 18px 50px rgba(8,6,24,.45); }
+[data-layout="folders"] .os-fence.is-open .os-fence-box { display: block; animation: fold-in .2s var(--ease); }
+[data-layout="folders"] .os-icons:has(.is-open) { z-index: 7; }
+@keyframes fold-in { from { opacity: 0; transform: translateX(-8px) scale(.97); } }
 .os-bin .paper { transition: opacity .3s, transform .5s var(--ease); transform-box: fill-box; transform-origin: center bottom; }
 .os-bin.is-empty .paper { opacity: 0; transform: translateY(6px) scale(.6); }
 .os-bin.is-shake svg { animation: shake .5s; }
@@ -102,44 +129,26 @@ body.is-night .land .window { opacity: .9; }
 .fine b { color: rgba(255,255,255,.85); font-weight: 500; }
 @media (max-height: 700px) { .coach { display: none; } .title { margin-top: 12px; font-size: clamp(26px, 3.6vw, 40px); } .caption { min-height: 0; } }
 
-/* ---- The live ring (play.html's look) ---- */
+/* ---- The live ring: drawn by ring.js as RadialDeck draws it (no blur behind it, the theme's own slices) ---- */
 .os-ring { position: fixed; left: 0; top: 0; z-index: 6; transform-origin: 50% 50%; will-change: transform, opacity; outline: none; opacity: 0; --k: 1; }
 .os-ring.is-held { z-index: 60; }
+.os-ring .ring-glass { position: absolute; inset: 3.125%; border-radius: 50%; pointer-events: none; }
 .os-ring:focus-visible .ring-glass { outline: 2px solid #fff; outline-offset: 4px; }
-/* Over a window's text the glass needs more body to stay readable. */
-.os-ring.is-held .ring-glass { backdrop-filter: blur(22px) saturate(1.3) brightness(.7); -webkit-backdrop-filter: blur(22px) saturate(1.3) brightness(.7); }
-.os-ring.is-held .ring-svg .slice { fill-opacity: .78; }
-.os-ring .ring-glass { position: absolute; inset: 3.125%; border-radius: 50%; backdrop-filter: blur(14px) saturate(1.35); -webkit-backdrop-filter: blur(14px) saturate(1.35); }
-.os-ring .ring-svg { position: relative; display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 22px 38px rgba(0,0,0,.32)); }
-.os-ring .ring-svg .slice { fill: var(--r-fill); fill-opacity: .6; stroke: var(--r-stroke); stroke-opacity: .55; stroke-width: 1; cursor: pointer; }
-.os-ring .ring-svg .slice-pat { display: none; }
-/* The lit slice is light inside the glass, gathered at its outer edge, not a solid fill. */
-.os-ring .ring-svg .hot { fill: url(#softlight); stroke: rgba(255,255,255,.38); stroke-width: 1; pointer-events: none; }
-.os-ring .ring-svg .hot.is-fire { animation: fire .45s ease-out; }
+.os-ring .ring-svg { position: relative; display: block; width: 100%; height: 100%; overflow: visible; }
+.os-ring .ring-svg .slice { cursor: pointer; }
+.os-ring .ring-light.is-fire { animation: fire .45s ease-out; }
 @keyframes fire { 0% { filter: brightness(1.7); } 100% { filter: none; } }
 .os-ring .ring-labels { position: absolute; inset: 0; pointer-events: none; }
-.os-ring .ring-label { position: absolute; display: grid; justify-items: center; gap: calc(4px * var(--k)); color: var(--r-label-dim); font: 600 calc(12.5px * var(--k))/1.15 var(--font-body); letter-spacing: -.01em; text-align: center; transition: color .15s; will-change: transform; }
-.os-ring .ring-label svg { width: calc(24px * var(--k)); height: calc(24px * var(--k)); stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: color .12s; }
-.os-ring .ring-label img { width: calc(26px * var(--k)); height: calc(26px * var(--k)); }
-.os-ring .ring-label.is-mid { font-size: calc(11.5px * var(--k)); }
-.os-ring .ring-label.is-long { font-size: calc(10.5px * var(--k)); }
-.os-ring .ring-label.is-hot { color: #fff; }
-.os-ring .ring-label.is-hot svg { color: var(--tint, #fff); filter: drop-shadow(0 0 6px color-mix(in srgb, var(--tint, #fff) 45%, transparent)); }
-.os-ring .ring-hub { position: absolute; left: 50%; top: 50%; width: 27%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--r-hub);
-  border: 1px solid rgba(255,255,255,.22); display: grid; place-content: center; justify-items: center; gap: 2px; padding: 6px; pointer-events: none; text-align: center; overflow: hidden; }
-.os-ring .hub-ico { width: calc(28px * var(--k)); height: calc(28px * var(--k)); margin-bottom: 2px; }
-.os-ring .hub-t { font: 600 calc(14px * var(--k))/1.1 var(--font-display); max-width: 100%; }
-.os-ring .hub-s { font: 600 calc(9px * var(--k)) var(--font-body); letter-spacing: .09em; text-transform: uppercase; color: rgba(255,255,255,.58); }
+.os-ring .ring-label { position: absolute; color: var(--r-label-dim); transition: color .15s; will-change: transform; }
+/* The hub's text as the app sets it: 10 DIP semibold, 62 DIP wide, three lines at most. */
+.os-ring .ring-hub { position: absolute; left: 50%; top: 50%; width: 28.125%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%;
+  display: grid; place-content: center; justify-items: center; pointer-events: none; text-align: center; overflow: hidden; color: var(--r-hub-label); }
+.os-ring .hub-ico, .os-ring .hub-s:empty { display: none; }
+.os-ring .hub-back { color: var(--r-label-dim); }
+.os-ring .hub-t { width: calc(.334821cqw * 62); font: var(--r-weight, 600) calc(.334821cqw * 10)/calc(.334821cqw * 12) var(--r-font); display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; overflow-wrap: anywhere; }
+.os-ring .hub-s { font: 600 calc(.334821cqw * 9) var(--r-font); color: var(--r-label-dim); }
 .hub-t.is-swap, .hub-s.is-swap, .hub-ico.is-swap { animation: hubswap .16s ease-out; }
 @keyframes hubswap { from { opacity: 0; filter: blur(2px); } to { opacity: 1; filter: none; } }
-/* A theme picked in Themes (OS.setRingTheme): the theme's own slices, pattern, label colours and font. */
-.os-ring.is-themed .ring-svg .slice { fill-opacity: .94; stroke-width: var(--r-stroke-w, 1); }
-.os-ring.is-themed .ring-svg .slice-pat { display: block; fill: var(--r-pat, none); pointer-events: none; }
-.os-ring.is-themed .ring-label { font-family: var(--r-font); font-weight: var(--r-weight, 600); }
-.os-ring.is-themed .ring-label.is-hot { color: var(--r-label); }
-.os-ring.is-themed.is-upper .ring-label span { text-transform: uppercase; letter-spacing: .02em; }
-.os-ring.is-themed .ring-hub { color: var(--r-label); border-color: var(--r-stroke); }
-.os-ring.is-themed .hub-s { color: var(--r-label-dim); }
 .os-ring-say { position: fixed; left: 50%; bottom: 64px; z-index: 61; max-width: min(560px, calc(100vw - 32px)); margin: 0; padding: 8px 14px; border-radius: 999px; font-size: 13.5px; color: #fff; text-align: center;
   background: rgba(14,16,28,.72); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
   opacity: 0; transform: translate(-50%, 8px); transition: opacity .2s, transform .35s var(--ease); pointer-events: none; }
@@ -390,21 +399,12 @@ body.is-night .land .window { opacity: .9; }
 .fx-bub-out b { color: #fff; font-weight: 600; }
 .stage .ring { position: relative; width: 74%; aspect-ratio: 1; transition: opacity var(--t-base), transform var(--t-base) var(--ease-out); }
 .stage .ring.is-gone { opacity: 0; transform: scale(.92); }
-.stage .ring-svg { width: 100%; height: 100%; display: block; filter: drop-shadow(0 18px 24px var(--r-shadow, rgba(0,0,0,.5))); }
-.stage .ring-svg .slice { fill: var(--r-fill); stroke: var(--r-stroke); stroke-width: var(--r-stroke-w, 1); transition: fill .16s; }
-.stage .ring-svg .slice.is-hot { fill: var(--r-fill-hot); stroke: var(--r-hover-stroke, #fff); filter: drop-shadow(0 0 var(--r-glow-r, 0px) var(--r-glow)); }
-.stage .ring-svg .slice-pat { fill: var(--r-pat, none); pointer-events: none; }
+/* The demos' rings: slices, light, labels and icons are ring.js's (the app's look); only the box is set here. */
+.stage .ring-svg { width: 100%; height: 100%; display: block; }
 .stage .ring-labels { position: absolute; inset: 0; pointer-events: none; }
-.stage .ring-label { position: absolute; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 3px; color: var(--r-label-dim); font-family: var(--r-font, var(--font-body)); font-weight: var(--r-weight, 600);
-  font-size: max(9px, min(var(--r-label-size, 12.5px), 2.9cqw)); letter-spacing: -.01em; text-align: center; line-height: 1.15; transition: color .16s; }
-.stage .ring-label.is-mid { font-size: max(9px, min(calc(var(--r-label-size, 12.5px) - 1px), 2.7cqw)); }
-.stage .ring-label.is-long { font-size: max(8.5px, min(calc(var(--r-label-size, 12.5px) - 2px), 2.5cqw)); }
-.stage .ring-label svg { width: clamp(16px, 5.6cqw, 24px); height: clamp(16px, 5.6cqw, 24px); stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.stage .ring-label img { width: clamp(18px, 6.8cqw, 30px); height: clamp(18px, 6.8cqw, 30px); }
-.stage .ring-label.is-hot { color: var(--r-label); }
-.stage .ring.is-upper .ring-label span { text-transform: uppercase; letter-spacing: .02em; }
-.stage .ring-hub { position: absolute; left: 50%; top: 50%; width: 27%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--r-hub); border: 1px solid var(--r-stroke); display: grid; place-items: center; padding: 6px;
-  font: 600 max(8px, 2.6cqw) var(--r-font, var(--font-body)); letter-spacing: .04em; text-transform: uppercase; color: var(--r-label-dim); text-align: center; overflow-wrap: anywhere; }
+.stage .ring-label { position: absolute; transform: translate(-50%, -50%); color: var(--r-label-dim); transition: color .16s; }
+.stage .ring-hub { position: absolute; left: 50%; top: 50%; width: 28.125%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; display: grid; place-items: center; padding: 6px;
+  font: 600 max(8px, 2.6cqw) var(--r-font, var(--font-body)); letter-spacing: .04em; text-transform: uppercase; color: var(--r-hub-label, var(--r-label-dim)); text-align: center; overflow-wrap: anywhere; }
 .stage-hud { position: absolute; top: 12px; right: 12px; left: 12px; display: flex; justify-content: flex-end; gap: 6px; min-height: 26px; }
 .stage-ctx { font-size: 12px; font-weight: 500; color: var(--text-2); background: rgba(12,16,25,.8); border: 1px solid var(--border); padding: 4px 11px; border-radius: 999px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; animation: fx-press .25s var(--ease-out); }
 .stage-hud kbd { font-size: 13px; padding: 3px 9px; color: var(--text); animation: fx-press .25s var(--ease-out); }
@@ -441,11 +441,11 @@ body.is-night .land .window { opacity: .9; }
 .np-status span:nth-child(2) { flex: 1; border-right: 0; }
 @container (max-width: 560px) { .np-hint, .np-status span:nth-child(n+3) { display: none; } }
 
-/* ---- Touch: text fields keep the finger's own long press (select, paste); elsewhere in a window a long press is the
-   ring's, never the browser's text selection or menu (os.js prevents the menu). ---- */
+/* ---- Touch: a long press is the ring's, in text fields too, never the browser's text selection or menu (os.js
+   prevents the menu; a tap on a field types there, a second tap selects the word). ---- */
 @media (pointer: coarse) {
   .win, .win * { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-  .win input, .win textarea, .win [contenteditable="true"], .win [contenteditable="true"] * { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }
+  .win input, .win textarea, .win [contenteditable="true"], .win [contenteditable="true"] * { -webkit-user-select: text; user-select: text; }
 }
 html.os-ringing, html.os-ringing * { -webkit-user-select: none !important; user-select: none !important; -webkit-touch-callout: none !important; }
 
@@ -465,9 +465,8 @@ html.os-laptop .lock { background: rgba(8,10,22,.9); }
 /* A bigger ring at home, so the one under a thumb (the same size) is thumb-sized once the laptop is shrunk; the icons
    close up so they stay clear of it on a laptop-sized desktop; the caption speaks of a mouse hovering, so it goes. */
 html.os-laptop .anchor { width: clamp(240px, 50vh, 400px); }
-html.os-laptop .os-icons { grid-template-rows: repeat(auto-fill, 78px); grid-auto-columns: 76px; }
-html.os-laptop .os-icon { padding: 5px 2px 4px; font-size: 11.5px; }
-html.os-laptop .os-icon img, html.os-laptop .os-icon svg { width: 38px; height: 38px; }
+html.os-laptop .os-icons { --cw: 72px; --ic: 32px; --fs: 11px; --pad: 4px 2px 3px; }
+html.os-laptop :is(.os-icon, .os-fence-open) { gap: 3px; }
 html.os-laptop .caption, html.os-laptop .fine, html.os-laptop .hero-more { display: none; }   /* the tour: in Start here */
 @media (pointer: coarse) { html.os-laptop .touch-only { display: inline; } html.os-laptop .pc-only { display: none; } }
 /* iOS zooms into a field under 16 px when it gets the focus. */
@@ -484,8 +483,7 @@ html.os-laptop .caption, html.os-laptop .fine, html.os-laptop .hero-more { displ
 
 /* ---- Without JavaScript: a plain page with the same text and links ---- */
 html:not(.os-js) body { padding-bottom: 40px; }
-html:not(.os-js) .os-icons { position: relative; inset: auto; display: flex; flex-wrap: wrap; justify-content: center; padding: 16px; }
-html:not(.os-js) .os-hero { position: relative; inset: auto; padding: 24px 16px; pointer-events: auto; }
+html:not(.os-js) .os-icons { position: relative; inset: auto; display: flex; flex-flow: row wrap; justify-content: center; align-items: flex-start; padding: 16px; }html:not(.os-js) .os-hero { position: relative; inset: auto; padding: 24px 16px; pointer-events: auto; }
 html:not(.os-js) .anchor, html:not(.os-js) .coach, html:not(.os-js) .caption, html:not(.os-js) .os-bin, html:not(.os-js) .taskbar, html:not(.os-js) .os-ring, html:not(.os-js) .os-ring-say,
 html:not(.os-js) .toast, html:not(.os-js) .snip, html:not(.os-js) .flash, html:not(.os-js) .lock, html:not(.os-js) .start-search, html:not(.os-js) .start-foot { display: none; }
 html:not(.os-js) .os-src-wrap, html:not(.os-js) .start { position: relative; max-width: 1040px; margin: 16px auto; border-radius: 10px; background: var(--win-body); color: var(--text); }

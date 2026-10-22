@@ -103,13 +103,13 @@
     onOpen(c, args) { if (args.hash) show(args.hash === 'ring' ? 'ring' : 'look'); },
     onClose(c) { c.obs?.disconnect(); C = null; },
     ring: [
-      { label: 'Dark/Light', icon: 'theme', tint: '#ffd166', say: 'Switches Windows between dark and light mode.', run: () => setNight(!night()) },
-      { label: 'Next theme', icon: '<path d="m9 18 6-6-6-6"/>', tint: '#7cc4ff', say: 'The ring in the next of the 38 themes.', run: () => { setTheme(step(THEMES.map(t => t.id), theme().id, 1)); OS.toast('Ring theme', themeOf(theme().id).name, 'os/icons/settings.svg'); } },
-      { label: 'Accent', icon: 'palette', tint: '#ff7aa8', say: 'The next accent colour.', run: () => setAccent(step(ACCENTS.map(a => a[0]), S.accent || '#4cc2ff', 1)) },
-      { label: 'Lock', icon: 'lock', tint: '#5eead4', say: 'Locks the PC on the spot.', run: () => OS.lock() },
-      { label: 'Ring page', icon: 'ring', tint: '#c4a1ff', say: 'All 38 ring themes.', run: () => show('ring') },
-      { label: 'Prev theme', icon: '<path d="m15 18-6-6 6-6"/>', tint: '#a5b4fc', say: 'The ring in the previous theme.', run: () => { setTheme(step(THEMES.map(t => t.id), theme().id, -1)); OS.toast('Ring theme', themeOf(theme().id).name, 'os/icons/settings.svg'); } },
-      { label: 'Ring light', icon: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>', tint: '#fdba74', say: 'The ring theme in its light or dark colours.', run: () => setTheme(theme().id, theme().variant === 'light' ? 'dark' : 'light') },
+      { label: 'Dark/Light', icon: '🌗', tint: '#ffd166', say: 'Switches Windows between dark and light mode.', run: () => setNight(!night()) },
+      { label: 'Next theme', icon: 'fluent:E76C', tint: '#7cc4ff', say: 'The ring in the next of the 38 themes.', run: () => { setTheme(step(THEMES.map(t => t.id), theme().id, 1)); OS.toast('Ring theme', themeOf(theme().id).name, 'os/icons/settings.svg'); } },
+      { label: 'Accent', icon: '🎨', tint: '#ff7aa8', say: 'The next accent colour.', run: () => setAccent(step(ACCENTS.map(a => a[0]), S.accent || '#4cc2ff', 1)) },
+      { label: 'Lock', icon: '🔒', tint: '#5eead4', say: 'Locks the PC on the spot.', run: () => OS.lock() },
+      { label: 'Ring page', icon: 'fluent:E71D', tint: '#c4a1ff', say: 'All 38 ring themes.', run: () => show('ring') },
+      { label: 'Prev theme', icon: 'fluent:E76B', tint: '#a5b4fc', say: 'The ring in the previous theme.', run: () => { setTheme(step(THEMES.map(t => t.id), theme().id, -1)); OS.toast('Ring theme', themeOf(theme().id).name, 'os/icons/settings.svg'); } },
+      { label: 'Ring light', icon: '💡', tint: '#fdba74', say: 'The ring theme in its light or dark colours.', run: () => setTheme(theme().id, theme().variant === 'light' ? 'dark' : 'light') },
     ],
   });
 })();

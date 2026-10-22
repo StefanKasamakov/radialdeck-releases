@@ -69,7 +69,7 @@
     onOpen(c, args) { if (args.hash && args.hash !== 'tricks') requestAnimationFrame(() => show(c, args.hash)); },
     // The window's ring picks a group.
     ring: c => (c.cats || []).slice(0, 7).map(([id, name]) => ({ label: name, icon: ICON[id] || 'zap', tint: TINT[id], say: `Only the ${name} tricks.`, run: () => setCat(c, id) }))
-      .concat([{ label: 'All', icon: 'search', tint: '#f9a8d4', say: 'Every trick, filters off.', run: () => { c.q = ''; c.body.querySelector('.tk-search input').value = ''; setCat(c, 'all'); } }]),
+      .concat([{ label: 'All', icon: '🔍', tint: '#f9a8d4', say: 'Every trick, filters off.', run: () => { c.q = ''; c.body.querySelector('.tk-search input').value = ''; setCat(c, 'all'); } }]),
     show,
   });
 })();

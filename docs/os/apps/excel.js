@@ -16,9 +16,7 @@
     euro: '<path d="M4 10h12M4 14h9"/><path d="M19 6a7.7 7.7 0 0 0-5.2-2A7.9 7.9 0 0 0 6 12c0 4.4 3.5 8 7.8 8 2 0 3.8-.8 5.2-2"/>',
     freeze: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/><path d="M3 3h18v6H9v12H3z" fill="currentColor" fill-opacity=".3" stroke="none"/>',
     percent: '<path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
-    date: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>',
-    sheet: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15h6"/>',
-    pdf: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/>',
+    date: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/>',
     general: '<path d="M4 7V4h16v3M9 20h6M12 4v16"/>',
     down: '<path d="m6 9 6 6 6-6"/>',
   };
@@ -432,17 +430,17 @@
     onClose(c) { removeEventListener('pointermove', c.onMove); removeEventListener('pointerup', c.onUp); },
     // RadialDeck's Excel ring. The sixth slice follows the selection: Date format on a date column, else Percent.
     ring: c => [
-      { label: 'Paste values', icon: I.values, tint: '#6ee7a0', say: 'Pastes what you copied as plain values, no formulas. In Excel: Ctrl+Alt+V, V, Enter.', run: R(c => paste(c, true)) },
-      { label: 'AutoSum', icon: I.sum, tint: '#ffd166', say: 'Adds a SUM under the selected numbers. In Excel: Alt+=.', run: R(autosum) },
-      { label: 'Filter', icon: I.filter, tint: '#7cc4ff', say: 'Filter arrows on the headers, on or off. In Excel: Ctrl+Shift+L.', run: R(filter) },
-      { label: 'Format', icon: I.euro, tint: '#5eead4', say: 'A nested ring: point at it and Currency, Percent and Date come out as bubbles (Pro).', children: [
-        { label: 'Currency', icon: I.euro, tint: '#5eead4', say: 'Currency format on the selection. In Excel: Ctrl+Shift+4.', run: R(c => format(c, 'cur')) },
-        { label: 'Percent', icon: I.percent, tint: '#fdba74', say: 'Percent format on the selection. In Excel: Ctrl+Shift+5.', run: R(c => format(c, 'pct')) },
-        { label: 'Date', icon: I.date, tint: '#ffd166', say: 'Date format on the selection. In Excel: Ctrl+Shift+3.', run: R(c => format(c, 'date')) },
+      { label: 'Paste values', icon: 'fluent:E8C8', tint: '#6ee7a0', say: 'Pastes what you copied as plain values, no formulas. In Excel: Ctrl+Alt+V, V, Enter.', run: R(c => paste(c, true)) },
+      { label: 'AutoSum', icon: 'Σ', tint: '#ffd166', say: 'Adds a SUM under the selected numbers. In Excel: Alt+=.', run: R(autosum) },
+      { label: 'Filter', icon: 'fluent:E721', tint: '#7cc4ff', say: 'Filter arrows on the headers, on or off. In Excel: Ctrl+Shift+L.', run: R(filter) },
+      { label: 'Format', icon: '€', tint: '#5eead4', say: 'A nested ring: point at it and Currency, Percent and Date come out as bubbles (Pro).', children: [
+        { label: 'Currency', icon: '€', tint: '#5eead4', say: 'Currency format on the selection. In Excel: Ctrl+Shift+4.', run: R(c => format(c, 'cur')) },
+        { label: 'Percent', icon: '%', tint: '#fdba74', say: 'Percent format on the selection. In Excel: Ctrl+Shift+5.', run: R(c => format(c, 'pct')) },
+        { label: 'Date', icon: '📅', tint: '#ffd166', say: 'Date format on the selection. In Excel: Ctrl+Shift+3.', run: R(c => format(c, 'date')) },
       ] },
-      { label: 'Freeze panes', icon: I.freeze, tint: '#93c5fd', say: 'Keeps the rows above and the columns left of the cell in place. Again to unfreeze.', run: R(freeze) },
-      { label: 'New sheet', icon: I.sheet, tint: '#c4a1ff', say: 'Adds a sheet and opens it. In Excel: Shift+F11.', run: R(newSheet) },
-      { label: 'To PDF', icon: I.pdf, tint: '#ff7aa8', say: 'Saves this sheet as a PDF.', run: R(pdf) },
+      { label: 'Freeze panes', icon: 'fluent:E8FD', tint: '#93c5fd', say: 'Keeps the rows above and the columns left of the cell in place. Again to unfreeze.', run: R(freeze) },
+      { label: 'New sheet', icon: 'fluent:E8FD', tint: '#c4a1ff', say: 'Adds a sheet and opens it. In Excel: Shift+F11.', run: R(newSheet) },
+      { label: 'To PDF', icon: '📄', tint: '#ff7aa8', say: 'Saves this sheet as a PDF.', run: R(pdf) },
     ],
   });
 

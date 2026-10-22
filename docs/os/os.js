@@ -358,11 +358,12 @@ window.OS = (() => {
   }
 
   // ---- The address bar follows the window in front: features.html, ?app=notepad, or the plain desktop ----
-  const baseTitle = document.title;
+  const baseTitle = document.title, layoutAsked = new URLSearchParams(location.search).get('layout') === html.dataset.layout && html.dataset.layout;
   function setUrl(app) {
     const want = new URL(app ? (app.url || `./?app=${app.id}`) : './', location.href);
     if (location.pathname.endsWith('/index.html') && want.pathname.endsWith('/')) want.pathname += 'index.html';
     if (html.classList.contains('os-laptop')) want.searchParams.set('frame', 'laptop');   // stays the laptop on a reload
+    if (layoutAsked) want.searchParams.set('layout', layoutAsked);                        // and the icons' layout asked for
     if (want.pathname + want.search !== location.pathname + location.search) {
       try { history.replaceState(history.state, '', want.pathname + want.search); } catch (_) { }
     }
@@ -456,24 +457,50 @@ window.OS = (() => {
   });
 
   // ---- Desktop icons: one click opens (Windows' "single-click to open" setting: on a web page nobody double-clicks) ----
+  // They come in groups (build/site-os.py GROUPS), laid out by the page's ?layout= (os.css): fences, clean, folders.
   const iconsEl = $('#os-icons');
   function select(ic) { $$('.os-icon.is-selected', iconsEl).forEach(x => x !== ic && x.classList.remove('is-selected')); ic?.classList.add('is-selected'); }
-  function activate(ic) { if (ic.dataset.bin !== undefined) return apps.has('bin') ? open('bin') : binInfo(); open(ic.dataset.app); }
+  function activate(ic) {
+    folder(null);
+    if (ic.dataset.more !== undefined) return toggleStart();
+    if (ic.dataset.bin !== undefined) return apps.has('bin') ? open('bin') : binInfo();
+    open(ic.dataset.app);
+  }
+  // Folders: a group's tile opens it beside the tile; a click elsewhere, Esc or an app opening closes it.
+  function folder(fence, on = !fence?.classList.contains('is-open')) {
+    $$('.os-fence.is-open', iconsEl).forEach(f => { if (f !== fence || !on) { f.classList.remove('is-open'); $('.os-fence-open', f).setAttribute('aria-expanded', 'false'); } });
+    if (fence && on) { fence.classList.add('is-open'); $('.os-fence-open', fence).setAttribute('aria-expanded', 'true'); }
+  }
+  const tile = t => t.closest('.os-icon, .os-fence-open');
   iconsEl.addEventListener('click', e => {
-    const ic = e.target.closest('.os-icon');
+    const ic = tile(e.target);
     if (!ic || e.ctrlKey || e.metaKey || e.shiftKey || e.button !== 0) return;
     e.preventDefault();
+    if (ic.classList.contains('os-fence-open')) return folder(ic.parentElement);
     select(ic);
     activate(ic);
   });
+  // Arrows go to the nearest icon that way, whatever the layout.
+  function toward(from, [dx, dy]) {
+    const a = from.getBoundingClientRect(), ax = a.left + a.width / 2, ay = a.top + a.height / 2;
+    let best = null, score = Infinity;
+    for (const b of $$('.os-icon, .os-fence-open', iconsEl)) {
+      const r = b.getBoundingClientRect();
+      if (b === from || !r.width) continue;
+      const x = r.left + r.width / 2 - ax, y = r.top + r.height / 2 - ay, along = x * dx + y * dy, across = Math.abs(x * dy - y * dx);
+      if (along > 4 && along + across * 2 < score) { score = along + across * 2; best = b; }
+    }
+    return best;
+  }
   iconsEl.addEventListener('keydown', e => {
-    const ic = e.target.closest('.os-icon');
+    const ic = tile(e.target);
     if (!ic) return;
-    if (e.key === 'Enter') { e.preventDefault(); activate(ic); return; }
-    const all = $$('.os-icon', iconsEl), i = all.indexOf(ic);
-    const per = Math.max(1, Math.round(iconsEl.clientHeight / ic.offsetHeight));
-    const step = { ArrowDown: 1, ArrowUp: -1, ArrowRight: per, ArrowLeft: -per }[e.key];
-    if (step) { e.preventDefault(); const n = all[clamp(i + step, 0, all.length - 1)]; n.focus(); select(n); }
+    if (e.key === 'Escape' && ic.closest('.os-fence.is-open')) { e.preventDefault(); e.stopPropagation(); const f = ic.closest('.os-fence'); folder(null); $('.os-fence-open', f).focus(); return; }
+    if (e.key === 'Enter' && ic.classList.contains('os-icon')) { e.preventDefault(); activate(ic); return; }
+    const d = { ArrowDown: [0, 1], ArrowUp: [0, -1], ArrowRight: [1, 0], ArrowLeft: [-1, 0] }[e.key];
+    const n = d && toward(ic, d);
+    if (d) e.preventDefault();
+    if (n) { n.focus(); select(n.classList.contains('os-icon') ? n : null); }
   });
   iconsEl.addEventListener('focusin', e => { const ic = e.target.closest('.os-icon'); if (ic) select(ic); });
 
@@ -508,44 +535,44 @@ window.OS = (() => {
   const appBubbles = () => DESK_APPS.map(id => apps.get(id)).filter(Boolean)
     .map(a => ({ label: a.title, icon: 'img:' + a.icon, tint: a.tint, say: `Opens ${a.title}.`, run: () => open(a.id) }));
   // The Music app's own slices (os/apps/music.js, loaded with every page): Play/Pause, Prev, Next, Vol +, Vol −, Mute.
-  const musicBubbles = () => { const r = apps.get('music')?.ring; return Array.isArray(r) ? [0, 5, 1, 2, 4, 3].map(i => r[i]) : [S_('Play/Pause', 'playpause', 'Plays or pauses whatever is playing.', () => play()), S_('Mute', 'mute', 'Mutes the sound, and unmutes it again.', () => mute())]; };
+  const musicBubbles = () => { const r = apps.get('music')?.ring; return Array.isArray(r) ? [0, 5, 1, 2, 4, 3].map(i => r[i]) : [S_('Play/Pause', '⏯', 'Plays or pauses whatever is playing.', () => play()), S_('Mute', '🔇', 'Mutes the sound, and unmutes it again.', () => mute())]; };
   // Text works on Notepad's note (or what is selected in it), with Notepad's own slices.
   const inNotepad = label => async () => { const c = await open('notepad'); apps.get('notepad')?.ring?.find(s => s.label === label)?.run(c); };
   const T_ = (label, icon, tint, say) => ({ label, icon, tint, say: `In Notepad: ${say}`, run: inNotepad(label) });
   const TEXT = [
-    { label: 'Case', icon: 'caseUp', tint: '#ffd166', say: 'A bubble with a ring of its own: UPPER, lower and Title Case come out beyond it.', children: [
-      T_('UPPER', 'caseUp', '#ffd166', 'the note, or what you selected, in capitals.'),
-      T_('lower', 'caseDown', '#ff7aa8', 'the note, or what you selected, in small letters.'),
-      T_('Title Case', 'title', '#fdba74', 'First Letter Of Every Word.'),
+    { label: 'Case', icon: 'fluent:E8D2', tint: '#ffd166', say: 'A bubble with a ring of its own: UPPER, lower and Title Case come out beyond it.', children: [
+      T_('UPPER', 'fluent:E8C8', '#ffd166', 'the note, or what you selected, in capitals.'),
+      T_('lower', 'fluent:E8C8', '#ff7aa8', 'the note, or what you selected, in small letters.'),
+      T_('Title Case', 'fluent:E8A5', '#fdba74', 'First Letter Of Every Word.'),
     ] },
-    T_('Trim spaces', 'spaces', '#5eead4', 'collapses whitespace into single spaces.'),
-    T_('Clean link', 'link', '#7cc4ff', 'removes utm_, fbclid, gclid… from the links.'),
-    T_('Count', 'hash', '#c4a1ff', 'words, characters and lines in a balloon.'),
-    S_('Screen text', 'scan', 'Mark an area of the screen; the text in it is copied. Uses the OCR built into Windows.', () => snip('Text copied', '"Your workday. In one gesture."')),
+    T_('Trim spaces', 'fluent:E8A5', '#5eead4', 'collapses whitespace into single spaces.'),
+    T_('Clean link', '🔗', '#7cc4ff', 'removes utm_, fbclid, gclid… from the links.'),
+    T_('Count', '🔢', '#c4a1ff', 'words, characters and lines in a balloon.'),
+    S_('Screen text', 'fluent:E722', 'Mark an area of the screen; the text in it is copied. Uses the OCR built into Windows.', () => snip('Text copied', '"Your workday. In one gesture."')),
   ];
   const EVERYDAY = [
-    { ...S_('Apps', 'apps', 'Point at it: your programs come out as bubbles. Pick one to open it.'), children: appBubbles },
-    S_('Dark/Light', 'theme', 'Switches Windows between dark and light mode.', () => setNight()),
-    { ...S_('Text', 'text', 'Point at it: the text tricks come out as bubbles, and Case holds a second layer.'), children: TEXT },
-    S_('Snip', 'snip', 'Mark any part of the screen. It lands on the clipboard.', () => snip('Snip copied', 'Paste it into a chat or an e-mail.')),
-    S_('Lock', 'lock', 'Locks the PC on the spot.', () => lock()),
-    S_('Empty bin', 'trash', 'Empties the Recycle Bin without opening it.', () => emptyBin()),
-    { ...S_('Music', 'music', 'Point at it: Play/Pause, Next, Volume and Mute come out as bubbles.'), children: musicBubbles },
-    S_('Show desktop', 'desktop', 'Minimises every window. Pick it again to bring them back.', () => showDesktop()),
+    { ...S_('Apps', 'fluent:E71D', 'Point at it: your programs come out as bubbles. Pick one to open it.'), children: appBubbles },
+    S_('Dark/Light', '🌗', 'Switches Windows between dark and light mode.', () => setNight()),
+    { ...S_('Text', '🔤', 'Point at it: the text tricks come out as bubbles, and Case holds a second layer.'), children: TEXT },
+    S_('Snip', '✂', 'Mark any part of the screen. It lands on the clipboard.', () => snip('Snip copied', 'Paste it into a chat or an e-mail.')),
+    S_('Lock', '🔒', 'Locks the PC on the spot.', () => lock()),
+    S_('Empty bin', '🗑', 'Empties the Recycle Bin without opening it.', () => emptyBin()),
+    { ...S_('Music', '🎵', 'Point at it: Play/Pause, Next, Volume and Mute come out as bubbles.'), children: musicBubbles },
+    S_('Show desktop', 'fluent:E8B7', 'Minimises every window. Pick it again to bring them back.', () => showDesktop()),
   ];
   const TINT = { Apps: '#7cc4ff', 'Dark/Light': '#ffd166', Text: '#c4a1ff', Snip: '#ff7aa8', Lock: '#5eead4', 'Empty bin': '#ff6b6b', Music: '#6ee7a0', 'Show desktop': '#7cc4ff' };
   EVERYDAY.forEach(s => s.tint = TINT[s.label]);
   const DESK_HUB = { title: 'Everyday', sub: '8 actions' };
   // A window without a ring of its own gets this one.
   const WINDOW_RING = [
-    S_('Minimize', 'minimize', 'Sends the window to the taskbar.', c => minimize(wins.get(c.id))),
-    S_('Maximize', 'maximize', 'Fills the screen, or puts the window back.', c => toggleMax(wins.get(c.id))),
-    S_('Snap right', 'snapRight', 'The right half of the screen.', c => snapTo(c.id, 'right')),
-    S_('Close', 'close', 'Closes the window.', c => close(c.id)),
-    S_('Show desktop', 'desktop', 'Minimises every window. Pick it again to bring them back.', () => showDesktop()),
-    S_('Dark/Light', 'theme', 'Switches Windows between dark and light mode.', () => setNight()),
-    S_('Snap left', 'snapLeft', 'The left half of the screen.', c => snapTo(c.id, 'left')),
-    S_('Lock', 'lock', 'Locks the PC on the spot.', () => lock()),
+    S_('Minimize', 'fluent:E921', 'Sends the window to the taskbar.', c => minimize(wins.get(c.id))),
+    S_('Maximize', '⬜', 'Fills the screen, or puts the window back.', c => toggleMax(wins.get(c.id))),
+    S_('Snap right', '◨', 'The right half of the screen.', c => snapTo(c.id, 'right')),
+    S_('Close', '✖', 'Closes the window.', c => close(c.id)),
+    S_('Show desktop', 'fluent:E8B7', 'Minimises every window. Pick it again to bring them back.', () => showDesktop()),
+    S_('Dark/Light', '🌗', 'Switches Windows between dark and light mode.', () => setNight()),
+    S_('Snap left', '◧', 'The left half of the screen.', c => snapTo(c.id, 'left')),
+    S_('Lock', '🔒', 'Locks the PC on the spot.', () => lock()),
   ];
   function snapTo(id, side) { const w = wins.get(id); if (!w) return; w.max = false; w.snap = side; place(w, true); }
 
@@ -616,13 +643,58 @@ window.OS = (() => {
     back?.el.focus({ preventScroll: true });
   }
 
+  // ---- A finger and text fields: no keyboard until a tap on the field says "type here" ----
+  // A finger on a field does not focus it (pointerdown's default is prevented): held still it is the ring, as
+  // everywhere; moved it scrolls; a quick tap focuses it with the caret where it tapped (the keyboard comes up);
+  // a second quick tap selects the word. A field an app focuses by itself after a finger (Start's search, a window
+  // that opens with its text focused, a slice that edits the text) gets the focus without the keyboard
+  // (inputmode="none", until the field is tapped). A key or a double click (Excel's cell) still focuses as usual.
+  const FIELD = 'textarea, input:not([type]), input[type=text], input[type=search], input[type=email], input[type=url], input[type=tel], input[type=password], input[type=number]';
+  function fieldOf(t) {
+    if (t?.isContentEditable) { while (t.parentElement?.isContentEditable) t = t.parentElement; return t; }
+    const f = t?.closest?.(FIELD);
+    return f && !f.readOnly && !f.disabled ? f : null;
+  }
+  let finger = false, intent = false, fieldTouch = false, lastTap = null;
+  const quiet = f => { if (!f.hasAttribute('inputmode')) { f.setAttribute('inputmode', 'none'); f.dataset.osQuiet = ''; } };
+  const loud = f => { if (f.dataset.osQuiet === undefined) return false; f.removeAttribute('inputmode'); delete f.dataset.osQuiet; return true; };
+  document.addEventListener('focusin', e => { const f = fieldOf(e.target); if (f && finger && !intent) quiet(f); }, true);
+  document.addEventListener('focusout', e => { const f = fieldOf(e.target); if (f) loud(f); }, true);
+  ['keydown', 'dblclick'].forEach(type => addEventListener(type, () => { intent = true; setTimeout(() => { intent = false; }); }, true));
+  // No click (and so no focus or selection of the browser's own) after a finger on a field: the tap is handled here.
+  document.addEventListener('touchend', e => { if (fieldTouch && e.cancelable) e.preventDefault(); fieldTouch = false; }, { capture: true, passive: false });
+  function typeIn(f, x, y) {
+    const now = performance.now(), again = lastTap?.f === f && now - lastTap.t < 400 && Math.hypot(x - lastTap.x, y - lastTap.y) < 24 / scale();
+    lastTap = again ? null : { f, t: now, x, y };
+    // Focused quietly: focus it again from this tap, so the keyboard comes up.
+    if (loud(f) && document.activeElement === f) f.blur();
+    intent = true;
+    try { f.focus({ preventScroll: true }); } finally { intent = false; }
+    const p = document.caretPositionFromPoint?.(x, y), word = /[\p{L}\p{N}_]/u;
+    if (f.setSelectionRange) {
+      if (p?.offsetNode !== f) return;
+      let s = p.offset, end = s;
+      if (again) { const v = f.value; while (s > 0 && word.test(v[s - 1])) s--; while (end < v.length && word.test(v[end])) end++; }
+      try { f.setSelectionRange(s, end); } catch (_) { }   // email and number fields have no selection
+      return;
+    }
+    const r = p ? document.createRange() : document.caretRangeFromPoint?.(x, y);
+    if (p) r.setStart(p.offsetNode, p.offset);
+    if (!r || !f.contains(r.startContainer)) return;
+    const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    if (again) { sel.modify('move', 'backward', 'word'); sel.modify('extend', 'forward', 'word'); }
+  }
+
   // Hold anywhere (about 130 ms, no movement needed), flick, let go. In text, a hold waits longer and a drag
   // stays a text selection; the right button held works too, and a quick right click is still a right click.
   const busy = t => t.closest('a, button, input, select, label, summary, video, .win-bar, .rz, .taskbar, .start, .toast, .lock, .os-ring, .os-icon, .p2, [data-no-ring]');
   let eatMenu = false, touchDown = false;
   addEventListener('pointerdown', e => {
-    // A finger's long press here is the ring's or nothing, never the browser's link or image menu; text fields keep theirs.
-    touchDown = e.pointerType === 'touch' && !e.target.closest('input, textarea, [contenteditable="true"]');
+    // A finger's long press is the ring's or nothing, never the browser's link or image menu or text selection.
+    touchDown = finger = e.pointerType === 'touch';
+    const field = finger && fieldOf(e.target);
+    fieldTouch = !!field;
+    if (field) e.preventDefault();
     // A ring opened by a button or the keyboard waits for one click: on a slice it runs it, anywhere else it closes.
     if (mode === 'sticky') {
       e.preventDefault(); e.stopPropagation();
@@ -636,18 +708,19 @@ window.OS = (() => {
       return;
     }
     if (startOpen && !e.target.closest('.start, .tb-start, .tb-search')) closeStart();
+    if (!e.target.closest('.os-fence.is-open')) folder(null);
     if (!e.target.closest('.win, .taskbar, .start, .os-icon')) { blurAll(); select(null); }
     if (mode || $('#lock').classList.contains('is-on')) return;
     const t = e.target, right = e.button === 2, touch = e.pointerType === 'touch';
-    if ((e.button !== 0 && !right) || busy(t)) return;
+    // A finger on a text field: the ring as anywhere (even where a mouse would not get it), or a tap to type.
+    if ((e.button !== 0 && !right) || (!field && busy(t))) return;
     // A press on a scrollbar is a scroll.
     if (t.clientWidth && (e.offsetX > t.clientWidth || e.offsetY > t.clientHeight)) return;
     const editable = t.closest('textarea, [contenteditable="true"]');
-    if (editable && touch) return;   // a finger's long press there selects text; the window's ring button is next to the title
     const winEl = t.closest('.win');
-    press = { x: e.clientX, y: e.clientY, w: winEl ? wins.get(winEl.dataset.app) : null, touch, right, strict: !!winEl || touch };
+    press = { x: e.clientX, y: e.clientY, w: winEl ? wins.get(winEl.dataset.app) : null, touch, right, field, strict: !!winEl || touch };
     // A finger opens it before the phone's own long press (text selection, the link menu) at about 500 ms.
-    holdTimer = setTimeout(() => { if (press) { if (right) eatMenu = true; openRing(press.w, { x: press.x, y: press.y }, 'hold'); } }, editable && !right ? 350 : touch ? 330 : 130);
+    holdTimer = setTimeout(() => { if (press) { if (right) eatMenu = true; openRing(press.w, { x: press.x, y: press.y }, 'hold'); } }, touch ? 330 : editable && !right ? 350 : 130);
   }, true);
   // Anything that scrolls while a finger waits is a scroll, not a hold.
   addEventListener('scroll', () => { if (press && !mode) { clearTimeout(holdTimer); press = null; } }, true);
@@ -659,7 +732,11 @@ window.OS = (() => {
   });
   const release = e => {
     clearTimeout(holdTimer);
-    if (mode !== 'hold') { press = null; return; }
+    if (mode !== 'hold') {
+      // A finger let go of a field before the ring and without moving: it wants to type there.
+      if (press?.field && e.type === 'pointerup') typeIn(press.field, e.clientX, e.clientY);
+      press = null; return;
+    }
     const x = e.clientX - shift.x, y = e.clientY - shift.y;
     const stay = () => { mode = 'sticky'; press = null; shift = { x: 0, y: 0 }; html.classList.remove('os-ringing'); setTimeout(() => ring.el.focus({ preventScroll: true }), 60); };
     // Let go before the ring got there: it simply goes home. A cancelled touch (the browser took it for a scroll or

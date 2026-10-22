@@ -37,10 +37,10 @@
     },
     onOpen(c, args) { if (args.hash && args.hash !== 'faq') requestAnimationFrame(() => show(c, args.hash)); },
     ring: [
-      { label: 'Search', icon: 'search', tint: '#93c5fd', say: 'Type a word; the questions filter as you go.', run: search },
-      { label: 'Install help', icon: 'download', tint: '#4cc2ff', say: 'SmartScreen, admin rights, Store or installer.', run: c => show(c, 'install') },
-      { label: 'Pro key help', icon: '<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6M15.5 7.5l3 3L22 7l-3-3"/>', tint: '#c4b5fd', say: 'Where your key is, and how to turn Pro on.', run: c => show(c, 'key') },
-      { label: 'Contact', icon: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>', tint: '#5eead4', say: 'Ask a person. The answer comes by e-mail.', run: () => OS.open('contact', { params: { topic: 'support' } }) },
+      { label: 'Search', icon: '🔍', tint: '#93c5fd', say: 'Type a word; the questions filter as you go.', run: search },
+      { label: 'Install help', icon: '⬇', tint: '#4cc2ff', say: 'SmartScreen, admin rights, Store or installer.', run: c => show(c, 'install') },
+      { label: 'Pro key help', icon: '🔑', tint: '#c4b5fd', say: 'Where your key is, and how to turn Pro on.', run: c => show(c, 'key') },
+      { label: 'Contact', icon: '💬', tint: '#5eead4', say: 'Ask a person. The answer comes by e-mail.', run: () => OS.open('contact', { params: { topic: 'support' } }) },
     ],
   });
 })();

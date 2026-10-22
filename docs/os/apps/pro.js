@@ -20,10 +20,10 @@
     },
     onOpen(c, args) { if (args.hash) requestAnimationFrame(() => go(c, args.hash)); },
     ring: [
-      { label: 'Get it free', icon: 'download', tint: '#4cc2ff', say: 'Opens RadialDeck in the Microsoft Store.', run: () => location.assign(STORE) },
-      { label: 'Compare plans', icon: '<rect x="3" y="4" width="7" height="16" rx="1.5"/><rect x="14" y="4" width="7" height="16" rx="1.5"/>', tint: '#c4b5fd', say: 'Free, Pro and Team side by side.', run: c => go(c, 'pricing') },
-      { label: 'Reviews & FAQ', icon: '<path d="m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/>', tint: '#ffd166', say: 'Where to read reviews, and the questions people ask before buying.', run: c => go(c, 'reviews') },
-      { label: 'Share', icon: 'link', tint: '#6ee7a0', say: 'Copies the link to this page.', run: () => OS.share('pro.html', 'RadialDeck Pro') },
+      { label: 'Get it free', icon: '⬇', tint: '#4cc2ff', say: 'Opens RadialDeck in the Microsoft Store.', run: () => location.assign(STORE) },
+      { label: 'Compare plans', icon: 'fluent:E8FD', tint: '#c4b5fd', say: 'Free, Pro and Team side by side.', run: c => go(c, 'pricing') },
+      { label: 'Reviews & FAQ', icon: '⭐', tint: '#ffd166', say: 'Where to read reviews, and the questions people ask before buying.', run: c => go(c, 'reviews') },
+      { label: 'Share', icon: '🔗', tint: '#6ee7a0', say: 'Copies the link to this page.', run: () => OS.share('pro.html', 'RadialDeck Pro') },
     ],
   });
 })();

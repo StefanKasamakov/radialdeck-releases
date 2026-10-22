@@ -73,14 +73,13 @@ window.RingLive = (() => {
   color: var(--r-label-dim, rgba(255,255,255,.82)); border: calc(var(--r-stroke-w, 1) * 1px) solid var(--r-stroke, rgba(255,255,255,.44));
   box-shadow: 0 calc(5px * ${k}) calc(13px * ${k}) var(--r-shadow, rgba(0,0,0,.4)); }
 .rl-bub::before, .rl-bub::after { content: ''; position: absolute; inset: 0; border-radius: 50%; }
-.rl-bub::before { background: linear-gradient(var(--b-top), var(--b-bot)); opacity: .94; }
-.os-ring:not(.is-themed) .rl-bub::before { opacity: .8; }
+.rl-bub::before { background: linear-gradient(var(--b-top), var(--b-bot)); }
 .rl-bub::after { opacity: 0; transition: opacity .12s; background: radial-gradient(circle at 50% 12%, var(--b-hot-top) 0, color-mix(in srgb, var(--b-hot-bot) 55%, transparent) 55%, transparent 100%); }
 .rl-bub.is-hot { color: var(--r-label, #fff); border-color: var(--r-hover-stroke, #fff); }
 .rl-bub.is-hot::after { opacity: 1; }
-.rl-bub svg { position: relative; z-index: 1; width: calc(23px * ${k}); height: calc(23px * ${k}); stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.rl-bub.is-hot svg { color: var(--tint, #fff); filter: drop-shadow(0 0 5px color-mix(in srgb, var(--tint, #fff) 50%, transparent)); }
-.rl-bub img { position: relative; z-index: 1; width: 60%; height: 60%; object-fit: contain; }
+.rl-bub .ring-ico { position: relative; z-index: 1; margin: 0 !important; }
+.rl-bub.is-hot .ring-ico.is-bare { color: var(--ink-lit); }
+
 .ring-svg .rl-more { fill: var(--r-label-dim, rgba(255,255,255,.8)); pointer-events: none; }
 </style>`);
   }
@@ -93,12 +92,18 @@ window.RingLive = (() => {
         + '<div class="ring-labels"></div><div class="ring-hub"><img class="hub-ico" alt="" hidden><b class="hub-t"></b><span class="hub-s"></span></div>';
     }
     const svgEl = el.querySelector('.ring-svg'), labelsEl = el.querySelector('.ring-labels');
+    const lightEl = el.querySelector('.ring-light') || svgEl.insertAdjacentElement('afterend', document.createElementNS('http://www.w3.org/2000/svg', 'svg'));
+    lightEl.setAttribute('class', 'ring-light'); lightEl.setAttribute('viewBox', '0 0 320 320'); lightEl.setAttribute('aria-hidden', 'true');
+    lightEl.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:100%;overflow:visible;pointer-events:none;transform-origin:50% 50%;will-change:transform,opacity;opacity:0';
+    const paintLight = () => RDRing.paint(el);
     const hubIco = el.querySelector('.hub-ico'), hubT = el.querySelector('.hub-t'), hubS = el.querySelector('.hub-s');
+    const hubBack = el.querySelector('.hub-back') || hubT.insertAdjacentElement('beforebegin', Object.assign(document.createElement('span'), { className: 'hub-back', hidden: true }));
     const bubsEl = el.querySelector('.rl-bubs') || el.appendChild(Object.assign(document.createElement('div'), { className: 'rl-bubs' }));
     bubsEl.setAttribute('aria-hidden', 'true');
     RDRing.themeRing(el, RDRing.themeById('glass').dark);
     const ico = name => opts.icons?.[name] || name || '';
-    const icoHtml = name => { const i = ico(name); return i.startsWith('img:') ? `<img src="${i.slice(4)}" alt="">` : RDRing.svg(i); };
+    // A bubble's icon as the app draws it: IconArt in the ring's icon pack.
+    const icoHtml = (name, k = 0, label = '') => RDRing.icon(el, ico(name), k, label)?.html || '';
 
     const presence = new Spring(ENTER.response, ENTER.damping);
     const angle = new Spring(.14, 1), glow = new Spring(.12, 1), kick = new Spring(.3, .55);
@@ -112,14 +117,17 @@ window.RingLive = (() => {
       slices = list; hubInfo = hub; n = slices.length;
       deep = slices.some(s => s?.children);
       RDRing.buildRing(svgEl, labelsEl, { slices: slices.map(s => [s.label, s.icon]) });
-      // A slice that holds a ring wears three dots at its rim, as in the app.
-      const more = slices.map((s, i) => s.children ? [-5, 0, 5].map(d => { const [x, y] = polar(R - 9, i * 360 / n + d); return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="1.9"/>`; }).join('') : '').join('');
-      svgEl.insertAdjacentHTML('beforeend', `<radialGradient id="softlight" cx=".5" cy="0" r="1.05" fx=".5" fy="0"><stop offset="0" stop-color="#fff" stop-opacity=".46"/><stop offset=".5" stop-color="#fff" stop-opacity=".14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><path class="hot" d="${slicePath(0, n)}"/>${more ? `<g class="rl-more">${more}</g>` : ''}`);
-      hotPath = svgEl.querySelector('.hot');
+      // A slice that holds a ring wears three dots at its rim, as in the app (9 DIPs in from the edge, 4 degrees apart).
+      const K = RDRing.K, more = slices.map((s, i) => s.children ? [-4, 0, 4].map(d => { const [x, y] = polar(R - 9 * K, i * 360 / n + d); return `<circle cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="${(2 * K).toFixed(2)}"/>`; }).join('') : '').join('');
+      if (more) svgEl.insertAdjacentHTML('beforeend', `<g class="rl-more">${more}</g>`);
+      // The light: one wedge in a layer of its own that turns from slice to slice, as the app's glide does. Turning a
+      // layer is a transform, so the slices, their patterns and the shadow are never painted again while it moves.
+      lightEl.innerHTML = `<path d="${slicePath(0, n)}"/>`;
+      paintLight();
+      hotPath = lightEl;
       labels = [...labelsEl.children].map((l, i) => {
         l.style.setProperty('--tint', slices[i].tint || hub.tint || '#fff');
-        const [x, y] = polar((R + RI) / 2 + 2, i * 360 / n);
-        return { el: l, ux: x / 320 - .5, uy: y / 320 - .5, bloom: new Spring(.38, .8), mx: new Spring(.3, .75), my: new Spring(.3, .75), at: 0 };
+        return { el: l, ux: +l.dataset.x / 320 - .5, uy: +l.dataset.y / 320 - .5, bloom: new Spring(.38, .8), at: 0 };
       });
       hot = -1; lastHot = undefined; labels.forEach(l => l.el.classList.remove('is-hot'));
       showHub(true);
@@ -135,14 +143,23 @@ window.RingLive = (() => {
       opts.onHot?.(s);
       showHub();
     }
+    // The hub as RadialRenderer.ApplyHub: the back arrow inside a nested ring, and under it the whole of a label the
+    // ring had to cut short (or the lit bubble's), else the ring's name. No picture: the app draws none there.
     function showHub(force) {
       const s = hotSlice();
-      hubIco.hidden = !hubInfo.icon;
-      if (hubInfo.icon && hubIco.getAttribute('src') !== hubInfo.icon) hubIco.src = hubInfo.icon;
-      const t = s ? s.label : hubInfo.title || '';
+      hubIco.hidden = true;
+      const full = subHot >= 0 || bHot >= 0 ? s?.label : hot >= 0 ? labels[hot]?.el.dataset.full : null;
+      let t = full ?? hubInfo.title ?? '';
+      if (full == null && el._theme?.labelUppercase) t = t.toUpperCase();
+      const back = stack.length > 0;
+      if (hubBack.hidden === back) {
+        hubBack.hidden = !back;
+        const ic = window.RD_ICONS?.['fluent:E72B'];   // Segoe Fluent "back", 20 DIPs
+        if (back && ic) hubBack.innerHTML = `<svg viewBox="${ic[0]}" aria-hidden="true" style="display:block;width:${RDRing.dip(20)};height:${RDRing.dip(20)};margin:0 auto;fill:currentColor;stroke:none">${ic[1]}</svg>`;
+      }
       if (!force && hubT.textContent === t) return;
       hubT.textContent = t;
-      hubS.textContent = s ? '' : hubInfo.sub ?? `${n} actions`;
+      hubS.textContent = '';
       // The new name fades in where the old one was, instead of jumping.
       [hubT, hubS].forEach(h => { h.classList.remove('is-swap'); void h.offsetWidth; h.classList.add('is-swap'); });
     }
@@ -215,8 +232,9 @@ window.RingLive = (() => {
 
     function addBubble(layer, child, s, from, to, offMiddle) {
       const e = pool.pop() || bubsEl.appendChild(Object.assign(document.createElement('div'), { className: 'rl-bub' }));
-      e.innerHTML = icoHtml(s.icon);
+      e.innerHTML = icoHtml(s.icon, child, s.label);
       e.style.setProperty('--tint', s.tint || '#fff');
+      e.style.setProperty('--ink-lit', RDRing.css(RDRing.readableOn(RDRing.litColour(el._theme), RDRing.tintOf(s.label || '', child))));
       e.style.zIndex = layer === 1 ? 2 : 1;   // a second layer leaves from inside its bubble, not over it
       e.classList.remove('is-hot');
       const b = { layer, child, s, el: e, from, to, start: clock + .02 + offMiddle * .025, heading: Math.atan2(to.y - from.y, to.x - from.x) * 180 / Math.PI,
@@ -405,24 +423,16 @@ window.RingLive = (() => {
       const dt = Math.min(.05, (now - last) / 1000); last = now;
       const w = size(), c = centre(), k = w / 340, d = w * R / (320 * B.OUTER);
 
-      // The ring leans a few pixels toward the pointer, and the lit icon is pulled toward it.
+      // The ring leans a few pixels toward the pointer (the lit icon's lift is the ring's own, see ring.js).
       let tx = 0, ty = 0;
       if (pointer && !closing) {
         const dx = pointer.x - c.x, dy = pointer.y - c.y, dd = Math.hypot(dx, dy);
         if (dd > 1 && dd < w * 1.3) { const m = Math.min(10 * k, dd * .04); tx = dx / dd * m; ty = dy / dd * m; }
       }
       driftX.target = tx; driftY.target = ty;
-      labels.forEach((l, i) => {
-        if (l.at && now >= l.at) { l.bloom.target = 1; l.at = 0; }
-        let mx = 0, my = 0;
-        if (i === hot && pointer && bParent < 0) {
-          const lx = c.x + l.ux * w, ly = c.y + l.uy * w, dx = pointer.x - lx, dy = pointer.y - ly, dd = Math.hypot(dx, dy);
-          if (dd > 1) { const m = Math.min(7 * k, dd * .06); mx = dx / dd * m; my = dy / dd * m; }
-        }
-        l.mx.target = mx; l.my.target = my;
-      });
+      labels.forEach(l => { if (l.at && now >= l.at) { l.bloom.target = 1; l.at = 0; } });
 
-      const springs = [presence, angle, glow, kick, driftX, driftY, dimS, shiftX, shiftY, ...labels.flatMap(l => [l.bloom, l.mx, l.my])];
+      const springs = [presence, angle, glow, kick, driftX, driftY, dimS, shiftX, shiftY, ...labels.map(l => l.bloom)];
       springs.forEach(s => s.step(dt));
 
       const p = presence.value, o = opts.origin?.() || O;
@@ -433,12 +443,12 @@ window.RingLive = (() => {
       el.style.transform = `translate(${(c.x - o.x - w / 2 + driftX.value).toFixed(2)}px, ${(c.y - o.y - w / 2 + driftY.value + rise).toFixed(2)}px) scale(${scale.toFixed(4)})`;
       el.style.opacity = w ? Math.max(0, Math.min(1, p * (closing ? 1.2 : 1.6))).toFixed(3) : 0;
       el.style.visibility = w && p > .01 ? '' : 'hidden';
-      if (hotPath) { hotPath.setAttribute('transform', `rotate(${angle.value.toFixed(2)} 160 160)`); hotPath.style.opacity = glow.value.toFixed(3); }
+      if (hotPath) { hotPath.style.transform = `rotate(${angle.value.toFixed(2)}deg)`; hotPath.style.opacity = glow.value.toFixed(3); }
       const dim = 1 - .6 * dimS.value;
       labels.forEach((l, i) => {
         // Icons bloom outward from the hub one after another, and settle on their own spring.
         const b = l.bloom.value, f = .55 + .45 * b;
-        const ox = l.ux * w * (f - 1) + l.mx.value, oy = l.uy * w * (f - 1) + l.my.value;
+        const ox = l.ux * w * (f - 1), oy = l.uy * w * (f - 1);
         l.el.style.transform = `translate(-50%, -50%) translate(${ox.toFixed(2)}px, ${oy.toFixed(2)}px) scale(${(.6 + .4 * b).toFixed(4)})`;
         // While bubbles are out the rest of the ring steps back, so the eye goes to them.
         l.el.style.opacity = (Math.max(0, Math.min(1, b * 1.3)) * (i === bParent ? 1 : dim)).toFixed(3);

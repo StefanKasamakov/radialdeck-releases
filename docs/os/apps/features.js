@@ -6,9 +6,9 @@
    motion. */
 (() => {
   const PAGES = [
-    ['gesture', 'Gesture', 'hand', '#ffd166'], ['context', 'Context', 'target', '#7cc4ff'], ['actions', 'Actions', 'zap', '#fdba74'],
-    ['drop', 'Drop ring', 'file', '#ff7aa8'], ['clipboard', 'Clipboard', 'clipboard', '#a5b4fc'], ['yours', 'Make it yours', 'palette', '#fda4af'],
-    ['teams', 'Teams', 'users', '#5eead4'], ['private', 'Private', 'shield', '#6ee7a0'],
+    ['gesture', 'Gesture', '👋', '#ffd166'], ['context', 'Context', '🎯', '#7cc4ff'], ['actions', 'Actions', '⚡', '#fdba74'],
+    ['drop', 'Drop ring', '📄', '#ff7aa8'], ['clipboard', 'Clipboard', '📋', '#a5b4fc'], ['yours', 'Make it yours', '🎨', '#fda4af'],
+    ['teams', 'Teams', '👥', '#5eead4'], ['private', 'Private', '🛡', '#6ee7a0'],
   ];
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = matchMedia('(hover: hover)').matches;
@@ -43,23 +43,23 @@
     box.append(el);
     let line = 'please send the offer before friday', ran = 0;
     const say = (t, s) => { out.innerHTML = ''; out.append(Object.assign(document.createElement('b'), { textContent: t }), s ? ' ' + s : ''); };
-    const text = (label, fn) => ({ label, icon: { UPPER: I.caseUp, lower: I.caseDown, 'Title Case': I.title }[label] || I.spaces, say: `"${fn(line)}"`, run: () => { line = fn(line); say(label + ':', `"${line}"`); } });
+    const text = (label, fn) => ({ label, icon: { UPPER: 'fluent:E8C8', lower: 'fluent:E8C8', 'Title Case': 'fluent:E8A5' }[label] || 'fluent:E8A5', say: `"${fn(line)}"`, run: () => { line = fn(line); say(label + ':', `"${line}"`); } });
     const title = t => t.toLowerCase().replace(/(^|\s)(\p{L})/gu, (_, a, b) => a + b.toUpperCase());
     const app = id => { const a = OS.apps.get(id); return a && { label: a.title, icon: 'img:' + a.icon, say: `Opens ${a.title} on this desktop.`, run: () => OS.open(id) }; };
     const music = () => { const r = OS.apps.get('music')?.ring; return Array.isArray(r) ? [0, 5, 1, 2, 4, 3].map(i => r[i]) : []; };
     const S = (label, icon, say, run, more) => ({ label, icon, say, run, ...more });
     const SLICES = [
-      S('Apps', ic('apps'), 'Point at it: the apps come out as bubbles.', null, { tint: '#7cc4ff', children: () => ['outlook', 'excel', 'word', 'explorer', 'teams', 'terminal', 'code', 'photo'].map(app).filter(Boolean) }),
-      S('Music', ic('music'), 'Point at it: Play/Pause, Next, Volume and Mute.', null, { tint: '#6ee7a0', children: music }),
-      S('Text', ic('text'), `Point at it, then at Case: a second layer. Works on "${line}".`, null, { tint: '#c4a1ff', children: () => [
-        { label: 'Case', icon: I.caseUp, tint: '#ffd166', say: 'A bubble with a ring of its own.', children: () => [text('UPPER', t => t.toUpperCase()), text('lower', t => t.toLowerCase()), text('Title Case', title)] },
+      S('Apps', 'fluent:E71D', 'Point at it: the apps come out as bubbles.', null, { tint: '#7cc4ff', children: () => ['outlook', 'excel', 'word', 'explorer', 'teams', 'terminal', 'code', 'photo'].map(app).filter(Boolean) }),
+      S('Music', '🎵', 'Point at it: Play/Pause, Next, Volume and Mute.', null, { tint: '#6ee7a0', children: music }),
+      S('Text', '🔤', `Point at it, then at Case: a second layer. Works on "${line}".`, null, { tint: '#c4a1ff', children: () => [
+        { label: 'Case', icon: 'fluent:E8D2', tint: '#ffd166', say: 'A bubble with a ring of its own.', children: () => [text('UPPER', t => t.toUpperCase()), text('lower', t => t.toLowerCase()), text('Title Case', title)] },
         text('Trim spaces', t => t.replace(/\s+/g, ' ').trim()),
-        { label: 'Start over', icon: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>', tint: '#5eead4', say: 'Back to the first line.', run: () => { line = 'please send the offer before friday'; say('Start over:', `"${line}"`); } },
+        { label: 'Start over', icon: 'fluent:E777', tint: '#5eead4', say: 'Back to the first line.', run: () => { line = 'please send the offer before friday'; say('Start over:', `"${line}"`); } },
       ] }),
-      S('Files', ic('file'), 'Opens File Explorer.', () => OS.open('explorer')),
-      S('Lock', ic('lock'), 'Locks this desktop.', () => OS.lock()),
-      S('Dark/Light', ic('theme'), 'Switches the windows between dark and light.', () => OS.setNight()),
-      S('Themes', ic('palette'), 'Opens Themes: the bubbles take the ring theme you pick.', () => OS.open('themes')),
+      S('Files', 'fluent:E8B7', 'Opens File Explorer.', () => OS.open('explorer')),
+      S('Lock', '🔒', 'Locks this desktop.', () => OS.lock()),
+      S('Dark/Light', '🌗', 'Switches the windows between dark and light.', () => OS.setNight()),
+      S('Themes', '🎨', 'Opens Themes: the bubbles take the ring theme you pick.', () => OS.open('themes')),
       S('Settings', '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>', 'Opens Settings.', () => OS.open('settings')),
     ];
     const anchor = box.querySelector('.fx-bub-anchor');
@@ -104,9 +104,10 @@
     let hot = -1, turn = 0, idle = null, hovering = false;
     function build() {
       RDRing.themeRing(ringEl, theme());
-      RDRing.buildRing(svgEl, ringEl.querySelector('.ring-labels'), { slices: PAGES.map(([, label, icon]) => [label, OS.icons[icon] || '']) });
+      RDRing.buildRing(svgEl, ringEl.querySelector('.ring-labels'), { slices: PAGES.map(([, label, icon]) => [label, OS.icons[icon] || icon]) });
       // The light is one path that turns from slice to slice (a transform, so it glides).
-      svgEl.insertAdjacentHTML('beforeend', `<path class="fx-hot" d="${RDRing.slicePath(0, n)}" fill="url(#hover-${ringEl.dataset.uid})"/>`);
+      svgEl.insertAdjacentHTML('beforeend', `<path class="fx-hot ring-glide" d="${RDRing.slicePath(0, n)}"/>`);
+      RDRing.paint(ringEl);   // the app's soft light, in the theme's colours
       if (hot >= 0) { const i = hot; hot = -1; light(i); }
     }
     function light(i) {
