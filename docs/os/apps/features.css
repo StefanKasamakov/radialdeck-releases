@@ -1,0 +1,152 @@
+/* Features: the overview page (os/apps/features.js). The group pages use the .fx-* rules in os.css.
+   Motion is transform and opacity only, runs while on screen (.is-live / .is-on from features.js), and stops with
+   reduced motion. */
+.fx-ov { max-width: 980px; }
+.fx-ov .fx-h2 { font-size: clamp(22px, 3.2cqw, 28px); }
+.fx-sec-h { margin-top: 34px; }
+.fx-fine { margin: 14px 0 0; font-size: 12px; color: var(--text-3); }
+
+/* Hero: the copy, and a ring whose slices are the feature groups. */
+.fx-hero { display: grid; grid-template-columns: 1fr minmax(220px, 300px); gap: 30px; align-items: center; margin-bottom: 24px; }
+.fx-hero .fx-lead { margin-bottom: 0; }
+.fx-hero-ring { margin: 0; }
+.fx-app:not(.is-js) .fx-hero-ring { display: none; }
+/* The demos stay a dark stage in light mode too (their tokens are the dark ones, see os.css). */
+.fx-ov .fx-demo { background: radial-gradient(55% 55% at 50% 48%, rgba(124,196,255,.18), transparent 72%), linear-gradient(160deg, #1b2236, #10131d); }
+.fx-hero-ring .fx-demo { cursor: pointer; }
+.fx-hero-ring .stage .ring { width: 86%; }
+.fx-hero-ring .fx-hot { stroke: var(--r-hover-stroke, #fff); stroke-width: var(--r-stroke-w, 1); opacity: 0; transform-origin: 160px 160px; pointer-events: none;
+  filter: drop-shadow(0 0 var(--r-glow-r, 0px) var(--r-glow)); transition: transform .42s cubic-bezier(.3, 1.35, .5, 1), opacity .2s; }
+.fx-hero-ring .ring.has-hot .fx-hot { opacity: 1; }
+.fx-hero-ring .ring-labels { z-index: 1; }
+.fx-hero-say { min-height: 3em; margin: 10px 2px 0; font-size: 13px; line-height: 1.45; color: var(--text-3); }
+
+/* The bubbles slot: the live ring across the top (os.css .fx-bub-demo), the clip from Windows and the words under it; and the clips. */
+.fx-slot, .fx-split { display: grid; grid-template-columns: minmax(170px, 230px) 1fr; gap: 28px; align-items: center; }
+.fx-slot.fx-bubbles { grid-template-columns: minmax(140px, 180px) 1fr; gap: 20px 28px; }
+.fx-slot.fx-bubbles .fx-bub-demo { grid-column: 1 / -1; height: 400px; }
+.fx-slot { margin: 26px 0 8px; padding: 20px; border-radius: 14px; border: 1px solid var(--border);
+  background: radial-gradient(80% 120% at 0% 0%, rgba(139,92,246,.16), transparent 60%), radial-gradient(70% 90% at 100% 100%, rgba(59,130,246,.12), transparent 60%), var(--surface); }
+.fx-slot-copy p { max-width: 56ch; }
+.fx-phone { position: relative; aspect-ratio: 9 / 16; border-radius: 22px; overflow: hidden; background: #0b0f1e; border: 4px solid #0b0d14; box-shadow: 0 0 0 1px var(--border-strong), 0 18px 40px rgba(0,0,0,.35); }
+.fx-clip { width: 100%; height: 100%; display: block; object-fit: cover; background: #0b0f1e; }
+
+/* At a glance: the scenes as tiles. */
+.fx-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 18px 16px; }
+.fx-tile { display: block; color: inherit; text-decoration: none; border-radius: 12px; }
+.fx-tile .fx-demo { transition: transform .25s var(--ease-out), border-color .2s; }
+.fx-tile:hover .fx-demo { transform: translateY(-3px); border-color: var(--border-strong); }
+.fx-tile h3 { margin: 10px 0 2px; font: 600 15px/1.3 var(--font-display); color: var(--text); }
+.fx-tile p { margin: 0; font-size: 13px; line-height: 1.45; }
+.fx-tile .stage .ring { width: 80%; }
+
+.fx-band { position: relative; margin-top: 38px; padding-top: 30px; border-top: 1px solid var(--border); }
+.fx-band p { max-width: 62ch; }
+.fx-band .os-btn + .os-btn { margin-left: 6px; }
+
+/* Works with your apps. */
+.fx-wall { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: 6px; margin-top: 14px; }
+.fx-wall.is-short { max-height: 312px; overflow: hidden; -webkit-mask-image: linear-gradient(#000 70%, transparent); mask-image: linear-gradient(#000 70%, transparent); }
+.fx-logo { display: grid; justify-items: center; gap: 6px; padding: 10px 4px 8px; border-radius: 10px; color: var(--text-2); text-decoration: none; font-size: 11.5px; line-height: 1.2; text-align: center; }
+.fx-logo img { width: 40px; height: 40px; border-radius: 10px; object-fit: contain; transition: transform .2s var(--ease-out); }
+.fx-logo span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+a.fx-logo:hover, a.fx-logo:focus-visible { background: var(--hover); color: var(--text); }
+a.fx-logo:hover img { transform: scale(1.12); }
+.fx-more { margin-top: 10px; }
+.fx-peek { position: absolute; left: 0; top: 0; z-index: 3; width: 236px; padding: 8px; border-radius: 14px; background: var(--win-body); border: 1px solid var(--border-strong);
+  box-shadow: 0 18px 40px rgba(0,0,0,.35); pointer-events: none; opacity: 0; visibility: hidden; transition: opacity .16s, visibility 0s .16s; }
+.fx-peek.is-on { opacity: 1; visibility: visible; transition: opacity .16s; }
+.fx-peek .stage .ring { width: 92%; }
+.fx-peek .ring-hub img { width: 70%; height: 70%; object-fit: contain; }
+.fx-peek p { margin: 8px 4px 2px; font-size: 12.5px; color: var(--text-3); }
+.fx-peek p b { color: var(--text); }
+
+/* The ring that knows your app: real ring pictures (drawn by the app) take turns; the chips light in step. */
+.fx-cycle { position: relative; aspect-ratio: 1; border-radius: 14px; background: radial-gradient(60% 60% at 50% 50%, rgba(59,130,246,.18), transparent 72%), linear-gradient(160deg, #1b2236, #10131d); }
+.fx-cycle img { position: absolute; inset: 6%; width: 88%; height: 88%; opacity: 0; animation: fx-turn 12s infinite; }
+.fx-cycle img:nth-child(1) { opacity: 1; }
+.fx-cycle img:nth-child(2), .fx-cycle-chips li:nth-child(2)::after { animation-delay: 3s; }
+.fx-cycle img:nth-child(3), .fx-cycle-chips li:nth-child(3)::after { animation-delay: 6s; }
+.fx-cycle img:nth-child(4), .fx-cycle-chips li:nth-child(4)::after { animation-delay: 9s; }
+@keyframes fx-turn { 0% { opacity: 0; transform: scale(.94); } 4%, 25% { opacity: 1; transform: none; } 29%, 100% { opacity: 0; transform: scale(1.03); } }
+.fx-chips { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 0; margin: 4px 0 16px; }
+.fx-chips li { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px 5px 6px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); font-size: 13px; color: var(--text); }
+.fx-chips img { width: 20px; height: 20px; border-radius: 5px; }
+.fx-cycle-chips li::after { content: ""; position: absolute; inset: -1px; border-radius: inherit; border: 2px solid var(--accent-ui, #7cc4ff); opacity: 0; animation: fx-chip 12s infinite; }
+@keyframes fx-chip { 0% { opacity: 0; } 4%, 25% { opacity: 1; } 29%, 100% { opacity: 0; } }
+.fx-band:not(.is-live) .fx-cycle img, .fx-band:not(.is-live) .fx-cycle-chips li::after { animation-play-state: paused; }
+
+/* Themes: a strip of small rings, one per theme. */
+.fx-themes { display: flex; gap: 6px; overflow-x: auto; padding: 4px 2px 10px; margin: 0 -2px 12px; scroll-snap-type: x proximity; scrollbar-width: thin; min-height: 112px; }
+.fx-theme { flex: none; width: 84px; display: grid; justify-items: center; gap: 6px; padding: 6px 2px; border: 1px solid transparent; border-radius: 10px; background: none; cursor: pointer; scroll-snap-align: start;
+  opacity: 0; transform: translateY(6px); }
+.fx-themes.is-in .fx-theme { opacity: 1; transform: none; transition: opacity .35s var(--d, 0ms), transform .35s var(--ease-out) var(--d, 0ms), background .15s; }
+.fx-theme:hover { background: var(--hover); }
+.fx-theme[aria-pressed="true"] { border-color: var(--accent-ui, #7cc4ff); background: var(--surface-2); }
+.fx-theme .ring { position: relative; display: block; width: 64px; height: 64px; }
+.fx-theme .ring-svg { width: 100%; height: 100%; display: block; }
+.fx-theme .ring-svg .slice { fill: var(--r-fill); stroke: var(--r-stroke); stroke-width: var(--r-stroke-w, 1); }
+.fx-theme .ring-svg .slice.is-hot { fill: var(--r-fill-hot); stroke: var(--r-hover-stroke, #fff); }
+.fx-theme .ring-svg .slice-pat { fill: var(--r-pat, none); }
+.fx-theme-name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 11.5px; color: var(--text-2); }
+
+/* Icon packs: each pack's frame, drawn small. */
+.fx-packs { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 14px; padding: 0; margin: 0 0 18px; }
+.fx-packs li { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-2); }
+.fx-packs li::before { content: ""; width: 24px; height: 24px; flex: none; background: var(--c); border-radius: 7px;
+  box-shadow: inset 0 0 0 7px var(--c), inset 0 0 0 24px var(--g); }
+.fx-packs .is-circle::before, .fx-packs .is-bubble::before { border-radius: 50%; }
+.fx-packs .is-bubble::before { background: radial-gradient(circle at 35% 30%, #fff 0 18%, var(--c) 45%); box-shadow: inset 0 0 0 7px transparent, inset 0 0 0 24px transparent; }
+.fx-packs .is-squircle::before { border-radius: 9px; }
+.fx-packs .is-rounded::before { border-radius: 6px; }
+.fx-packs .is-slot::before { border-radius: 2px; box-shadow: inset 2px 2px 0 rgba(0,0,0,.35), inset -2px -2px 0 rgba(255,255,255,.4), inset 0 0 0 7px var(--c), inset 0 0 0 24px var(--g); }
+.fx-packs .is-pixel::before { border-radius: 0; clip-path: polygon(0 3px, 3px 3px, 3px 0, calc(100% - 3px) 0, calc(100% - 3px) 3px, 100% 3px, 100% calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%, 3px calc(100% - 3px), 0 calc(100% - 3px)); }
+.fx-packs .is-hex::before { border-radius: 0; background: var(--g); box-shadow: none; clip-path: polygon(25% 3%, 75% 3%, 100% 50%, 75% 97%, 25% 97%, 0 50%); }
+.fx-packs .is-diamond::before { border-radius: 3px; transform: rotate(45deg) scale(.8); }
+.fx-packs .is-sticker::before { border-radius: 50%; box-shadow: 0 0 0 2px #fff, inset 0 0 0 7px var(--c), inset 0 0 0 24px var(--g); }
+.fx-packs .is-none::before { background: none; box-shadow: none; border-radius: 0; -webkit-mask: radial-gradient(circle, #000 40%, transparent 42%); background-color: var(--text-2); }
+.fx-packs .is-outline::before { background: none; box-shadow: inset 0 0 0 2px var(--text-2); }
+.fx-packs .is-glow::before { filter: drop-shadow(0 0 4px var(--g)); }
+
+/* The gallery: slices per kind, bars grow in once seen. */
+.fx-bars { list-style: none; padding: 0; margin: 0; display: grid; gap: 5px; font-size: 12.5px; }
+.fx-bars li { display: grid; grid-template-columns: 128px 1fr 34px; gap: 10px; align-items: center; }
+.fx-bars span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-2); }
+.fx-bars i { height: 8px; border-radius: 4px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); transform-origin: left; transform: scaleX(var(--w)); }
+.fx-bars b { font-weight: 600; color: var(--text); text-align: right; font-variant-numeric: tabular-nums; }
+.fx-band:not(.is-live) .fx-bars i { transform: scaleX(0); }
+.fx-band.is-live .fx-bars i { transition: transform .9s var(--ease-out); }
+.fx-split-r { grid-template-columns: 1fr minmax(260px, 380px); }
+
+.fx-facts .fx-cards { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); border-top: 0; padding-top: 4px; }
+.fx-langs { font-size: 13.5px; }
+
+/* Free or Pro. */
+.fx-cmp { width: 100%; border-collapse: collapse; font-size: 14px; }
+.fx-cmp th, .fx-cmp td { padding: 9px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.fx-cmp th[scope="row"] { font-weight: 500; color: var(--text); }
+.fx-cmp td { width: 26%; }
+.fx-cmp thead th { padding-top: 0; }
+
+@container (max-width: 720px) {
+  .fx-hero { grid-template-columns: 1fr; gap: 18px; }
+  .fx-hero-ring { max-width: 300px; }
+  .fx-slot, .fx-split { grid-template-columns: 1fr; gap: 18px; }
+  .fx-slot .fx-phone, .fx-split .fx-phone { max-width: 220px; }
+  .fx-slot.fx-bubbles { grid-template-columns: 1fr; }
+  .fx-slot.fx-bubbles .fx-bub-demo { height: 360px; }
+  .fx-slot.fx-bubbles .fx-phone { display: none; }   /* narrow: the live ring is enough; the clips are a tap away */
+  .fx-split .fx-cycle { max-width: 280px; }
+  .fx-tiles { grid-template-columns: 1fr 1fr; gap: 14px 12px; }
+  .fx-wall { grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); }
+  .fx-bars li { grid-template-columns: 104px 1fr 30px; }
+  .fx-cmp { font-size: 13px; }
+  .fx-cmp th, .fx-cmp td { padding: 8px 6px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-cycle img, .fx-cycle-chips li::after { animation: none; }
+  .fx-cycle img:nth-child(1), .fx-cycle-chips li:nth-child(1)::after { opacity: 1; }
+  .fx-hero-ring .fx-hot, .fx-tile .fx-demo, .fx-logo img, .fx-themes.is-in .fx-theme, .fx-band.is-live .fx-bars i { transition: none; }
+  .fx-band:not(.is-live) .fx-bars i { transform: scaleX(var(--w)); }
+}

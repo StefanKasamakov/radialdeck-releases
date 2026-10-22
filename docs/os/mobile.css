@@ -1,0 +1,73 @@
+/* The phone page (os/mobile.js). RadialDeck runs on Windows, so a phone gets this page: what it is, the desktop
+   running inside a laptop (tap it: full screen), the next update's bubbles, a few tricks, Free or Pro, and the link
+   to send to a PC. Loaded where the head's test can match (the link's media); html.os-mobile turns it on. */
+.mb { display: none; }
+html.os-mobile { background: #0b0d16; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html.os-mobile body { height: auto; min-height: 100%; overflow: visible; overflow-x: hidden; background: #0b0d16; -webkit-user-select: auto; user-select: auto; -webkit-tap-highlight-color: transparent; }
+/* The desktop itself does not run here (OS.start returns): only this page, the legal documents and dialogs show. */
+html.os-mobile body > :not(.mb, .os-src-wrap, dialog) { display: none !important; }
+html.os-mobile .os-src-wrap { display: none; }
+html.os-mobile .mb { display: block; max-width: 560px; margin: 0 auto; padding: 0 16px calc(28px + env(safe-area-inset-bottom)); color: #f3f3f5; font: 16px/1.5 var(--font-body); }
+
+.mb-top { display: flex; align-items: center; gap: 10px; padding: calc(14px + env(safe-area-inset-top)) 0 4px; }
+.mb-top b { font: 600 18px var(--font-display); }
+.mb-chip { margin-left: auto; padding: 5px 11px; border-radius: 999px; font-size: 13px; font-weight: 600; color: #9edcff; background: rgba(76,194,255,.12); border: 1px solid rgba(76,194,255,.28); white-space: nowrap; }
+.mb-h { margin: 18px 0 8px; font: 700 clamp(30px, 8.6vw, 40px)/1.06 var(--font-display); letter-spacing: -.02em; }
+.mb-lead { margin: 0 0 18px; color: rgba(255,255,255,.74); }
+
+/* The laptop: a lid with the screen, a base. The screen shows a picture of the desktop until the live one is wanted. */
+.mb-lid { padding: 6px; border-radius: 14px 14px 4px 4px; background: #1c1f2c; border: 1px solid rgba(255,255,255,.12); }
+.mb-stage { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 6px; background: #24305c; cursor: pointer; touch-action: manipulation; }
+.mb-screen { position: absolute; left: 0; top: 0; width: 100%; height: 100%; transform-origin: 0 0; overflow: hidden; }
+.mb-poster { display: block; width: 100%; height: 100%; object-fit: cover; }
+.mb-screen iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; background: #24305c; }
+.mb-base { position: relative; height: 12px; margin: 0 -4%; border-radius: 0 0 14px 14px; background: linear-gradient(#2a2d3c, #15171f); }
+.mb-base::before { content: ""; position: absolute; left: 50%; top: 0; width: 18%; height: 5px; transform: translateX(-50%); border-radius: 0 0 6px 6px; background: #0f1118; }
+.mb-try { position: absolute; left: 50%; bottom: 12px; z-index: 2; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 18px;
+  border-radius: 999px; border: 1px solid rgba(255,255,255,.28); background: rgba(11,13,22,.8); color: #fff; font: 600 15px var(--font-body); white-space: nowrap; box-shadow: 0 6px 18px rgba(0,0,0,.35); }
+.mb-try svg, .mb-close svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.mb-stage.is-loading .mb-try { opacity: .7; }
+/* Close: in the screen's bottom right corner (it turns with the screen), over the taskbar's clock, clear of the icons,
+   the windows and their own buttons. */
+.mb-close { display: none; position: absolute; z-index: 3; right: calc(6px + env(safe-area-inset-right)); bottom: 3px; width: 44px; height: 44px; place-items: center; padding: 0;
+  border-radius: 50%; border: 1px solid rgba(255,255,255,.35); background: rgba(0,0,0,.62); color: #fff; box-shadow: 0 4px 14px rgba(0,0,0,.4); }
+.mb-tip { margin: 12px 0 0; font-size: 13.5px; color: rgba(255,255,255,.58); text-align: center; }
+
+/* Full screen: the stage itself (so the live desktop is never moved and never reloads). Android: the Fullscreen API and
+   landscape; iOS (no element full screen on iPhone): the same box, fixed over the page. Held upright, mobile.js turns the
+   screen 90 degrees inside it. */
+.mb-stage.is-full { position: fixed; inset: 0; z-index: 1000; width: 100vw; height: 100vh; height: 100dvh; aspect-ratio: auto; border-radius: 0; background: #000; cursor: auto; touch-action: none; }
+.mb-stage.is-full .mb-try { display: none; }
+.mb-stage.is-full .mb-close { display: grid; }
+.mb-stage.is-full .mb-screen { left: auto; top: auto; }
+html.mb-full, html.mb-full body { overflow: hidden; overscroll-behavior: none; }
+
+.mb-cta { display: grid; justify-items: center; gap: 12px; margin: 20px 0 0; }
+.mb-btn { width: 100%; min-height: 52px; border: 0; border-radius: 14px; font: 600 16px var(--font-body); cursor: pointer; }
+.mb-primary { background: #4cc2ff; color: #00131f; }
+.mb-primary:active { filter: brightness(.92); }
+.mb .store-badge img { display: block; height: 44px; width: auto; }
+
+.mb-next { display: grid; grid-template-columns: 112px 1fr; gap: 14px; align-items: center; margin: 30px 0 0; padding: 12px; border-radius: 18px; color: inherit; text-decoration: none;
+  background: linear-gradient(135deg, rgba(139,92,246,.24), rgba(59,130,246,.12)); border: 1px solid rgba(196,181,253,.28); }
+.mb-next video { display: block; width: 112px; height: auto; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 12px; background: #000; }
+.mb-next span { display: grid; gap: 4px; font-size: 14.5px; line-height: 1.45; color: rgba(255,255,255,.76); }
+.mb-next small { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #c4b5fd; }
+.mb-next b { font: 600 19px/1.2 var(--font-display); color: #fff; }
+.mb-next em { margin-top: 4px; font-style: normal; font-weight: 600; color: #7cc4ff; }
+
+.mb h2 { margin: 30px 0 12px; font: 600 21px var(--font-display); }
+.mb-clips { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; }
+.mb-clips figure { margin: 0; }
+.mb-clips video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 12px; background: #000; }
+.mb-clips figcaption { margin-top: 6px; font-size: 13.5px; line-height: 1.35; color: rgba(255,255,255,.78); }
+.mb-plans p { margin: 0 0 10px; color: rgba(255,255,255,.76); }
+.mb-plans b { color: #fff; }
+.mb-foot { display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 16px; margin: 28px 0 0; font-size: 13.5px; }
+.mb-foot a { padding: 10px 0; color: rgba(255,255,255,.6); }
+
+/* The legal documents stay documents on a phone: the page's name, then the text. */
+html.os-mobile body:is([data-open="privacy"], [data-open="terms"], [data-open="refund"]) .mb > :not(.mb-top) { display: none; }
+html.os-mobile body:is([data-open="privacy"], [data-open="terms"], [data-open="refund"]) .os-src-wrap,
+html.os-mobile body:is([data-open="privacy"], [data-open="terms"], [data-open="refund"]) .os-src { display: block; }
+html.os-mobile .os-src-wrap .dc-paper { margin: 8px 16px 32px; padding: 22px 18px 28px; }

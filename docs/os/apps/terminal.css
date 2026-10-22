@@ -1,0 +1,27 @@
+/* Terminal (os/apps/terminal.js): Windows Terminal's tab strip and Campbell-ish panes. Always dark, as terminals are. */
+.wt { display: flex; flex-direction: column; height: 100%; background: #0c0c0c; color: #cccccc; }
+.wt-tabs { flex: none; display: flex; align-items: flex-end; gap: 2px; height: 38px; padding: 6px 8px 0; background: #1c1c1c; overflow: hidden; font: 12.5px var(--font-ui); }
+.wt-tab { display: flex; align-items: center; gap: 8px; height: 32px; min-width: 0; max-width: 200px; padding: 0 6px 0 12px; border-radius: 7px 7px 0 0; color: rgba(255,255,255,.7); cursor: default; }
+.wt-tab:hover { background: rgba(255,255,255,.05); }
+.wt-tab.is-on { background: #0c0c0c; color: #fff; }
+.wt-tab img { width: 16px; height: 16px; flex: none; }
+.wt-tab span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.wt-tabs button { flex: none; display: grid; place-items: center; border: 0; border-radius: 5px; background: none; color: inherit; cursor: default; }
+.wt-x { width: 24px; height: 24px; }
+.wt-plus { width: 30px; height: 30px; margin-bottom: 1px; color: rgba(255,255,255,.8); }
+.wt-tabs button:hover { background: rgba(255,255,255,.1); }
+.wt-tabs svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; }
+.wt-view { flex: 1; min-height: 0; display: flex; padding: 2px; }
+.wt-view > *, .wt-split > * { flex: 1 1 0; min-width: 0; min-height: 0; }
+.wt-split { display: flex; gap: 2px; }
+.wt-split.is-col { flex-direction: column; }
+.wt-pane { display: flex; border: 1px solid transparent; border-radius: 3px; }
+.wt-split .wt-pane.is-on { border-color: var(--accent-ui); }
+.wt-out { flex: 1; min-width: 0; overflow: auto; padding: 8px 10px; font: 14px/1.35 "Cascadia Mono", "Cascadia Code", Consolas, ui-monospace, monospace; white-space: pre-wrap; overflow-wrap: anywhere; -webkit-user-select: text; user-select: text; scrollbar-color: rgba(255,255,255,.25) transparent; }
+.wt-line { display: flex; }
+.wt-line span { flex: none; white-space: pre; }
+.wt-in { flex: 1; min-width: 40px; padding: 0; border: 0; outline: 0; background: none; color: #f2f2f2; font: inherit; caret-color: #f2f2f2; }
+.wt-dim { color: #8a8a8a; }
+.wt-dim b, .wt-err b { color: #f2f2f2; font-weight: 600; }
+.wt-err { color: #f14c4c; }
+.wt-dir { color: #3b8eea; }

@@ -4,7 +4,7 @@
   if (!document.documentElement.classList.contains('is-mobile')) return;
   const URL_ = 'https://radialdeck.com/';
   const STORE = 'https://apps.microsoft.com/detail/9NDJPDW5DV1N';
-  const isGet = a => /apps\.microsoft\.com|(^|\/)download(\.html)?([?#].*)?$/.test(a.getAttribute('href') || '');
+  const isGet = a => /apps\.microsoft\.com|radialdeck\.com\/store|(^|\/)download(\.html)?([?#].*)?$/.test(a.getAttribute('href') || '');
   let sheet;
 
   function build() {
@@ -36,17 +36,25 @@
     document.body.appendChild(sheet);
   }
 
+  // The desktop inside the phone page's laptop (os/mobile.js) asks the page around it: the sheet fills the phone, not
+  // the little laptop, and the Store page never loads inside the laptop.
+  let host = null;
+  try { if (window.parent !== window && window.parent.RDPhone) host = window.parent.RDPhone; } catch (_) { }
+
   function open(store) {
+    if (host) return host.open(store);
     if (!sheet) build();
     sheet.querySelector('.pc-store').href = store || STORE;
     sheet.showModal();
   }
+  window.RDPhone = { open };
 
   document.addEventListener('click', e => {
     if (e.target.closest('[data-send-pc]')) { e.preventDefault(); return open(); }
     const a = e.target.closest('a[href]');
-    // Store badges still open the Store page, so people see it is listed there.
-    if (a && !a.closest('.pc-sheet, .store-badge') && isGet(a)) { e.preventDefault(); open(/apps\.microsoft\.com/.test(a.href) ? a.href : STORE); }
+    // Store badges still open the Store page, so people see it is listed there (not inside the laptop, though).
+    // The desktop's Download icon opens its window (it has this button), not the sheet on top of it.
+    if (a && !a.closest('.pc-sheet, .os-icon') && (!a.closest('.store-badge') || host) && isGet(a)) { e.preventDefault(); open(/apps\.microsoft\.com/.test(a.href) ? a.href : STORE); }
   });
 
   // The header button says what it does on a phone.

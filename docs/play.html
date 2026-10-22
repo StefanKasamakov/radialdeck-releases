@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Try RadialDeck in your browser | RadialDeck</title>
+<meta name="description" content="A live RadialDeck ring. Click a slice, or hold the mouse anywhere, flick and let go. The radial menu for Windows 10 and 11.">
+<link rel="canonical" href="https://radialdeck.com/play">
+<meta property="og:title" content="Try RadialDeck in your browser">
+<meta property="og:description" content="Hold, flick, done. A live RadialDeck ring you can play with.">
+<meta property="og:image" content="https://radialdeck.com/assets/og.jpg">
+<link rel="icon" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* The scene's colours are registered so day and night can cross-fade (a plain custom property jumps). */
+@property --sky1 { syntax: "<color>"; inherits: true; initial-value: #000; }
+@property --sky2 { syntax: "<color>"; inherits: true; initial-value: #000; }
+@property --sky3 { syntax: "<color>"; inherits: true; initial-value: #000; }
+@property --sky4 { syntax: "<color>"; inherits: true; initial-value: #000; }
+@property --m1 { syntax: "<color>"; inherits: true; initial-value: #000; }
+@property --m2 { syntax: "<color>"; inherits: true; initial-value: #000; }
+@property --m3 { syntax: "<color>"; inherits: true; initial-value: #000; }
+@property --m4 { syntax: "<color>"; inherits: true; initial-value: #000; }
+:root {
+  --font-display: "Outfit", "Segoe UI", system-ui, sans-serif; --font-body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --ease: cubic-bezier(.16, 1, .3, 1); --accent: #60a5fa;
+  --sky1: #24305c; --sky2: #8d5a8c; --sky3: #ee9a78; --sky4: #ffd2a0;
+  --m1: #8a6488; --m2: #5c4372; --m3: #3c2e5a; --m4: #211a38;
+}
+body.is-night {
+  --sky1: #02050d; --sky2: #08122b; --sky3: #13224a; --sky4: #213260;
+  --m1: #1f2b4f; --m2: #172142; --m3: #101831; --m4: #090e1e;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0; color: #fff; background: #0b0f1e; font-family: var(--font-body); -webkit-font-smoothing: antialiased;
+  overflow: hidden; touch-action: none; -webkit-user-select: none; user-select: none;
+  transition: --sky1 1.4s, --sky2 1.4s, --sky3 1.4s, --sky4 1.4s, --m1 1.4s, --m2 1.4s, --m3 1.4s, --m4 1.4s;
+}
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* ---- Scene ---- */
+.sky { position: fixed; inset: 0; background: linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 34%, var(--sky3) 54%, var(--sky4) 68%); }
+.stars { position: fixed; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1.4s; }
+body.is-night .stars { opacity: 1; }
+.land { position: fixed; left: 0; bottom: 0; width: 100%; height: 62vh; overflow: visible; }
+.land .m1 { fill: var(--m1); } .land .m2 { fill: var(--m2); } .land .m3 { fill: var(--m3); } .land .m4 { fill: var(--m4); }
+.land .sun { fill: #ffe6c2; transform-box: fill-box; transform-origin: center; transition: transform 1.6s var(--ease), opacity 1.4s; }
+.land .moon { fill: #eef2ff; transform-box: fill-box; transform-origin: center; opacity: 0; transform: translateY(160px); transition: transform 1.8s var(--ease), opacity 1.4s; }
+body.is-night .land .sun { transform: translateY(260px); opacity: 0; }
+body.is-night .land .moon { transform: none; opacity: 1; }
+.land .window { fill: #ffd27a; opacity: 0; transition: opacity 1.4s .4s; }
+body.is-night .land .window { opacity: .9; }
+.grain { position: fixed; inset: 0; pointer-events: none; opacity: .14; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+
+/* ---- Desktop icon ---- */
+.bin { position: fixed; left: 22px; top: 84px; z-index: 4; display: grid; justify-items: center; gap: 4px; width: 76px; font-size: 12px; text-shadow: 0 1px 3px rgba(0,0,0,.6); }
+.bin svg { width: 40px; height: 40px; filter: drop-shadow(0 3px 6px rgba(0,0,0,.35)); }
+.bin .paper { transition: opacity .3s, transform .5s var(--ease); transform-box: fill-box; transform-origin: center bottom; }
+.bin.is-empty .paper { opacity: 0; transform: translateY(6px) scale(.6); }
+.bin.is-shake svg { animation: shake .5s; }
+@keyframes shake { 20% { transform: rotate(-8deg); } 40% { transform: rotate(7deg); } 60% { transform: rotate(-4deg); } 80% { transform: rotate(2deg); } }
+
+/* ---- Header ---- */
+header { position: fixed; top: 0; left: 0; right: 0; height: 64px; z-index: 20; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; }
+.brand { display: inline-flex; align-items: center; gap: 9px; font: 600 18px var(--font-display); letter-spacing: -.01em; text-decoration: none; }
+.brand img { width: 26px; height: 26px; }
+.nav { display: flex; align-items: center; gap: 22px; font-size: 14px; font-weight: 500; }
+.nav a { text-decoration: none; color: rgba(255,255,255,.8); transition: color .2s; }
+.nav a:hover { color: #fff; }
+.nav .get { color: #0b0f1e; background: #f5f2ec; padding: 8px 15px; border-radius: 999px; font-weight: 600; }
+.nav .get:hover { color: #0b0f1e; background: #fff; }
+.pills { position: fixed; left: 50%; top: 13px; transform: translateX(-50%); z-index: 21; display: flex; padding: 4px; border-radius: 999px;
+  background: rgba(10,12,24,.32); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); }
+.pills button { position: relative; border: 0; background: none; padding: 7px 15px; border-radius: 999px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,.72); cursor: pointer; transition: color .2s; white-space: nowrap; }
+.pills button:hover { color: #fff; }
+.pills button[aria-selected="true"] { color: #fff; }
+.pills .thumb { position: absolute; top: 4px; bottom: 4px; left: 0; border-radius: 999px; background: rgba(255,255,255,.17); transition: transform .45s var(--ease), width .45s var(--ease); }
+
+/* ---- Stage ---- */
+main { position: relative; z-index: 5; height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: safe center; padding: 70px 16px 60px; text-align: center; }
+.coach { margin: 0 0 14px; padding: 6px 13px; border-radius: 999px; font-size: 13px; font-weight: 500; color: rgba(255,255,255,.88);
+  background: rgba(10,12,24,.28); border: 1px solid rgba(255,255,255,.14); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: opacity .4s; }
+.coach kbd { font: 600 11px var(--font-body); padding: 1px 6px; border-radius: 5px; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.2); }
+.anchor { width: clamp(240px, 41vh, 400px); aspect-ratio: 1; flex: none; }
+.files { display: none; gap: 28px; justify-content: center; margin-top: 14px; min-height: 70px; }
+body[data-stage="files"] .files { display: flex; }
+.group { display: flex; gap: 10px; align-items: flex-start; }
+.file { display: grid; justify-items: center; gap: 3px; width: 82px; font-size: 11.5px; line-height: 1.2; color: rgba(255,255,255,.92); text-shadow: 0 1px 3px rgba(0,0,0,.6); transition: transform .35s var(--ease), opacity .3s; }
+.file svg { width: 34px; height: 40px; filter: drop-shadow(0 3px 6px rgba(0,0,0,.3)); transition: transform .5s var(--ease); }
+.file small { color: rgba(255,255,255,.62); font-size: 10.5px; font-variant-numeric: tabular-nums; }
+.file.is-target { transform: translateY(-3px); }
+.file.is-target svg { filter: drop-shadow(0 0 10px rgba(96,165,250,.8)); }
+.file.is-new { animation: pop .6s var(--ease); }
+@keyframes pop { from { transform: scale(.4); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } to { transform: none; } }
+.copy { transition: transform .6s var(--ease), opacity .4s; }
+body.is-minimised .copy, body.is-minimised .files { transform: translateY(42vh) scale(.12); opacity: 0; }
+.title { margin: 20px 0 8px; font: 700 clamp(30px, 4.4vw, 54px)/1.04 var(--font-display); letter-spacing: -.03em; text-wrap: balance; text-shadow: 0 1px 2px rgba(30,16,48,.25), 0 2px 24px rgba(30,16,48,.3); }
+.title b { display: block; font-weight: 700; }
+.title span { display: block; color: rgba(255,255,255,.58); }
+.caption { margin: 0 auto 18px; max-width: 50ch; min-height: 3em; font-size: 16px; line-height: 1.5; color: rgba(255,255,255,.82); text-wrap: balance; }
+.caption b { color: #fff; font-weight: 600; }
+.swap { animation: swap .55s var(--ease); }
+@keyframes swap { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.cta img { height: 48px; width: auto; display: block; margin: 0 auto; transition: transform .25s var(--ease); }
+.cta a:hover img { transform: translateY(-1px); }
+.fine { margin: 9px 0 0; font-size: 13px; color: rgba(255,255,255,.62); }
+.fine b { color: rgba(255,255,255,.85); font-weight: 500; }
+
+/* ---- The ring ---- */
+.ring { position: fixed; left: 0; top: 0; z-index: 8; transform-origin: 50% 50%; will-change: transform, opacity; outline: none; opacity: 0; --k: 1; }
+.ring-glass { position: absolute; inset: 3.125%; border-radius: 50%; backdrop-filter: blur(14px) saturate(1.35); -webkit-backdrop-filter: blur(14px) saturate(1.35); }
+.ring-svg { position: relative; display: block; width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 22px 38px rgba(0,0,0,.32)); }
+.ring-svg .slice { fill: var(--r-fill); fill-opacity: .6; stroke: var(--r-stroke); stroke-opacity: .55; stroke-width: 1; cursor: pointer; }
+.ring-svg .slice-pat { display: none; }
+/* The lit slice is light inside the glass, gathered at its outer edge, not a solid fill. */
+.ring-svg .hot { fill: url(#softlight); stroke: rgba(255,255,255,.38); stroke-width: 1; pointer-events: none; }
+.ring-svg .hot.is-fire { animation: fire .45s ease-out; }
+@keyframes fire { 0% { filter: brightness(1.7); } 100% { filter: none; } }
+.ring-labels { position: absolute; inset: 0; pointer-events: none; }
+.ring-label { position: absolute; display: grid; justify-items: center; gap: calc(4px * var(--k)); color: var(--r-label-dim); font: 600 calc(12.5px * var(--k))/1.15 var(--font-body); letter-spacing: -.01em; text-align: center; transition: color .15s; will-change: transform; }
+.ring-label svg { width: calc(24px * var(--k)); height: calc(24px * var(--k)); stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.ring-label.is-mid { font-size: calc(11.5px * var(--k)); }
+.ring-label.is-long { font-size: calc(10.5px * var(--k)); }
+.ring-label.is-hot { color: #fff; }
+.ring-label svg { transition: color .12s; }
+.ring-label.is-hot svg { color: var(--tint, #fff); filter: drop-shadow(0 0 6px color-mix(in srgb, var(--tint, #fff) 45%, transparent)); }
+.hub-t.is-swap, .hub-s.is-swap, .hub-ico.is-swap { animation: hubswap .16s ease-out; }
+@keyframes hubswap { from { opacity: 0; filter: blur(2px); } to { opacity: 1; filter: none; } }
+.ring-label.is-side { color: rgba(255,255,255,.95); }
+.ring-hub { position: absolute; left: 50%; top: 50%; width: 27%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--r-hub);
+  border: 1px solid rgba(255,255,255,.22); display: grid; place-content: center; justify-items: center; gap: 2px; padding: 6px; pointer-events: none; text-align: center; overflow: hidden; }
+.hub-ico { width: calc(30px * var(--k)); height: calc(30px * var(--k)); margin-bottom: 2px; }
+.hub-t { font: 600 calc(14px * var(--k))/1.1 var(--font-display); max-width: 100%; }
+.hub-s { font: 600 calc(9px * var(--k)) var(--font-body); letter-spacing: .09em; text-transform: uppercase; color: rgba(255,255,255,.58); }
+
+/* ---- Taskbar ---- */
+.taskbar { position: fixed; left: 0; right: 0; bottom: 0; height: 48px; z-index: 15; display: flex; align-items: center; justify-content: center;
+  background: rgba(14,16,28,.55); border-top: 1px solid rgba(255,255,255,.08); backdrop-filter: blur(26px) saturate(1.4); -webkit-backdrop-filter: blur(26px) saturate(1.4); }
+.tb-apps { display: flex; gap: 2px; }
+.tb-apps button { position: relative; width: 40px; height: 40px; border: 0; border-radius: 6px; background: none; display: grid; place-items: center; cursor: pointer; transition: background .15s; }
+.tb-apps button:hover { background: rgba(255,255,255,.09); }
+.tb-apps button img, .tb-apps button svg { width: 24px; height: 24px; transition: transform .2s var(--ease); }
+.tb-apps button:active img, .tb-apps button:active svg { transform: scale(.86); }
+.tb-apps button::after { content: ""; position: absolute; bottom: 2px; left: 50%; width: 6px; height: 3px; margin-left: -3px; border-radius: 2px; background: rgba(255,255,255,.5); opacity: 0; transition: width .3s var(--ease), margin .3s var(--ease), opacity .2s, background .2s; }
+.tb-apps button.is-open::after { opacity: 1; }
+.tb-apps button.is-active::after { opacity: 1; width: 16px; margin-left: -8px; background: var(--accent); }
+.tray { position: absolute; right: 12px; top: 0; bottom: 0; display: flex; align-items: center; gap: 12px; font-size: 12px; line-height: 1.25; text-align: right; color: rgba(255,255,255,.9); }
+.tray svg { width: 17px; height: 17px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.playing { position: absolute; left: 12px; top: 0; bottom: 0; display: flex; align-items: center; gap: 9px; font-size: 12px; opacity: 0; transform: translateY(8px); transition: opacity .3s, transform .45s var(--ease); }
+.playing.is-on { opacity: 1; transform: none; }
+.eq { display: flex; gap: 2px; align-items: flex-end; height: 14px; }
+.eq i { width: 3px; background: var(--accent); border-radius: 1px; animation: eq .9s ease-in-out infinite; }
+.eq i:nth-child(2) { animation-delay: -.3s; } .eq i:nth-child(3) { animation-delay: -.6s; }
+@keyframes eq { 0%, 100% { height: 30%; } 50% { height: 100%; } }
+
+/* ---- Overlays ---- */
+.toast { position: fixed; right: 12px; bottom: 60px; z-index: 30; width: min(340px, calc(100vw - 24px)); display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; border-radius: 10px; text-align: left;
+  background: rgba(28,30,42,.82); border: 1px solid rgba(255,255,255,.12); box-shadow: 0 18px 40px rgba(0,0,0,.4); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  transform: translateX(calc(100% + 24px)); transition: transform .5s var(--ease); pointer-events: none; }
+.toast.is-on { transform: none; }
+.toast img { width: 22px; height: 22px; flex: none; margin-top: 1px; }
+.toast b { display: block; font-size: 13.5px; font-weight: 600; }
+.toast span { display: block; font-size: 13px; color: rgba(255,255,255,.75); word-break: break-word; }
+.snip { position: fixed; inset: 0; z-index: 28; background: rgba(0,0,0,.38); opacity: 0; pointer-events: none; transition: opacity .2s; }
+.snip.is-on { opacity: 1; }
+.snip i { position: absolute; border: 2px solid #fff; box-shadow: 0 0 0 9999px rgba(0,0,0,.18); border-radius: 2px; transition: width .5s var(--ease), height .5s var(--ease); }
+.flash { position: fixed; inset: 0; z-index: 29; background: #fff; opacity: 0; pointer-events: none; }
+.flash.is-on { animation: flash .45s ease-out; }
+@keyframes flash { 0% { opacity: .75; } 100% { opacity: 0; } }
+.lock { position: fixed; inset: 0; z-index: 40; display: grid; place-content: center; text-align: center; gap: 4px; cursor: pointer;
+  background: rgba(8,10,22,.35); backdrop-filter: blur(26px) brightness(.85); -webkit-backdrop-filter: blur(26px) brightness(.85);
+  opacity: 0; visibility: hidden; transition: opacity .45s, visibility 0s .6s, transform .6s var(--ease); }
+.lock.is-on { opacity: 1; visibility: visible; transition: opacity .45s; }
+.lock.is-leaving { transform: translateY(-100%); }
+.lock b { font: 600 clamp(72px, 12vw, 128px)/1 var(--font-display); letter-spacing: -.02em; }
+.lock span { font-size: 20px; color: rgba(255,255,255,.85); }
+.lock small { margin-top: 26px; font-size: 13px; color: rgba(255,255,255,.6); }
+
+@media (max-width: 760px) {
+  header { height: 56px; padding: 0 16px; }
+  .nav a:not(.get) { display: none; }
+  .pills { top: 60px; }
+  main { padding-top: 112px; }
+  .bin, .coach { display: none; }
+  .anchor { width: clamp(220px, min(40vh, 84vw), 360px); }
+  .title { margin-top: 14px; }
+  .tray .date, .tray #speaker, .playing span { display: none; }
+  .tb-apps button { width: 36px; }
+  .tb-apps .wide { display: none; }
+}
+@media (max-height: 640px) and (min-width: 761px) { .coach { display: none; } .title { margin-top: 12px; } }
+@media (max-height: 560px) { body { overflow: auto; touch-action: auto; } main { height: auto; min-height: 100svh; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+</style>
+</head>
+<body data-stage="everyday">
+
+<div class="sky" aria-hidden="true"></div>
+<canvas class="stars" aria-hidden="true"></canvas>
+<svg class="land" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <defs><radialGradient id="sunglow"><stop offset="0" stop-color="#fff3dc" stop-opacity=".9"/><stop offset=".35" stop-color="#ffd8a8" stop-opacity=".35"/><stop offset="1" stop-color="#ffd8a8" stop-opacity="0"/></radialGradient></defs>
+  <g class="sun"><circle cx="1170" cy="430" r="190" fill="url(#sunglow)"/><circle cx="1170" cy="430" r="54"/></g>
+  <circle class="moon" cx="1280" cy="150" r="30"/>
+  <path class="m1" d="M0 560 L90 520 L170 540 L280 455 L360 500 L470 420 L560 470 L650 440 L760 495 L880 410 L990 470 L1090 435 L1210 490 L1320 430 L1440 485 L1530 455 L1600 470 V900 H0Z"/>
+  <path class="m2" d="M0 640 C180 585 340 605 520 628 S860 575 1040 606 S1390 650 1600 598 V900 H0Z"/>
+  <path class="m3" d="M0 724 C240 668 430 700 650 722 S1060 676 1290 700 S1500 732 1600 712 V900 H0Z"/>
+  <rect class="window" x="296" y="690" width="7" height="7" rx="1"/><rect class="window" x="312" y="690" width="7" height="7" rx="1"/>
+  <path class="m3" d="M286 700 l22 -18 l22 18 v14 h-44z"/>
+  <path class="m4" d="M0 806 C300 764 610 792 910 804 S1410 770 1600 792 V900 H0Z"/>
+</svg>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="bin" id="bin" aria-hidden="true">
+  <svg viewBox="0 0 40 40"><path d="M9 11h22l-2 24a2 2 0 0 1-2 2H13a2 2 0 0 1-2-2z" fill="rgba(220,232,255,.28)" stroke="rgba(255,255,255,.85)" stroke-width="1.3"/><path d="M7 11h26M16 11V8h8v3" stroke="rgba(255,255,255,.85)" stroke-width="1.3" fill="none"/><g class="paper"><path d="M14 18l5-3 4 2 4-2 1 7-14 1z" fill="#f4f1ea"/><path d="M15 23l11-2 1 6-12 1z" fill="#dfe8f7"/></g></svg>
+  <span>Recycle Bin</span>
+</div>
+
+<header>
+  <a class="brand" href="./"><img src="assets/icon.png" alt="">RadialDeck</a>
+  <nav class="nav" aria-label="Site">
+    <a href="./#features">Features</a>
+    <a href="./#pricing">Pricing</a>
+    <a class="get" href="https://radialdeck.com/store?cid=play">Download</a>
+  </nav>
+</header>
+<nav class="pills" role="tablist" aria-label="Rings">
+  <span class="thumb" aria-hidden="true"></span>
+  <button role="tab" data-stage="everyday" aria-selected="true">Everyday</button>
+  <button role="tab" data-stage="files" aria-selected="false">Files</button>
+  <button role="tab" data-stage="apps" aria-selected="false">Your apps</button>
+</nav>
+
+<main>
+  <p class="coach" id="coach">Hold the mouse anywhere, flick, let go.</p>
+  <div class="anchor" id="anchor"></div>
+  <div class="files" id="files" aria-live="polite">
+    <div class="group" data-side="video"></div>
+    <div class="group" data-side="pdf"></div>
+  </div>
+  <div class="copy">
+    <h1 class="title" id="title"></h1>
+    <p class="caption" id="caption" aria-live="polite"></p>
+    <div class="cta">
+      <a href="https://radialdeck.com/store?cid=play"><img src="assets/ms-store-badge.svg" alt="Get it from Microsoft" width="174" height="48"></a>
+      <p class="fine"><b>Windows 10 and 11.</b> Free for two rings, forever.</p>
+    </div>
+  </div>
+</main>
+
+<div class="ring" id="ring" role="group" aria-label="RadialDeck ring" tabindex="0">
+  <div class="ring-glass"></div>
+  <svg class="ring-svg" viewBox="0 0 320 320" aria-hidden="true"></svg>
+  <div class="ring-labels"></div>
+  <div class="ring-hub"><img class="hub-ico" alt="" hidden><b class="hub-t"></b><span class="hub-s"></span></div>
+</div>
+
+<div class="taskbar">
+  <div class="playing" id="playing" aria-live="polite"><div class="eq"><i></i><i></i><i></i></div><span>Focus mix · playing</span></div>
+  <div class="tb-apps" id="tb-apps"></div>
+  <div class="tray"><span id="speaker"></span><div><div id="clock"></div><div class="date" id="date"></div></div></div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><img alt="" src="assets/icon.png"><div><b></b><span></span></div></div>
+<div class="snip" id="snip"><i></i></div>
+<div class="flash" id="flash"></div>
+<div class="lock" id="lock" role="dialog" aria-label="Locked"><b id="lock-time"></b><span id="lock-date"></span><small>Click to unlock</small></div>
+
+<script src="themes.js"></script>
+<script src="ring.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const touch = matchMedia('(hover: none) and (pointer: coarse)').matches;
+  const { slicePath, polar, R, RI } = RDRing;
+
+  // ---- Icons (Lucide paths) ----
+  const IC = {
+    theme: '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/>',
+    snip: '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12"/>',
+    desktop: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
+    lock: '<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+    mute: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="m22 9-6 6M16 9l6 6"/>',
+    sound: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>',
+    trash: '<path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/>',
+    scan: '<path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M7 8h8M7 12h10M7 16h6"/>',
+    playpause: '<path d="M4 5v14l9-7z"/><path d="M16 5v14M20 5v14"/>',
+    zip: '<rect x="2" y="3" width="20" height="5" rx="1"/><path d="M4 8v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8M10 12h4"/>',
+    shrink: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15l3 3 3-3"/>',
+    mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/>',
+    copy: '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+    music: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+    image: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21"/>',
+    film: '<rect x="2" y="2" width="20" height="20" rx="2.2"/><path d="M7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 17h5M17 7h5"/>',
+    rotate: '<path d="M21 12a9 9 0 1 1-9-9c2.5 0 4.7 1 6.4 2.6L21 8"/><path d="M21 3v5h-5"/>',
+    reply: '<path d="M9 17 4 12l5-5M20 18v-2a4 4 0 0 0-4-4H4"/>',
+    replyAll: '<path d="M7 17 2 12l5-5M12 17l-5-5 5-5M22 18v-2a4 4 0 0 0-4-4H7"/>',
+    forward: '<path d="m15 17 5-5-5-5M4 18v-2a4 4 0 0 1 4-4h12"/>',
+    check: '<path d="M20 6 9 17l-5-5"/>',
+    send: '<path d="m22 2-7 20-4-9-9-4zM22 2 11 13"/>',
+    calendar: '<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+    inbox: '<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
+    paste: '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>',
+    freeze: '<path d="M2 12h20M12 2v20M20 16l-4-4 4-4M4 8l4 4-4 4M16 4l-4 4-4-4M8 20l4-4 4 4"/>',
+    filter: '<path d="M22 3H2l8 9.46V19l4 2v-8.54z"/>',
+    sigma: '<path d="M18 7V4H6l6 8-6 8h12v-3"/>',
+    plus: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 12h8M12 8v8"/>',
+    pdf: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>',
+    dollar: '<path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>',
+    percent: '<path d="M19 5 5 19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
+    pen: '<path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+    hash: '<path d="M4 9h16M4 15h16M10 3 8 21M16 3l-2 18"/>',
+    sign: '<path d="M3 17c3-1 5-6 6-9s-1-4-2-1 0 9 3 10 4-4 5-4 1 3 3 3 3-2 3-2"/><path d="M3 21h18"/>',
+    table: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/>',
+    book: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+    checks: '<path d="M18 6 7 17l-5-5M22 10l-7.5 7.5L13 16"/>',
+    micOff: '<path d="m2 2 20 20M18.9 13.4A7 7 0 0 0 19 12v-2M5 10v2a7 7 0 0 0 12 5M15 9.3V5a3 3 0 0 0-5.7-1.3M9 9v3a3 3 0 0 0 5.1 2.1M12 19v3"/>',
+    video: '<path d="m22 8-6 4 6 4z"/><rect x="2" y="6" width="14" height="12" rx="2"/>',
+    hand: '<path d="M18 11V6a2 2 0 0 0-4 0M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-6-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/>',
+    leave: '<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/>',
+    share: '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4M8 10l4-4 4 4M12 6v7"/>',
+    search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+    chat: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+    phone: '<path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/>',
+    zoomExt: '<path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>',
+    printer: '<path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>',
+    sliders: '<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',
+    snap: '<circle cx="12" cy="12" r="10"/><path d="M22 12h-4M6 12H2M12 6V2M12 22v-4"/>',
+    ortho: '<path d="M5 3v16h16"/><path d="M5 19 19 5" stroke-dasharray="2 3"/>',
+    polar: '<circle cx="12" cy="12" r="10"/><path d="m16.2 7.8-2.1 6.3-6.3 2.1 2.1-6.3z"/>',
+    audit: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/>',
+    page: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M12 18v-6M9 15h6"/>',
+    link: '<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',
+    moon: '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9"/>',
+    sidebar: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/>',
+    back: '<path d="m12 19-7-7 7-7M19 12H5"/>',
+    play: '<path d="M6 4v16l14-8z"/>',
+    next: '<path d="m5 4 10 8-10 8zM19 5v14"/>',
+    prev: '<path d="m19 20-10-8 10-8zM5 19V5"/>',
+    shuffle: '<path d="M2 18h1.4c1.3 0 2.5-.6 3.3-1.7l6.1-8.6c.7-1.1 2-1.7 3.3-1.7H22M18 2l4 4-4 4M2 6h1.9c1.5 0 2.9.9 3.6 2.2M22 18h-5.9c-1.3 0-2.6-.7-3.3-1.8l-.5-.8M18 14l4 4-4 4"/>',
+    repeat: '<path d="m17 2 4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3"/>',
+    volUp: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>',
+  };
+  const svg = d => `<svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
+  // The colour an icon takes under the pointer; everything else stays white.
+  const TINT = {
+    theme: '#ffd166', snip: '#ff7aa8', desktop: '#7cc4ff', mute: '#ff6b6b', lock: '#5eead4', trash: '#ff6b6b', scan: '#c4a1ff', playpause: '#6ee7a0',
+    zip: '#fbbf24', shrink: '#ff6b6b', mail: '#7cc4ff', copy: '#a5b4fc', music: '#c4a1ff', image: '#6ee7a0', film: '#7cc4ff', rotate: '#fdba74',
+  };
+
+  // ---- What each ring holds. Labels and descriptions are the gallery's own (Settings/Gallery/recipes.json). ----
+  const S_ = (label, icon, say, run, side) => ({ label, icon, say, run, side });
+  const EVERYDAY = [
+    S_('Dark/Light', 'theme', 'Switches Windows between dark and light mode.', () => { document.body.classList.toggle('is-night'); }),
+    S_('Snip', 'snip', 'Mark any part of the screen. It lands on the clipboard.', () => snip('Snip copied', 'Paste it into a chat or an e-mail.')),
+    S_('Show desktop', 'desktop', 'Minimises every window. Pick it again to bring them back.', () => minimise()),
+    S_('Mute', 'mute', 'Mutes the sound, and unmutes it again.', () => mute()),
+    S_('Lock', 'lock', 'Locks the PC on the spot.', () => lock()),
+    S_('Empty bin', 'trash', 'Empties the Recycle Bin without opening it.', () => emptyBin()),
+    S_('Screen text', 'scan', 'Mark an area of the screen; the text in it is copied. Uses the OCR built into Windows.', () => snip('Text copied', '"Your workday. In one gesture."')),
+    S_('Play/Pause', 'playpause', 'Plays or pauses whatever is playing.', () => play()),
+  ];
+  const FILES = [
+    S_('Zip', 'zip', 'Zips the selected files with 7-Zip.', () => addFile('pdf', 'Files.zip', '27.4 MB', 'zip')),
+    S_('Shrink PDF', 'shrink', 'A smaller copy named *-small.pdf, next to the original.', () => shrink(), 'pdf'),
+    S_('Mail file', 'mail', 'A new Outlook message with the file attached.', () => toast('New message', 'Offer.pdf is attached.', 'assets/apps/outlook.png'), 'pdf'),
+    S_('Copy path', 'copy', 'Copies the full path of the selected file.', () => toast('Path copied', 'C:\\Users\\you\\Desktop\\Offer.pdf'), 'pdf'),
+    S_('→ MP3', 'music', 'Saves the sound of a video as an MP3.', () => addFile('video', 'Holiday.mp3', '3.1 MB', 'audio'), 'video'),
+    S_('→ GIF', 'image', 'Turns a short video into a GIF.', () => addFile('video', 'Holiday.gif', '6.8 MB', 'image'), 'video'),
+    S_('→ MP4', 'film', 'An MP4 copy that plays everywhere (H.264), next to the original.', () => addFile('video', 'Holiday.mp4', '18 MB', 'video'), 'video'),
+    S_('Rotate ↻', 'rotate', 'For a phone video that came out sideways: turns it clockwise.', () => rotateVideo(), 'video'),
+  ];
+  const app = (key, name, icon, tint, slices) => ({ key, name, tint, icon: `assets/apps/${icon}`, slices: slices.map(([label, ic, say]) => S_(label, ic, say)) });
+  const APPS = [
+    app('outlook', 'Outlook', 'outlook.png', '#5cb3ff', [['Reply', 'reply', 'Reply'], ['Reply all', 'replyAll', 'Reply all'], ['Forward', 'forward', 'Forward'], ['Mark read', 'check', 'Mark as read'], ['Send', 'send', 'Send'], ['Calendar', 'calendar', 'Go to calendar'], ['Inbox', 'inbox', 'Go to inbox'], ['New mail', 'mail', 'New mail']]),
+    app('excel', 'Excel', 'excel.png', '#4ade80', [['Paste values', 'paste', 'Paste values only'], ['Freeze panes', 'freeze', 'Freeze panes'], ['Filter', 'filter', 'Toggle filter'], ['AutoSum', 'sigma', 'AutoSum'], ['New sheet', 'plus', 'New sheet'], ['To PDF', 'pdf', 'Save this sheet as PDF'], ['Currency', 'dollar', 'Currency format'], ['Percent', 'percent', 'Percent format']]),
+    app('word', 'Word', 'word.png', '#7cb4ff', [['Track changes', 'pen', 'Track changes'], ['Word count', 'hash', 'Word count'], ['Signature', 'sign', 'Jump to the end and add your signature'], ['To PDF', 'pdf', 'Save as PDF'], ['Table 3x3', 'table', 'Insert a 3-column table'], ['Mail it', 'mail', 'Send as attachment'], ['Read mode', 'book', 'Read mode'], ['Accept all', 'checks', 'Accept all changes']]),
+    app('teams', 'Teams', 'teams.png', '#a5a8ff', [['Mute', 'micOff', 'Mute / unmute'], ['Camera', 'video', 'Camera on / off'], ['Raise hand', 'hand', 'Raise hand'], ['Leave', 'leave', 'Leave meeting'], ['Share screen', 'share', 'Start screen sharing'], ['Search', 'search', 'Go to the search box'], ['New chat', 'chat', 'Start a new chat'], ['Call', 'phone', 'Start a voice call with the person in the open chat']]),
+    app('autocad', 'AutoCAD', 'autocad.svg', '#ff6b6b', [['Zoom extents', 'zoomExt', 'Types Z, Enter, E, Enter'], ['Purge', 'trash', 'Removes every unused block, layer, style and linetype in one go'], ['Plot', 'printer', 'Plot'], ['Properties', 'sliders', 'Toggle the Properties palette'], ['Osnap', 'snap', 'Toggle object snap'], ['Ortho', 'ortho', 'Toggle ortho mode'], ['Polar', 'polar', 'Toggle polar tracking'], ['Audit', 'audit', 'Audit and fix the drawing']]),
+    app('notion', 'Notion', 'notion.png', '#ffffff', [['Search', 'search', 'Search or jump to a page'], ['New page', 'page', 'Create a new page'], ['Comment', 'chat', 'Add a comment'], ['Link', 'link', 'Add a link to selected text'], ['Duplicate', 'copy', 'Duplicate selected block'], ['Dark mode', 'moon', 'Toggle dark / light mode'], ['Sidebar', 'sidebar', 'Show / hide the sidebar'], ['Back', 'back', 'Go back a page']]),
+    app('spotify', 'Spotify', 'spotify.svg', '#4ade80', [['Play/Pause', 'play', 'Toggle playback'], ['Next', 'next', 'Next track'], ['Volume up', 'volUp', 'Volume up'], ['Repeat', 'repeat', 'Toggle repeat'], ['Search', 'search', 'Quick search'], ['Shuffle', 'shuffle', 'Toggle shuffle'], ['Mute', 'mute', 'Toggle mute'], ['Previous', 'prev', 'Previous track']]),
+  ];
+  const STAGES = {
+    everyday: { title: ['Your workday.', 'In one gesture.'], caption: () => touch ? 'Tap a slice. Or hold anywhere, flick and let go.' : '<b>Click a slice.</b> Or hold the mouse anywhere, flick and let go.' },
+    files: { title: ['Shrink a PDF.', 'Without opening an app.'], caption: () => 'Select a file and pick what to do with it. <b>The new file lands next to the original.</b>' },
+    apps: { title: ['Every app gets its own ring.', 'It switches by itself.'], caption: () => 'Pick an app in the taskbar. In Windows, the ring changes <b>the moment you switch apps.</b>' },
+  };
+
+  // ---- Springs: the SwiftUI model (response = period in seconds, damping = fraction of critical) ----
+  class Spring {
+    constructor(response, damping, value = 0) { this.tune(response, damping); this.value = this.target = value; this.vel = 0; }
+    tune(response, damping) { const w = 2 * Math.PI / response; this.k = w * w; this.c = 2 * damping * w; return this; }
+    step(dt) {
+      const n = Math.max(4, Math.ceil(dt * 240)), h = dt / n;
+      for (let i = 0; i < n; i++) { this.vel += (-this.k * (this.value - this.target) - this.c * this.vel) * h; this.value += this.vel * h; }
+    }
+    get rest() { return Math.abs(this.vel) < .0015 && Math.abs(this.value - this.target) < .0015; }
+    snap(v = this.target) { this.value = this.target = v; this.vel = 0; }
+  }
+  // Tuned like Opie's "rise": a short spring with a whisper of overshoot, never a timed ease.
+  const ENTER = { response: .34, damping: .78, fromScale: .9, rise: 18 };
+  const presence = new Spring(ENTER.response, ENTER.damping);
+  const angle = new Spring(.14, 1), glow = new Spring(.12, 1), kick = new Spring(.3, .55);
+  const driftX = new Spring(.35, .85), driftY = new Spring(.35, .85);
+  let labels = [];   // { el, vx, vy, bloom: Spring, mx: Spring, my: Spring, at }
+  let closing = false, afterClose = null;
+
+  // ---- Elements ----
+  const body = document.body, ringEl = $('#ring'), svgEl = ringEl.querySelector('.ring-svg'), labelsEl = ringEl.querySelector('.ring-labels');
+  const hubIco = ringEl.querySelector('.hub-ico'), hubT = ringEl.querySelector('.hub-t'), hubS = ringEl.querySelector('.hub-s');
+  const anchor = $('#anchor'), caption = $('#caption'), title = $('#title');
+  RDRing.themeRing(ringEl, RDRing.themeById('glass').dark);
+
+  let stage = 'everyday', current = APPS[0], slices = EVERYDAY, n = 8, hot = -1, hotPath = null;
+  let pointer = null, hold = null, holdTimer = 0;
+
+  function build() {
+    slices = stage === 'everyday' ? EVERYDAY : stage === 'files' ? FILES : current.slices;
+    n = slices.length;
+    RDRing.buildRing(svgEl, labelsEl, { slices: slices.map(s => [s.label, IC[s.icon]]) });
+    svgEl.insertAdjacentHTML('beforeend', `<radialGradient id="softlight" cx=".5" cy="0" r="1.05" fx=".5" fy="0"><stop offset="0" stop-color="#fff" stop-opacity=".46"/><stop offset=".5" stop-color="#fff" stop-opacity=".14"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient><path class="hot" d="${slicePath(0, n)}"/>`);
+    hotPath = svgEl.querySelector('.hot');
+    [...labelsEl.children].forEach((el, i) => el.style.setProperty('--tint', stage === 'apps' ? current.tint : TINT[slices[i].icon] || '#fff'));
+    labels = [...labelsEl.children].map((el, i) => {
+      const [x, y] = polar((R + RI) / 2 + 2, i * 360 / n);
+      return { el, ux: x / 320 - .5, uy: y / 320 - .5, bloom: new Spring(.38, .8), mx: new Spring(.3, .75), my: new Spring(.3, .75), at: 0 };
+    });
+    hub();
+  }
+
+  function hub() {
+    const s = slices[hot];
+    const appRing = stage === 'apps';
+    hubIco.hidden = !appRing;
+    if (appRing) hubIco.src = current.icon;
+    const t = s ? s.label : appRing ? current.name : stage === 'files' ? 'Files' : 'Everyday';
+    if (hubT.textContent === t) return;
+    hubT.textContent = t;
+    hubS.textContent = s ? '' : `${n} actions`;
+    // The new name fades in where the old one was, instead of jumping.
+    [hubT, hubS].forEach(el => { el.classList.remove('is-swap'); void el.offsetWidth; el.classList.add('is-swap'); });
+  }
+
+  function open() {
+    closing = false;
+    presence.tune(ENTER.response, ENTER.damping);
+    presence.value = 0; presence.vel = 0; presence.target = 1;
+    const t0 = performance.now();
+    labels.forEach((l, i) => { l.bloom.snap(0); l.at = t0 + 40 + i * 24; });
+    glow.snap(0); setHot(-1);
+    if (reduce) { presence.snap(1); labels.forEach(l => { l.bloom.snap(1); l.at = 0; }); }
+    wake();
+  }
+
+  function close(then) {
+    closing = true; afterClose = then;
+    presence.tune(.2, 1); presence.target = 0;
+    if (reduce) presence.snap(0);
+    wake();
+  }
+
+  function switchTo(next, appKey) {
+    if (appKey) current = APPS.find(a => a.key === appKey) || current;
+    const same = next === stage && (next !== 'apps' || !appKey);
+    stage = next; body.dataset.stage = next;
+    pills(); taskbar();
+    if (same) return;
+    const s = STAGES[next];
+    title.innerHTML = `<b>${s.title[0]}</b><span>${s.title[1]}</span>`;
+    swapIn(title); say(s.caption());
+    close(() => { build(); open(); });
+    history.replaceState(null, '', next === 'everyday' ? location.pathname : `?ring=${next === 'apps' ? current.key : next}`);
+  }
+
+  function setHot(i) {
+    if (i === hot) return;
+    hot = i;
+    labels.forEach((l, j) => l.el.classList.toggle('is-hot', j === i));
+    if (i >= 0) {
+      // Glide along the shorter way round; arriving from nothing, appear in place instead of sweeping.
+      const to = i * 360 / n, from = angle.target, d = ((to - from) % 360 + 540) % 360 - 180;
+      if (glow.value < .05) angle.snap(to); else angle.target = from + d;
+      glow.target = 1;
+      say(`<b>${slices[i].label}.</b> ${explain(slices[i])}`, false);
+    } else {
+      glow.target = 0;
+      say(STAGES[stage].caption(), false);
+    }
+    document.querySelectorAll('.file').forEach(f => f.classList.toggle('is-target', i >= 0 && f.dataset.side === slices[i].side && f.dataset.source === '1'));
+    hub(); wake();
+  }
+
+  function fire(i) {
+    const s = slices[i];
+    if (!s) return;
+    kick.value = -1; kick.vel = 0; kick.target = 0;
+    hotPath.classList.remove('is-fire'); void hotPath.getBBox(); hotPath.classList.add('is-fire');
+    if (s.run) s.run(); else toast(`${current.name}: ${s.label}`, explain(s), current.icon);
+    wake();
+  }
+
+  // A gallery title that only repeats the label says nothing; say where it runs instead.
+  function explain(s) {
+    const text = s.say.toLowerCase() === s.label.toLowerCase() ? `One flick, right in ${current.name}` : s.say;
+    return /[.!?]$/.test(text) ? text : text + '.';
+  }
+
+  // ---- Geometry ----
+  const size = () => anchor.getBoundingClientRect().width;
+  function centre() {
+    if (hold) return { x: hold.x, y: hold.y };
+    const b = anchor.getBoundingClientRect();
+    return { x: b.left + b.width / 2, y: b.top + b.height / 2 };
+  }
+  function aim(x, y) {
+    const c = centre(), w = size(), dx = x - c.x, dy = y - c.y, d = Math.hypot(dx, dy);
+    const inner = w * RI / 320, outer = w * R / 320;
+    const live = hold ? d > inner * .55 : d > inner * .9 && d < outer * 1.12;
+    if (!live) return -1;
+    const deg = (Math.atan2(dy, dx) * 180 / Math.PI + 90 + 360) % 360;
+    return Math.floor(((deg + 180 / n) % 360) / (360 / n));
+  }
+
+  // ---- The frame loop: runs only while something moves ----
+  let raf = 0, last = 0;
+  function wake() { if (!raf) { last = performance.now(); raf = requestAnimationFrame(frame); } }
+  function frame(now) {
+    const dt = Math.min(.05, (now - last) / 1000); last = now;
+    const w = size(), c = centre(), k = w / 340;
+
+    // The ring leans a few pixels toward the pointer, and the lit icon is pulled toward it.
+    let tx = 0, ty = 0;
+    if (pointer && !closing) {
+      const dx = pointer.x - c.x, dy = pointer.y - c.y, d = Math.hypot(dx, dy);
+      if (d > 1 && d < w * 1.3) { const m = Math.min(10 * k, d * .04); tx = dx / d * m; ty = dy / d * m; }
+    }
+    driftX.target = tx; driftY.target = ty;
+    labels.forEach((l, i) => {
+      if (l.at && now >= l.at) { l.bloom.target = 1; l.at = 0; }
+      let mx = 0, my = 0;
+      if (i === hot && pointer) {
+        const lx = c.x + l.ux * w, ly = c.y + l.uy * w, dx = pointer.x - lx, dy = pointer.y - ly, d = Math.hypot(dx, dy);
+        if (d > 1) { const m = Math.min(7 * k, d * .06); mx = dx / d * m; my = dy / d * m; }
+      }
+      l.mx.target = mx; l.my.target = my;
+    });
+
+    const springs = [presence, angle, glow, kick, driftX, driftY, ...labels.flatMap(l => [l.bloom, l.mx, l.my])];
+    springs.forEach(s => s.step(dt));
+
+    const p = presence.value;
+    const scale = (closing ? 1 + (1 - p) * .08 : ENTER.fromScale + (1 - ENTER.fromScale) * p) * (1 + kick.value * .035);
+    const rise = closing ? 0 : ENTER.rise * k * (1 - p);
+    ringEl.style.width = ringEl.style.height = w + 'px';
+    ringEl.style.setProperty('--k', k.toFixed(3));
+    ringEl.style.transform = `translate(${(c.x - w / 2 + driftX.value).toFixed(2)}px, ${(c.y - w / 2 + driftY.value + rise).toFixed(2)}px) scale(${scale.toFixed(4)})`;
+    ringEl.style.opacity = Math.max(0, Math.min(1, p * (closing ? 1.2 : 1.6))).toFixed(3);
+    if (hotPath) { hotPath.setAttribute('transform', `rotate(${angle.value.toFixed(2)} 160 160)`); hotPath.style.opacity = glow.value.toFixed(3); }
+    labels.forEach(l => {
+      // Icons bloom outward from the hub one after another, and settle on their own spring.
+      const b = l.bloom.value, f = .55 + .45 * b;
+      const ox = l.ux * w * (f - 1) + l.mx.value, oy = l.uy * w * (f - 1) + l.my.value;
+      l.el.style.transform = `translate(-50%, -50%) translate(${ox.toFixed(2)}px, ${oy.toFixed(2)}px) scale(${(.6 + .4 * b).toFixed(4)})`;
+      l.el.style.opacity = Math.max(0, Math.min(1, b * 1.3)).toFixed(3);
+    });
+
+    if (closing && p < .04 && afterClose) { const then = afterClose; afterClose = null; then(); }
+    const pending = labels.some(l => l.at);
+    if (springs.every(s => s.rest) && !pending && !afterClose) { raf = 0; return; }
+    raf = requestAnimationFrame(frame);
+  }
+
+  // ---- Pointer: click a slice, or hold anywhere, flick and let go ----
+  const busy = t => t.closest('a, button, header, .pills, .taskbar, .toast, .lock, .ring');
+  addEventListener('pointermove', e => { pointer = { x: e.clientX, y: e.clientY }; if (!closing) setHot(aim(e.clientX, e.clientY)); wake(); });
+  addEventListener('pointerleave', () => { pointer = null; if (!hold) setHot(-1); wake(); });
+  document.addEventListener('mouseleave', () => { pointer = null; if (!hold) setHot(-1); wake(); });
+  ringEl.addEventListener('pointerdown', e => { pointer = { x: e.clientX, y: e.clientY }; setHot(aim(e.clientX, e.clientY)); });
+  ringEl.addEventListener('click', e => { if (hold || closing) return; const i = aim(e.clientX, e.clientY); if (i >= 0) fire(i); });
+  let holding = null;
+  addEventListener('pointerdown', e => {
+    if (e.button !== 0 || busy(e.target) || holding || closing) return;
+    const at = { x: e.clientX, y: e.clientY };
+    clearTimeout(holdTimer);
+    holdTimer = setTimeout(() => {
+      holding = at;
+      // The ring leaves its place and opens under the pointer, as it does in Windows.
+      close(() => { hold = at; build(); open(); hubT.textContent = 'Flick'; hubS.textContent = 'and let go'; $('#coach').style.opacity = 0; });
+    }, 130);
+  });
+  const release = e => {
+    clearTimeout(holdTimer);
+    if (e.pointerType === 'touch') { pointer = null; setTimeout(() => { if (!hold) setHot(-1); }, 400); }
+    if (!holding) return;
+    holding = null;
+    // Let go before the ring got there: it simply goes home.
+    if (hold) { const i = aim(e.clientX, e.clientY); if (i >= 0) fire(i); }
+    close(() => { hold = null; build(); open(); });
+  };
+  addEventListener('pointerup', release);
+  addEventListener('pointercancel', release);
+  addEventListener('keydown', e => {
+    if (e.key === 'Escape') { if ($('#lock').classList.contains('is-on')) return unlock(); if (hold) { hold = null; close(() => { build(); open(); }); } setHot(-1); return; }
+    if (document.activeElement !== ringEl) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { setHot((hot + 1 + n) % n); e.preventDefault(); }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { setHot((hot - 1 + n) % n); e.preventDefault(); }
+    if ((e.key === 'Enter' || e.key === ' ') && hot >= 0) { fire(hot); e.preventDefault(); }
+  });
+  ringEl.addEventListener('blur', () => { if (!pointer) setHot(-1); });
+  addEventListener('resize', wake);
+
+  // ---- Copy ----
+  let sayTimer = 0;
+  function say(html, animate = true) {
+    if (caption.innerHTML === html) return;
+    caption.innerHTML = html;
+    if (animate) swapIn(caption);
+  }
+  function swapIn(el) { el.classList.remove('swap'); void el.offsetWidth; el.classList.add('swap'); }
+
+  // ---- What the actions do to this page ----
+  let toastTimer = 0;
+  function toast(head, text, icon = 'assets/icon.png') {
+    const t = $('#toast');
+    t.querySelector('img').src = icon; t.querySelector('b').textContent = head; t.querySelector('span').textContent = text;
+    t.classList.add('is-on'); clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('is-on'), 2800);
+  }
+  function snip(head, text) {
+    const s = $('#snip'), box = s.querySelector('i'), r = title.getBoundingClientRect();
+    Object.assign(box.style, { left: r.left - 10 + 'px', top: r.top - 8 + 'px', width: '0px', height: '0px' });
+    s.classList.add('is-on');
+    requestAnimationFrame(() => requestAnimationFrame(() => Object.assign(box.style, { width: r.width + 20 + 'px', height: r.height + 16 + 'px' })));
+    setTimeout(() => { const f = $('#flash'); f.classList.remove('is-on'); void f.offsetWidth; f.classList.add('is-on'); s.classList.remove('is-on'); toast(head, text); }, 700);
+  }
+  let minTimer = 0;
+  function minimise() {
+    clearTimeout(minTimer);
+    if (body.classList.toggle('is-minimised')) minTimer = setTimeout(() => body.classList.remove('is-minimised'), 2600);
+  }
+  let muted = false;
+  function mute() { muted = !muted; speaker(); toast(muted ? 'Muted' : 'Sound on', muted ? 'Pick Mute again to bring the sound back.' : 'Volume 64%'); }
+  function speaker() { $('#speaker').innerHTML = svg(muted ? IC.mute : IC.sound); }
+  function lock() {
+    const now = new Date();
+    $('#lock-time').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    $('#lock-date').textContent = now.toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long' });
+    const l = $('#lock'); l.classList.remove('is-leaving'); l.classList.add('is-on');
+  }
+  function unlock() { const l = $('#lock'); l.classList.add('is-leaving'); setTimeout(() => l.classList.remove('is-on', 'is-leaving'), 550); }
+  $('#lock').addEventListener('click', unlock);
+  function emptyBin() {
+    const b = $('#bin');
+    if (b.classList.contains('is-empty')) return toast('Recycle Bin', 'It is already empty.');
+    b.classList.add('is-empty', 'is-shake'); setTimeout(() => b.classList.remove('is-shake'), 520);
+    toast('Recycle Bin emptied', '214 items, 1.2 GB freed.');
+  }
+  let playing = false;
+  function play() { playing = !playing; $('#playing').classList.toggle('is-on', playing); }
+
+  // Files on the desktop: the video's actions sit on the ring's left half, the PDF's on the right.
+  const FILE_ART = {
+    video: '<path d="M6 2h15l7 7v27a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#e9eef8"/><path d="M21 2v7h7" fill="#c9d4e8"/><rect x="8" y="17" width="16" height="12" rx="2" fill="#4f7cf0"/><path d="m14 20 5 3-5 3z" fill="#fff"/>',
+    pdf: '<path d="M6 2h15l7 7v27a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#f6f1ee"/><path d="M21 2v7h7" fill="#e3d6cf"/><rect x="4" y="20" width="20" height="9" rx="1.5" fill="#e5484d"/><text x="14" y="27" font-size="7" font-weight="700" fill="#fff" text-anchor="middle" font-family="Inter,Segoe UI,sans-serif">PDF</text>',
+    zip: '<path d="M6 2h15l7 7v27a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#f3e6b8"/><path d="M21 2v7h7" fill="#e2cf8c"/><path d="M14 4v24" stroke="#8a6d1c" stroke-width="2.4" stroke-dasharray="2 2"/>',
+    audio: '<path d="M6 2h15l7 7v27a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#e9eef8"/><path d="M21 2v7h7" fill="#c9d4e8"/><path d="M13 28V18l9-2v10" stroke="#a855f7" stroke-width="2" fill="none"/><circle cx="11" cy="28" r="2.4" fill="#a855f7"/><circle cx="20" cy="26" r="2.4" fill="#a855f7"/>',
+    image: '<path d="M6 2h15l7 7v27a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="#e9eef8"/><path d="M21 2v7h7" fill="#c9d4e8"/><path d="m8 30 6-7 4 4 3-3 4 6z" fill="#22c55e"/><circle cx="12" cy="18" r="2.2" fill="#f59e0b"/>',
+  };
+  const fileHtml = (side, name, meta, kind, source) =>
+    `<div class="file${source ? '' : ' is-new'}" data-side="${side}" data-source="${source ? 1 : 0}"><svg viewBox="0 0 32 40" aria-hidden="true">${FILE_ART[kind]}</svg>${name}<small>${meta}</small></div>`;
+  function resetFiles() {
+    $('[data-side="video"].group').innerHTML = fileHtml('video', 'Holiday.mov', '1:12 · 214 MB', 'video', true);
+    $('[data-side="pdf"].group').innerHTML = fileHtml('pdf', 'Offer.pdf', '27 MB', 'pdf', true);
+  }
+  function addFile(side, name, meta, kind) {
+    const g = $(`[data-side="${side}"].group`);
+    const had = [...g.children].find(f => f.textContent.startsWith(name));
+    if (had) { had.classList.remove('is-new'); void had.offsetWidth; had.classList.add('is-new'); return had; }
+    if (g.children.length >= 3) g.children[1].remove();
+    g.insertAdjacentHTML('beforeend', fileHtml(side, name, meta, kind, false));
+    return g.lastElementChild;
+  }
+  function shrink() {
+    const f = addFile('pdf', 'Offer-small.pdf', '27 MB', 'pdf'), meta = f.querySelector('small');
+    const t0 = performance.now();
+    const tick = now => { const q = Math.min(1, (now - t0) / 900), e = 1 - Math.pow(1 - q, 3); meta.textContent = `${(27 - e * 24.4).toFixed(1)} MB`; if (q < 1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  }
+  let turns = 0;
+  function rotateVideo() { turns++; const s = document.querySelector('.file[data-side="video"][data-source="1"] svg'); s.style.transform = `rotate(${turns * 90}deg)`; }
+
+  // ---- Chrome: tabs, taskbar, clock ----
+  function pills() {
+    document.querySelectorAll('.pills button').forEach(b => b.setAttribute('aria-selected', b.dataset.stage === stage));
+    const on = document.querySelector('.pills button[aria-selected="true"]'), th = document.querySelector('.pills .thumb');
+    th.style.width = on.offsetWidth + 'px'; th.style.transform = `translateX(${on.offsetLeft}px)`;
+  }
+  document.querySelectorAll('.pills button').forEach(b => b.addEventListener('click', () => switchTo(b.dataset.stage)));
+  const START = '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4cc2ff" d="M3 3h8.5v8.5H3zM12.5 3H21v8.5h-8.5zM3 12.5h8.5V21H3zM12.5 12.5H21V21h-8.5z"/></svg>';
+  $('#tb-apps').innerHTML = `<button data-go="everyday" aria-label="Start: the Everyday ring">${START}</button>`
+    + `<button data-go="files" aria-label="File Explorer: the Files ring"><img src="assets/apps/explorer.png" alt=""></button>`
+    + APPS.map((a, i) => `<button data-app="${a.key}" class="${i > 3 ? 'wide' : ''}" aria-label="${a.name}"><img src="${a.icon}" alt=""></button>`).join('');
+  document.querySelectorAll('#tb-apps button').forEach(b => b.addEventListener('click', () => b.dataset.app ? switchTo('apps', b.dataset.app) : switchTo(b.dataset.go)));
+  function taskbar() {
+    document.querySelectorAll('#tb-apps button').forEach(b => {
+      const active = b.dataset.app ? stage === 'apps' && current.key === b.dataset.app : b.dataset.go === stage;
+      b.classList.toggle('is-active', active);
+      b.classList.toggle('is-open', !!b.dataset.app && ['outlook', 'excel', 'teams'].includes(b.dataset.app));
+    });
+  }
+  function clock() {
+    const now = new Date();
+    $('#clock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    $('#date').textContent = now.toLocaleDateString();
+  }
+
+  // ---- Stars for the night sky ----
+  function stars() {
+    const c = $('.stars'), d = devicePixelRatio || 1, w = innerWidth, h = innerHeight;
+    c.width = w * d; c.height = h * d;
+    const g = c.getContext('2d'); g.scale(d, d);
+    let seed = 11; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    for (let i = 0; i < Math.round(w * h / 4200); i++) {
+      g.globalAlpha = .25 + rnd() * .75; g.fillStyle = '#fff';
+      g.beginPath(); g.arc(rnd() * w, rnd() * h * .7, .3 + rnd() * 1.1, 0, 7); g.fill();
+    }
+  }
+
+  // ---- Start ----
+  const q = new URLSearchParams(location.search).get('ring');
+  if (q === 'files') stage = 'files';
+  else if (q && APPS.some(a => a.key === q)) { stage = 'apps'; current = APPS.find(a => a.key === q); }
+  body.dataset.stage = stage;
+  title.innerHTML = `<b>${STAGES[stage].title[0]}</b><span>${STAGES[stage].title[1]}</span>`;
+  caption.innerHTML = STAGES[stage].caption();
+  resetFiles(); speaker(); clock(); setInterval(clock, 15000); stars(); addEventListener('resize', stars);
+  build();
+  // Fonts change the pill widths; place the thumb once they are in.
+  pills(); taskbar(); document.fonts?.ready.then(pills);
+  setTimeout(open, 250);
+})();
+</script>
+</body>
+</html>

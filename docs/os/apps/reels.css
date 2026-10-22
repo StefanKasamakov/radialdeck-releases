@@ -1,0 +1,72 @@
+/* Reels (os/apps/reels.js): the player, dark in both modes like the apps it stands for; the desktop's reel player
+   (a phone on the right) and the phone home screen's row; the plain list on reels.html without JavaScript. */
+.rl { position: relative; height: 100%; background: #000; color: var(--text); font: 13px var(--font-ui); overflow: hidden; }
+.rl svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.rl-feed { height: 100%; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior: contain; scrollbar-width: none; outline: none; }
+.rl-feed::-webkit-scrollbar { display: none; }
+.rl-slide { position: relative; height: 100%; display: flex; flex-direction: column; scroll-snap-align: start; scroll-snap-stop: always; }
+.rl-stage { position: relative; flex: 1; min-height: 0; }
+.rl-stage video { display: block; width: 100%; height: 100%; object-fit: contain; background: #000; }
+.rl-tap { position: absolute; inset: 0; }
+.rl-big { position: absolute; left: 50%; top: 50%; width: 68px; height: 68px; margin: -34px 0 0 -34px; display: grid; place-items: center; border-radius: 50%; pointer-events: none;
+  background: rgba(0,0,0,.45); color: #fff; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); opacity: 0; transform: scale(.9); transition: opacity .2s, transform .3s var(--ease); }
+.rl-big svg { width: 30px; height: 30px; margin-left: 4px; stroke: none; }
+/* Shown only once a clip has stayed paused a moment, so a clip that is about to start does not flash it. */
+.rl-slide.is-paused .rl-big { opacity: 1; transform: none; transition-delay: .3s; }
+.rl-bar { flex: none; display: block; height: 3px; background: rgba(255,255,255,.16); }
+.rl-bar b { display: block; height: 100%; background: #fff; transform: scaleX(0); transform-origin: 0 50%; transition: transform .25s linear; }
+.rl-info { flex: none; display: flex; align-items: center; gap: 12px; min-height: 92px; padding: 10px 14px 12px; background: #0c0c10; }
+.rl-info > div:first-child { flex: 1; min-width: 0; }
+.rl-info h3 { margin: 0 0 3px; font: 600 15px/1.25 var(--font-ui); color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rl-info p { margin: 0; color: var(--text-2); font-size: 12.5px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.rl-acts { flex: none; display: grid; justify-items: center; gap: 8px; }
+.rl-get { display: inline-flex; align-items: center; height: 32px; padding: 0 14px; border-radius: 999px; background: var(--accent-ui); color: #04121c; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.rl-get:hover { filter: brightness(1.08); }
+.rl-share { width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 50%; background: var(--btn); color: #fff; cursor: pointer; }
+.rl-share:hover { background: var(--btn-hover); }
+.rl-count { position: absolute; left: 12px; top: 12px; padding: 3px 9px; border-radius: 999px; background: rgba(0,0,0,.45); color: rgba(255,255,255,.85); font-size: 12px; font-variant-numeric: tabular-nums; pointer-events: none; }
+.rl-sound { position: absolute; right: 12px; top: 10px; display: inline-flex; align-items: center; gap: 7px; height: 34px; padding: 0 14px 0 11px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px;
+  background: rgba(0,0,0,.55); color: #fff; font: 600 13px var(--font-ui); cursor: pointer; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.rl-sound svg { width: 18px; height: 18px; }
+.rl-sound.is-on { padding: 0 10px; }
+.rl-sound.is-on span { display: none; }
+.rl-sound:hover { background: rgba(0,0,0,.7); }
+.rl-grid { position: absolute; inset: 0; z-index: 2; display: flex; flex-direction: column; background: var(--win-body); }
+.rl-grid[hidden] { display: none; }
+.rl-grid header { flex: none; display: flex; align-items: center; justify-content: space-between; height: 48px; padding: 0 8px 0 16px; font-size: 15px; }
+.rl-grid header button { width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 6px; background: none; color: inherit; cursor: pointer; }
+.rl-grid header button:hover { background: var(--hover); }
+.rl-grid > div { flex: 1; min-height: 0; overflow: auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(108px, 1fr)); gap: 10px; align-content: start; padding: 4px 14px 16px; }
+.rl-grid > div button { display: grid; gap: 6px; padding: 0; border: 0; background: none; color: var(--text-2); font: 12px/1.3 var(--font-ui); text-align: left; cursor: pointer; }
+.rl-grid img { width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; outline: 2px solid transparent; outline-offset: 2px; transition: outline-color .15s; }
+.rl-grid button:hover img, .rl-grid button.is-cur img { outline-color: var(--accent-ui); }
+.rl-grid button.is-cur span { color: #fff; }
+.rl:fullscreen .rl-info { min-height: 76px; }
+
+/* reels.html without JavaScript (in a window the player takes its place) */
+.rl-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 22px; margin: 18px 0; }
+.rl-item video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; border-radius: 12px; background: #000; }
+.rl-item h3 { margin: 10px 0 4px; font-size: 15px; }
+.rl-item p { margin: 0; font-size: 13px; color: var(--text-2); }
+
+/* ---- The desktop's reel player: a phone on the right of the wallpaper; clicking it opens Reels at that clip ---- */
+.os-reels { position: fixed; right: 36px; top: calc(50% - 24px); z-index: 5; transform: translateY(-50%); }
+.os-reels-head, .os-reels-row { display: none; }
+.os-reels-frame { position: relative; display: block; width: 196px; aspect-ratio: 9 / 16; border: 7px solid #0b0b10; border-radius: 30px; overflow: hidden; background: #000; color: #fff; text-decoration: none;
+  box-shadow: 0 0 0 1px rgba(255,255,255,.16), 0 24px 60px rgba(8,6,24,.55), 0 6px 16px rgba(8,6,24,.35); transition: transform .35s var(--ease), box-shadow .35s var(--ease); }
+.os-reels-frame:hover { transform: translateY(-3px); box-shadow: 0 0 0 1px rgba(255,255,255,.26), 0 30px 70px rgba(8,6,24,.6), 0 8px 18px rgba(8,6,24,.35); }
+.os-reels-frame:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+.os-reels-poster, .os-reels-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border-radius: 23px; }
+.os-reels-video { z-index: 1; }
+.os-reels-play { position: absolute; left: 50%; top: 50%; z-index: 2; width: 52px; height: 52px; margin: -26px 0 0 -26px; display: grid; place-items: center; border-radius: 50%;
+  background: rgba(0,0,0,.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: opacity .3s; }
+.os-reels-play svg { width: 24px; height: 24px; margin-left: 3px; fill: #fff; }
+.os-reels-frame.is-playing .os-reels-play { opacity: 0; }
+.os-reels-frame.is-playing:hover .os-reels-play { opacity: 1; }
+.os-reels-label { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; display: grid; gap: 1px; padding: 30px 12px 11px; background: linear-gradient(transparent, rgba(0,0,0,.78)); font: 12px/1.3 var(--font-ui); }
+.os-reels-label b { font-weight: 600; font-size: 12.5px; }
+.os-reels-label small { font-size: 11.5px; color: rgba(255,255,255,.78); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Only where it has room beside the ring and the icons. */
+@media (max-width: 1179px), (max-height: 639px) { .os-reels { display: none; } }
+html:not(.os-js) .os-reels { display: none; }
+

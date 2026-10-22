@@ -1,0 +1,61 @@
+/* Settings (os/apps/settings.js): Windows 11 Settings' navigation and cards. */
+.se { display: grid; grid-template-columns: 240px 1fr; height: 100%; font: 13.5px var(--font-ui); color: var(--text); }
+.se svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.se-nav { display: flex; flex-direction: column; gap: 2px; padding: 16px 10px; overflow: auto; }
+.se-me { display: flex; align-items: center; gap: 12px; padding: 4px 8px 16px; }
+.se-me img { border-radius: 50%; background: var(--surface-2); padding: 4px; }
+.se-me b { display: block; font-weight: 600; }
+.se-me small { color: var(--text-3); font-size: 12px; }
+.se-nav button { position: relative; display: flex; align-items: center; gap: 12px; height: 36px; padding: 0 12px; border: 0; border-radius: 5px; background: none; color: inherit; font: inherit; text-align: left; cursor: default; }
+.se-nav button svg { color: var(--accent-ui); }
+.se-nav button:hover { background: var(--surface); }
+.se-nav button.is-on { background: var(--surface-2); }
+.se-nav button.is-on::before { content: ""; position: absolute; left: 0; top: 10px; bottom: 10px; width: 3px; border-radius: 2px; background: var(--accent-ui); }
+.se-main { overflow: auto; padding: 20px 28px 32px; }
+.se-page h3 { margin: 0 0 16px; font: 600 26px var(--font-display); letter-spacing: -.02em; }
+.se-card { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 4px; padding: 14px 18px; border-radius: 6px; background: var(--surface); border: 1px solid var(--border); }
+.se-card b { display: block; font-weight: 500; }
+.se-card small { display: block; margin-top: 2px; color: var(--text-3); font-size: 12px; max-width: 60ch; line-height: 1.45; }
+.se-col { flex-direction: column; align-items: flex-start; }
+.se-seg { display: flex; flex: none; padding: 2px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--border); }
+.se-seg button { min-width: 64px; height: 30px; padding: 0 14px; border: 0; border-radius: 4px; background: none; color: var(--text-2); font: inherit; cursor: default; }
+.se-seg button[aria-pressed="true"] { background: var(--accent-ui); color: #0b0f1e; font-weight: 600; }
+.se-sw { display: grid; grid-template-columns: repeat(10, 34px); gap: 6px; }
+.se-sw button { width: 34px; height: 34px; border-radius: 5px; border: 2px solid transparent; background: var(--c); cursor: default; }
+.se-sw button[aria-pressed="true"] { border-color: var(--text); box-shadow: inset 0 0 0 2px var(--win-body); }
+/* A small picture of the desktop as set */
+.se-prev { position: relative; height: 150px; max-width: 300px; margin: 0 0 16px; border-radius: 8px; overflow: hidden; border: 4px solid #1b1b1f; box-shadow: 0 8px 24px rgba(0,0,0,.3); }
+.se-prev i { position: absolute; display: block; }
+.se-sky { inset: 0; background: linear-gradient(180deg, #24305c, #8d5a8c 40%, #ee9a78 62%, #ffd2a0); transition: filter .6s; }
+.se-hill { left: -10%; right: -10%; bottom: 0; height: 45%; border-radius: 50% 50% 0 0; background: #3c2e5a; transition: background .6s; }
+.se-prev.is-night .se-sky { background: linear-gradient(180deg, #02050d, #08122b 40%, #13224a 70%, #213260); }
+.se-prev.is-night .se-hill { background: #101831; }
+.se-win { left: 22%; top: 18%; width: 56%; height: 50%; border-radius: 4px; background: #1d1d21; box-shadow: 0 6px 16px rgba(0,0,0,.4); }
+.se-win i { position: static; height: 5px; margin: 8px 10px 0; border-radius: 3px; background: rgba(255,255,255,.18); }
+.se-win i:first-child { width: 40%; background: var(--accent-ui); }
+.se-prev:not(.is-night) .se-win { background: #f3f3f3; }
+.se-prev:not(.is-night) .se-win i:not(:first-child) { background: rgba(0,0,0,.14); }
+.se-bar { left: 0; right: 0; bottom: 0; height: 12px; background: rgba(20,22,32,.7); }
+.se-bar i { position: absolute; left: 50%; top: 4px; width: 14px; height: 3px; margin-left: -7px; border-radius: 2px; background: var(--accent-ui); }
+/* The 38 ring themes as small rings */
+.se-themes { display: grid; grid-template-columns: repeat(auto-fill, minmax(112px, 1fr)); gap: 6px; margin-top: 10px; }
+.se-th { display: grid; justify-items: center; gap: 6px; padding: 12px 6px 10px; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text-2); font: 12px var(--font-ui); cursor: default; }
+.se-th:hover { background: var(--surface-2); }
+.se-th[aria-pressed="true"] { border-color: var(--accent-ui); box-shadow: inset 0 0 0 1px var(--accent-ui); color: var(--text); }
+.se-mini { position: relative; display: block; width: 76px; height: 76px; border-radius: 50%; background: radial-gradient(circle, rgba(0,0,0,.25), transparent 70%); }
+.se-mini .ring-svg { width: 100%; height: 100%; display: block; overflow: visible; filter: drop-shadow(0 4px 6px var(--r-shadow, rgba(0,0,0,.4))); }
+.se-mini .slice { fill: var(--r-fill); stroke: var(--r-stroke); stroke-width: var(--r-stroke-w, 1); }
+.se-mini .slice.is-hot { fill: var(--r-fill-hot); stroke: var(--r-hover-stroke); }
+.se-mini .slice-pat { fill: var(--r-pat, none); pointer-events: none; }
+.se-hub { position: absolute; left: 50%; top: 50%; width: 27%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: var(--r-hub); border: 1px solid var(--r-stroke); }
+@container (max-width: 640px) {
+  .se { grid-template-columns: 1fr; grid-template-rows: auto 1fr; }
+  .se-nav { flex-direction: row; padding: 6px; border-bottom: 1px solid var(--win-line); }
+  .se-me { display: none; }
+  .se-nav button { flex: none; }
+  .se-nav button.is-on::before { left: 12px; right: 12px; top: auto; bottom: 0; width: auto; height: 3px; }
+  .se-main { padding: 16px; }
+  .se-card { flex-wrap: wrap; }
+  .se-sw { grid-template-columns: repeat(5, 34px); }
+  .se-themes { grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); }
+}

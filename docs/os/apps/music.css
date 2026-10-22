@@ -1,0 +1,84 @@
+/* Music (os/apps/music.js): a library, the playlist, and the player bar. Dark like the players it stands for. */
+.mu { display: grid; grid-template-columns: 220px 1fr; grid-template-rows: 1fr auto; height: 100%; background: #121214; color: #fff; font: 13px var(--font-ui); -webkit-user-select: none; user-select: none; }
+.mu svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.mu button { border: 0; background: none; color: inherit; font: inherit; cursor: default; }
+.mu-lib { display: flex; flex-direction: column; gap: 2px; padding: 14px 8px; background: #0b0b0d; overflow: auto; }
+.mu-lib > b { margin: 0 8px 8px; font-weight: 600; color: rgba(255,255,255,.85); }
+.mu-lib button { display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 6px; text-align: left; }
+.mu-lib button.is-on { background: rgba(255,255,255,.08); }
+.mu-lib button:disabled { opacity: .55; }
+.mu-lib small { display: block; color: rgba(255,255,255,.55); font-size: 11.5px; }
+.mu-pl { width: 40px; height: 40px; flex: none; border-radius: 5px; background: linear-gradient(135deg, hsl(var(--h) 80% 62%), hsl(var(--h) 55% 22%)); }
+.mu-note { margin: auto 8px 0; padding-top: 14px; color: rgba(255,255,255,.45); font-size: 11.5px; line-height: 1.45; }
+.mu-main { overflow: auto; min-height: 0; background: linear-gradient(180deg, hsl(210 40% 22%) 0, #121214 260px); }
+.mu-hero { display: flex; align-items: flex-end; gap: 22px; padding: 26px 26px 18px; }
+.mu-art { width: 168px; height: 168px; flex: none; border-radius: 8px; overflow: hidden; box-shadow: 0 16px 40px rgba(0,0,0,.5); }
+.mu-art svg, .mu-mini svg, .mu-row svg { width: 100%; height: 100%; stroke: none; display: block; }
+.mu-hero small { font-size: 12px; color: rgba(255,255,255,.75); }
+.mu-hero h3 { margin: 2px 0 6px; font: 700 clamp(28px, 6cqw, 52px)/1 var(--font-display); letter-spacing: -.03em; }
+.mu-hero p { margin: 0; color: rgba(255,255,255,.75); }
+.mu-hero p b { color: #fff; font-weight: 600; }
+.mu-acts { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
+.mu-big { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: #1ed760 !important; color: #000 !important; box-shadow: 0 8px 20px rgba(0,0,0,.35); transition: transform .15s; }
+.mu-big:hover { transform: scale(1.05); }
+.mu-big svg { width: 22px; height: 22px; stroke: none; }
+.mu-eq { display: inline-flex; align-items: flex-end; gap: 3px; height: 22px; }
+.mu-eq i { width: 4px; height: 20%; border-radius: 1px; background: #1ed760; }
+.mu.is-playing .mu-eq i { animation: mu-eq .8s ease-in-out infinite; }
+.mu-eq i:nth-child(2) { animation-delay: -.35s !important; } .mu-eq i:nth-child(3) { animation-delay: -.6s !important; } .mu-eq i:nth-child(4) { animation-delay: -.15s !important; } .mu-eq i:nth-child(5) { animation-delay: -.5s !important; }
+@keyframes mu-eq { 0%, 100% { height: 20%; } 50% { height: 100%; } }
+.mu-list { padding: 0 16px 16px; display: grid; }
+.mu-row { display: grid; grid-template-columns: 28px 40px 1fr auto; align-items: center; gap: 12px; height: 54px; padding: 0 12px; border-radius: 6px; text-align: left; }
+.mu-row:hover { background: rgba(255,255,255,.07); }
+.mu-row svg { width: 40px; height: 40px; border-radius: 4px; }
+.mu-row b { display: block; font-weight: 500; font-size: 14px; }
+.mu-row small, .mu-len { color: rgba(255,255,255,.6); font-size: 12.5px; }
+.mu-no { display: grid; place-items: center; color: rgba(255,255,255,.6); }
+.mu-no .mu-eq { display: none; height: 14px; gap: 2px; }
+.mu-no .mu-eq i { width: 3px; }
+.mu-row.is-cur b { color: #1ed760; }
+.mu-row.is-cur .mu-no em { display: none; }
+.mu-row.is-cur .mu-no .mu-eq { display: inline-flex; }
+.mu-no em { font-style: normal; }
+.mu-bar { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1.5fr 1fr; align-items: center; gap: 16px; height: 84px; padding: 0 16px; background: #000; border-top: 1px solid rgba(255,255,255,.06); }
+.mu-now { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.mu-mini { width: 54px; height: 54px; flex: none; border-radius: 5px; overflow: hidden; }
+.mu-now b, .mu-now small { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mu-now b { font-weight: 500; }
+.mu-now small { color: rgba(255,255,255,.6); font-size: 12px; }
+.mu-ctl { display: grid; gap: 6px; justify-items: center; }
+.mu-btns { display: flex; align-items: center; gap: 14px; }
+.mu-btns button { width: 32px; height: 32px; display: grid; place-items: center; color: rgba(255,255,255,.75); position: relative; }
+.mu-btns button:hover { color: #fff; }
+.mu-btns .mu-play { width: 36px; height: 36px; border-radius: 50%; background: #fff; color: #000; }
+.mu-btns .mu-play svg { stroke: none; }
+.mu-btns .mu-prev svg, .mu-btns .mu-next svg { stroke-width: 2; }
+.mu-btns .is-on { color: #1ed760; }
+.mu-btns .is-on::after { content: ""; position: absolute; bottom: 0; left: 50%; width: 4px; height: 4px; margin-left: -2px; border-radius: 50%; background: #1ed760; }
+.mu-rep[data-one="1"]::before { content: "1"; position: absolute; top: 4px; right: 3px; font: 700 8px/1 var(--font-ui); color: #1ed760; }
+.mu-seekrow { display: grid; grid-template-columns: 38px 1fr 38px; align-items: center; gap: 8px; width: 100%; font-size: 11.5px; color: rgba(255,255,255,.6); }
+.mu-seekrow small:first-child { text-align: right; }
+.mu-track { position: relative; height: 14px; display: flex; align-items: center; touch-action: none; }
+.mu-track i { position: relative; flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,.25); overflow: hidden; }
+.mu-track i::after { content: ""; position: absolute; inset: 0; width: var(--p, 0%); background: #fff; border-radius: 2px; }
+.mu-track:hover i::after { background: #1ed760; }
+.mu-volrow { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
+.mu-volrow .mu-vol { width: 110px; }
+.mu-volic { width: 32px; height: 32px; display: grid; place-items: center; color: rgba(255,255,255,.75); }
+/* Windows 11's volume flyout */
+.mu-osd { position: fixed; left: 50%; bottom: 68px; z-index: 70; display: flex; align-items: center; gap: 12px; width: 220px; height: 46px; padding: 0 16px; border-radius: 8px; color: #fff; font: 600 13px var(--font-ui);
+  background: rgba(36,36,44,.9); border: 1px solid rgba(255,255,255,.12); box-shadow: 0 14px 34px rgba(0,0,0,.45); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  opacity: 0; transform: translate(-50%, 12px); transition: opacity .2s, transform .35s var(--ease); pointer-events: none; }
+.mu-osd.is-on { opacity: 1; transform: translate(-50%, 0); }
+.mu-osd svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.mu-osd i { position: relative; flex: 1; height: 4px; border-radius: 2px; background: rgba(255,255,255,.25); }
+.mu-osd i::after { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: var(--v); border-radius: 2px; background: var(--accent-ui); transition: width .2s; }
+.mu-osd b { width: 26px; text-align: right; font-variant-numeric: tabular-nums; }
+@container (max-width: 640px) {
+  .mu { grid-template-columns: 1fr; }
+  .mu-lib, .mu-volrow { display: none; }
+  .mu-hero { padding: 18px 16px 10px; gap: 14px; }
+  .mu-art { width: 112px; height: 112px; }
+  .mu-list { padding: 0 6px 10px; }
+  .mu-bar { grid-template-columns: 1fr; height: auto; padding: 10px 14px 12px; gap: 8px; }
+}

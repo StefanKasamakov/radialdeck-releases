@@ -171,6 +171,13 @@
       [900, s => s.hot(0)],
       [700, s => s.say('A new Excel ring, only in Excel')],
     ]],
+    // The drop ring for a picture (Pro, 0.14): what the file can become, next to the original.
+    drop: [el => stage(el, [['Smaller', I.zoom], ['→ JPG', I.convert], ['→ PNG', I.convert], ['→ PDF', I.doc],
+                            ['Copy text', I.scan], ['No location', I.eyeOff], ['Rotate', I.refresh], ['Square', I.window]], 'photo.png'), [
+      [300, s => s.ctx('Dragging photo.png · Shift tapped')],
+      [900, s => { s.point(1); s.hot(1); }],
+      [800, s => { s.show(false); s.say('photo.jpg saved next to photo.png'); }],
+    ]],
     share: [el => stage(el, [['Terminal', I.terminal], ['Flush DNS', I.wifi], ['RDP', I.monitor], ['Entra', I.globe],
                              ['Intune', I.shield], ['Lock', I.lock]], 'IT admin'), [
       [700, s => { s.keys(['Share']); s.say('Link copied: radialdeck.com/r#H4sIAAAA…'); }],
@@ -184,9 +191,11 @@
   };
 
   // ---- Player: loops a scene while it is visible -------------------------------------------
-  document.querySelectorAll('[data-scene]').forEach(el => {
+  // mount(root) plays every scene under root once; the desktop (site/os) calls it for a window's content.
+  const mount = root => root.querySelectorAll('[data-scene]').forEach(el => {
     const scene = SCENES[el.dataset.scene];
-    if (!scene) return;
+    if (!scene || el.dataset.mounted) return;
+    el.dataset.mounted = '1';
     const [build, steps] = scene;
     el.insertAdjacentHTML('afterbegin', '<div class="ring" aria-hidden="true"><svg class="ring-svg" viewBox="0 0 320 320"></svg><div class="ring-labels"></div><div class="ring-hub"><span></span></div></div><div class="stage-hud" aria-hidden="true"></div><div class="stage-toast" aria-hidden="true"></div><svg class="stage-pointer" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v17l4.5-4.2 2.9 6.2 3-1.4-2.9-6.1H19z"/></svg>');
     const s = build(el);
@@ -207,6 +216,9 @@
       if (!en.isIntersecting && timer) { clearTimeout(timer); timer = null; }
     }, { threshold: .35 }).observe(el);
   });
+  const icons = root => root.querySelectorAll('.fx-icon[data-icon]').forEach(el => { if (!el.firstChild) el.innerHTML = svg(I[el.dataset.icon] || I.check); });
+  window.RDScenes = { mount: root => { mount(root); icons(root); } };
+  mount(document);
 
   // ---- Section chips follow the scroll ----------------------------------------------------
   const chips = [...document.querySelectorAll('.fx-chips a')];
@@ -218,5 +230,5 @@
   document.querySelectorAll('.fx-section[id]').forEach(sec => spy.observe(sec));
 
   // Card icons.
-  document.querySelectorAll('.fx-icon[data-icon]').forEach(el => { el.innerHTML = svg(I[el.dataset.icon] || I.check); });
+  icons(document);
 })();
