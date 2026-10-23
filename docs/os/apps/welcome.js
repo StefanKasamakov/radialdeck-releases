@@ -124,8 +124,8 @@
       OS.ring.setHot(6); await wait(1600);
       OS.ring.fire(6); await wait(1800);
       OS.ring.setHot(-1);
-      say(2, "<b>The same gesture in Excel brings Excel's ring.</b> AutoSum adds up the selected cells.");
-      await tryRing('excel:AutoSum'); await wait(1700);
+      say(2, "<b>The same gesture in Excel brings Excel's ring.</b> Freeze panes keeps the headers in place: Alt, W, F, F in one flick.");
+      await tryRing('excel:Freeze panes'); await wait(1700);
       if (OS.ring.hot >= 0) OS.ring.fire(OS.ring.hot);
       await wait(1600);
       say(3, '<b>In File Explorer it works on the file you selected.</b> A PDF gets Shrink PDF, a photo gets Convert, any file gets Copy path.');

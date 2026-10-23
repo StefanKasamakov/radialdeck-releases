@@ -531,11 +531,24 @@ window.OS = (() => {
   const S_ = (label, icon, say, run) => ({ label, icon: IC[icon] || icon, say, run });
   // Labels and descriptions are the gallery's own (src/RadialDeck/Settings/Gallery/recipes.json).
   // Apps, Music and Text hold nested rings: pointed at, their slices come out as bubbles (Pro, next update).
-  const DESK_APPS = ['outlook', 'excel', 'word', 'explorer', 'terminal', 'code', 'cad', 'photo', 'music', 'teams'];
+  const DESK_APPS = ['outlook', 'excel', 'word', 'explorer', 'terminal', 'code', 'cad', 'photo'];
   const appBubbles = () => DESK_APPS.map(id => apps.get(id)).filter(Boolean)
     .map(a => ({ label: a.title, icon: 'img:' + a.icon, tint: a.tint, say: `Opens ${a.title}.`, run: () => open(a.id) }));
-  // The Music app's own slices (os/apps/music.js, loaded with every page): Play/Pause, Prev, Next, Vol +, Vol −, Mute.
-  const musicBubbles = () => { const r = apps.get('music')?.ring; return Array.isArray(r) ? [0, 5, 1, 2, 4, 3].map(i => r[i]) : [S_('Play/Pause', '⏯', 'Plays or pauses whatever is playing.', () => play()), S_('Mute', '🔇', 'Mutes the sound, and unmutes it again.', () => mute())]; };
+  // Things you copied: what was copied on this page, then a few made-up earlier copies. Picked, it goes into Notepad.
+  const copies = ['Invoice 2026-118 is attached.', 'https://radialdeck.com', 'Kind regards,\nMaria', 'Meeting moved to 14:30', 'Room B2, 3rd floor'];
+  addEventListener('copy', () => { const t = String(getSelection() || '').trim(); if (t && !copies.includes(t)) copies.unshift(t); copies.length = Math.min(copies.length, 8); });
+  const short = t => (t = t.replace(/\s+/g, ' ')).length > 18 ? t.slice(0, 17).trim() + '…' : t;
+  const copyBubbles = () => copies.map(t => ({ label: short(t), icon: 'fluent:E77F', tint: '#a5b4fc', say: `Pastes "${t}".`, run: async () => {
+    const c = await open('notepad'), ta = c?.body.querySelector('textarea');
+    if (!ta) return;
+    ta.focus(); ta.setRangeText(t, ta.selectionStart, ta.selectionEnd, 'end'); ta.dispatchEvent(new Event('input'));
+  } }));
+  // Open windows: a ring of them, flick at one to switch to it.
+  const winBubbles = () => {
+    const list = [...wins.values()];
+    return list.length ? list.map(w => ({ label: w.app.title, icon: 'img:' + w.app.icon, tint: w.app.tint, say: `Switches to ${w.app.title}.`, run: () => w.min ? restore(w) : focus(w) }))
+      : [S_('Nothing open', 'fluent:E8A7', 'Open a program first: its window shows up here.', () => toast('Open windows', 'Nothing is open yet.'))];
+  };
   // Text works on Notepad's note (or what is selected in it), with Notepad's own slices.
   const inNotepad = label => async () => { const c = await open('notepad'); apps.get('notepad')?.ring?.find(s => s.label === label)?.run(c); };
   const T_ = (label, icon, tint, say) => ({ label, icon, tint, say: `In Notepad: ${say}`, run: inNotepad(label) });
@@ -548,19 +561,18 @@ window.OS = (() => {
     T_('Trim spaces', 'fluent:E8A5', '#5eead4', 'collapses whitespace into single spaces.'),
     T_('Clean link', '🔗', '#7cc4ff', 'removes utm_, fbclid, gclid… from the links.'),
     T_('Count', '🔢', '#c4a1ff', 'words, characters and lines in a balloon.'),
-    S_('Screen text', 'fluent:E722', 'Mark an area of the screen; the text in it is copied. Uses the OCR built into Windows.', () => snip('Text copied', '"Your workday. In one gesture."')),
   ];
   const EVERYDAY = [
     { ...S_('Apps', 'fluent:E71D', 'Point at it: your programs come out as bubbles. Pick one to open it.'), children: appBubbles },
     S_('Dark/Light', '🌗', 'Switches Windows between dark and light mode.', () => setNight()),
     { ...S_('Text', '🔤', 'Point at it: the text tricks come out as bubbles, and Case holds a second layer.'), children: TEXT },
-    S_('Snip', '✂', 'Mark any part of the screen. It lands on the clipboard.', () => snip('Snip copied', 'Paste it into a chat or an e-mail.')),
-    S_('Lock', '🔒', 'Locks the PC on the spot.', () => lock()),
+    S_('On top', 'fluent:E718', 'Keeps the window you are in above all others; again to release it. Windows has no key for it.', () => pinTop()),
+    { ...S_('Copies', 'fluent:E77F', 'Point at it: the last 8 things you copied come out as bubbles. Pick one to paste it.'), children: copyBubbles },
     S_('Empty bin', '🗑', 'Empties the Recycle Bin without opening it.', () => emptyBin()),
-    { ...S_('Music', '🎵', 'Point at it: Play/Pause, Next, Volume and Mute come out as bubbles.'), children: musicBubbles },
-    S_('Show desktop', 'fluent:E8B7', 'Minimises every window. Pick it again to bring them back.', () => showDesktop()),
+    S_('Screen text', 'fluent:E722', 'Mark an area of the screen; the text in it is copied, even from a picture or a video. Uses the OCR built into Windows.', () => snip('Text copied', '"Your workday. In one gesture."')),
+    { ...S_('Windows', 'fluent:E8A7', 'Point at it: your open windows come out as bubbles. Flick at one to switch to it.'), children: winBubbles },
   ];
-  const TINT = { Apps: '#7cc4ff', 'Dark/Light': '#ffd166', Text: '#c4a1ff', Snip: '#ff7aa8', Lock: '#5eead4', 'Empty bin': '#ff6b6b', Music: '#6ee7a0', 'Show desktop': '#7cc4ff' };
+  const TINT = { Apps: '#7cc4ff', 'Dark/Light': '#ffd166', Text: '#c4a1ff', 'On top': '#5eead4', Copies: '#a5b4fc', 'Empty bin': '#ff6b6b', 'Screen text': '#ff7aa8', Windows: '#6ee7a0' };
   EVERYDAY.forEach(s => s.tint = TINT[s.label]);
   const DESK_HUB = { title: 'Everyday', sub: '8 actions' };
   // A window without a ring of its own gets this one.
@@ -815,6 +827,12 @@ window.OS = (() => {
     s.classList.add('is-on');
     requestAnimationFrame(() => requestAnimationFrame(() => Object.assign(box.style, { width: Math.min(r.width - 20, 420) + 'px', height: Math.min(r.height - 16, 160) + 'px' })));
     setTimeout(() => { const f = $('#flash'); f.classList.remove('is-on'); void f.offsetWidth; f.classList.add('is-on'); s.classList.remove('is-on'); toast(head, text); }, 700);
+  }
+  function pinTop() {
+    const w = focused || [...wins.values()].filter(x => !x.min).sort((a, b) => b.el.style.zIndex - a.el.style.zIndex)[0];
+    if (!w) return toast('On top', 'Open a window first, then flick to On top.');
+    const on = w.el.classList.toggle('is-pinned');
+    toast(on ? 'Always on top' : 'Released', on ? `${w.app.title} stays above every other window. Flick again to release it.` : `${w.app.title} stacks like any window again.`, w.app.icon);
   }
   let hidden = [];
   function showDesktop() {

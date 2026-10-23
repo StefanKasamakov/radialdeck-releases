@@ -163,16 +163,17 @@
       });
     },
     onClose(c) { clearInterval(c.tick); },
-    // RadialDeck's Teams ring. Mute and Camera show the state they will switch from.
+    // RadialDeck's Teams ring: up front what takes more than one key; the one-key toggles sit in a bubble.
     ring: c => [
-      { label: 'Mute', icon: '🎙', tint: '#ff6b6b', say: 'Mutes or unmutes your mic. In Teams: Ctrl+Shift+M.', run: mute },
-      { label: 'Camera', icon: '📷', tint: '#7cc4ff', say: 'Camera on or off. In Teams: Ctrl+Shift+O.', run: cam },
-      { label: 'Raise hand', icon: '✋', tint: '#ffd166', say: 'Raises or lowers your hand. In Teams: Ctrl+Shift+K.', run: hand },
-      { label: 'Share screen', icon: '🖥', tint: '#5eead4', say: 'Starts or stops sharing your screen.', run: share },
-      { label: 'Leave', icon: '🚪', tint: '#ff7a7a', say: 'Leaves the meeting. In Teams: Ctrl+Shift+H.', run: leave },
-      { label: 'New chat', icon: 'fluent:E710', tint: '#a5b4fc', say: 'Starts a new chat.', run: chat },
-      { label: 'Search', icon: '🔍', tint: '#c4a1ff', say: 'Goes to the search box. In Teams: Ctrl+E.', run: search },
-      { label: 'Admit', icon: 'fluent:E8FB', tint: '#6ee7a0', say: 'Lets in the people waiting in the lobby.', run: admit },
+      { label: 'Admit', icon: 'fluent:E8FB', tint: '#6ee7a0', say: 'Lets in the people waiting in the lobby. Teams has no key for it: it is a banner you have to find.', run: admit },
+      { label: 'Share screen', icon: '🖥', tint: '#5eead4', say: 'Starts or stops sharing. In Teams: Ctrl+Shift+E, then pick the screen.', run: share },
+      { label: 'Mic + cam off', icon: '🎙', tint: '#ff6b6b', say: 'Mic and camera off in one flick, before you join. In Teams: Ctrl+Shift+M and Ctrl+Shift+O.', run: c => { if (!live(c)) return; if (!c.muted) mute(c); if (c.cam) cam(c); pill(c, 'Mic and camera off.'); } },
+      { label: 'Meeting', icon: '✋', tint: '#ffd166', say: 'A nested ring: Mute, Camera, Raise hand and Leave come out as bubbles (Pro).', children: [
+        { label: 'Mute', icon: '🎙', tint: '#ff6b6b', say: 'Mutes or unmutes your mic. In Teams: Ctrl+Shift+M.', run: mute },
+        { label: 'Camera', icon: '📷', tint: '#7cc4ff', say: 'Camera on or off. In Teams: Ctrl+Shift+O.', run: cam },
+        { label: 'Raise hand', icon: '✋', tint: '#ffd166', say: 'Raises or lowers your hand. In Teams: Ctrl+Shift+K.', run: hand },
+        { label: 'Leave', icon: '🚪', tint: '#ff7a7a', say: 'Leaves the meeting. In Teams: Ctrl+Shift+H.', run: leave },
+      ] },
     ],
   });
 })();

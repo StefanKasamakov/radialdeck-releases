@@ -325,15 +325,17 @@
       if (path === null || path === args.url) go(c, t, args.url, path !== args.url); else newTab(c, args.url);
     },
     // The browser ring from the gallery (Edge and Chrome recipes), as this window does them.
+    // Up front what is buried or little known; the one-key basics sit in the Tabs bubble.
     ring: [
-      { label: 'New tab', icon: '➕', tint: '#7cc4ff', say: 'Opens a new tab.', run: c => { newTab(c); focusAddr(c); } },
-      { label: 'Address bar', icon: 'fluent:E774', tint: '#5eead4', say: 'Puts the cursor in the address bar, text selected.', run: c => focusAddr(c) },
-      { label: 'Reload', icon: 'fluent:E72C', tint: '#6ee7a0', say: 'Loads the page again.', run: c => reload(c) },
-      { label: 'Screenshot', icon: '📸', tint: '#ff7aa8', say: 'Takes a capture of the page.', run: c => capture(c) },
-      { label: 'Close tab', icon: '✖', tint: '#ff6b6b', say: 'Closes the tab you are on.', run: c => closeTab(c) },
-      { label: 'Private', icon: '🕶', tint: '#c4a1ff', say: 'A new private tab.', run: c => { newTab(c, null, { private: true }); focusAddr(c); } },
-      { label: 'Back', icon: 'fluent:E72B', tint: '#fdba74', say: 'Goes back a page.', run: c => c.cur.idx ? step(c, -1) : OS.toast('Back', 'This tab has nowhere to go back to.', ICON) },
-      { label: 'Reopen tab', icon: '↩', tint: '#ffd166', say: 'Brings back the last tab you closed.', run: c => reopen(c) },
+      { label: 'Screenshot', icon: '📸', tint: '#ff7aa8', say: 'The whole page, not just what fits on screen. In Edge: Ctrl+Shift+S, then Capture full page.', run: c => capture(c) },
+      { label: 'Reopen tab', icon: '↩', tint: '#ffd166', say: 'Brings back the tab you closed by mistake, with its history. Ctrl+Shift+T, which few people know.', run: c => reopen(c) },
+      { label: 'Private', icon: '🕶', tint: '#c4a1ff', say: 'A new private tab: no history, no cookies kept.', run: c => { newTab(c, null, { private: true }); focusAddr(c); } },
+      { label: 'Tabs', icon: '➕', tint: '#7cc4ff', say: 'A nested ring: New tab, Close tab, Back and Reload come out as bubbles (Pro).', children: [
+        { label: 'New tab', icon: '➕', tint: '#7cc4ff', say: 'Opens a new tab.', run: c => { newTab(c); focusAddr(c); } },
+        { label: 'Close tab', icon: '✖', tint: '#ff6b6b', say: 'Closes the tab you are on.', run: c => closeTab(c) },
+        { label: 'Back', icon: 'fluent:E72B', tint: '#fdba74', say: 'Goes back a page.', run: c => c.cur.idx ? step(c, -1) : OS.toast('Back', 'This tab has nowhere to go back to.', ICON) },
+        { label: 'Reload', icon: 'fluent:E72C', tint: '#6ee7a0', say: 'Loads the page again.', run: c => reload(c) },
+      ] },
     ],
   });
 

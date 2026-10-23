@@ -142,11 +142,18 @@
     if (document.activeElement !== c.fbar) c.fbar.value = sh.cells[k]?.raw ?? '';
     status(c);
   }
+  // Where a cell sits inside the grid, in the grid's own pixels: the window springs open with a scale and the
+  // whole desktop can be scaled (--os-k), and screen pixels would put the box off by that much.
+  function at(c, el) {
+    const g = c.grid.getBoundingClientRect(), r = el.getBoundingClientRect(), k = g.width / c.grid.offsetWidth || 1;
+    const x = v => (v - g.left) / k + c.grid.scrollLeft, y = v => (v - g.top) / k + c.grid.scrollTop;
+    return { left: x(r.left), right: x(r.right), top: y(r.top), bottom: y(r.bottom), width: r.width / k, height: r.height / k };
+  }
   function outline(c, el, q) {
     const a = td(c, q.r0, q.c0), b = td(c, q.r1, q.c1);
     if (!a || !b) { el.style.display = 'none'; return; }
-    const g = c.grid.getBoundingClientRect(), ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
-    Object.assign(el.style, { display: 'block', left: ra.left - g.left + c.grid.scrollLeft - 1 + 'px', top: ra.top - g.top + c.grid.scrollTop - 1 + 'px',
+    const ra = at(c, a), rb = at(c, b);
+    Object.assign(el.style, { display: 'block', left: ra.left - 1 + 'px', top: ra.top - 1 + 'px',
       width: rb.right - ra.left + 1 + 'px', height: Math.max(RH, rb.bottom - ra.top + 1) + 'px' });
   }
   function status(c) {
@@ -168,10 +175,10 @@
     stopEdit(c, true);
     const { ar, ac } = c.s, cell = td(c, ar, ac);
     cell.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-    const g = c.grid.getBoundingClientRect(), r = cell.getBoundingClientRect();
+    const r = at(c, cell);
     const inp = Object.assign(document.createElement('input'), { className: 'xl-in', value: text ?? sheet(c).cells[key(ar, ac)]?.raw ?? '' });
     inp.setAttribute('aria-label', 'Cell ' + key(ar, ac));
-    Object.assign(inp.style, { left: r.left - g.left + c.grid.scrollLeft - 1 + 'px', top: r.top - g.top + c.grid.scrollTop - 1 + 'px', width: Math.max(r.width + 2, 120) + 'px', height: r.height + 2 + 'px' });
+    Object.assign(inp.style, { left: r.left - 1 + 'px', top: r.top - 1 + 'px', width: Math.max(r.width + 2, 120) + 'px', height: r.height + 2 + 'px' });
     c.grid.append(inp);
     c.edit = inp;
     inp.focus();
@@ -286,8 +293,8 @@
     m.className = 'xl-menu';
     m.innerHTML = `<label><input type="checkbox" data-all ${hide.size ? '' : 'checked'}> (Select all)</label><hr>`
       + vals.map(v => `<label><input type="checkbox" value="${esc(v)}" ${hide.has(v) ? '' : 'checked'}> ${esc(v || '(Blanks)')}</label>`).join('');
-    const cell = td(c, 0, col), g = c.grid.getBoundingClientRect(), r = cell.getBoundingClientRect();
-    Object.assign(m.style, { left: Math.max(4, r.left - g.left + c.grid.scrollLeft) + 'px', top: r.bottom - g.top + c.grid.scrollTop + 2 + 'px' });
+    const r = at(c, td(c, 0, col));
+    Object.assign(m.style, { left: Math.max(4, r.left) + 'px', top: r.bottom + 2 + 'px' });
     m.addEventListener('change', e => {
       const box = e.target;
       if (box.dataset.all !== undefined) { hide.clear(); if (!box.checked) vals.forEach(v => hide.add(v)); m.querySelectorAll('input').forEach(i => { i.checked = box.checked; }); }

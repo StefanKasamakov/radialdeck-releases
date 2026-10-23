@@ -160,6 +160,9 @@ body.is-night .land .window { opacity: .9; }
   box-shadow: 0 0 0 1px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.07) inset, 0 8px 24px rgba(0,0,0,.28); color: var(--text); font-family: var(--font-body); -webkit-user-select: text; user-select: text; contain: layout; }
 .win.is-focused { box-shadow: 0 0 0 1px rgba(0,0,0,.55), 0 0 0 1px rgba(255,255,255,.1) inset, 0 26px 64px rgba(0,0,0,.5), 0 8px 18px rgba(0,0,0,.25); }
 .win.is-max, .win.is-snapped { border-radius: 0; }
+/* On top (the Everyday ring): above every other window, with a pin by the title. */
+.win.is-pinned { z-index: 9000 !important; }
+.win.is-pinned .win-title::after { content: "  · On top"; font-size: 12px; opacity: .65; }
 .win.is-closing, .win.is-min { pointer-events: none; }
 .win.is-dragging, .win.is-resizing { -webkit-user-select: none; user-select: none; }
 .win-bar { flex: none; display: flex; align-items: center; height: 40px; padding-left: 12px; border-radius: 8px 8px 0 0; background: var(--win-bar-idle); border-bottom: 1px solid var(--win-line);
