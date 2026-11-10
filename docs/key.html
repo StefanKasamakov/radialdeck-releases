@@ -6,71 +6,167 @@
 <meta name="robots" content="noindex">
 <title>Your RadialDeck Pro key</title>
 <link rel="icon" href="assets/icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  body { margin: 0; font-family: "Segoe UI", system-ui, sans-serif; background: #0f1116; color: #f2f3f7; line-height: 1.6; }
-  .wrap { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
-  h1 { letter-spacing: -.02em; margin-bottom: 4px; }
-  p, li { color: #c8ccd6; } a { color: #60a5fa; }
-  form { display: grid; gap: 14px; margin: 28px 0; }
-  label { display: grid; gap: 6px; font-weight: 600; font-size: 15px; }
-  input { font: inherit; padding: 12px 14px; border-radius: 10px; border: 1px solid #2a2f3b; background: #171a22; color: inherit; }
-  input:focus-visible, button:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px; }
-  button { font: inherit; font-weight: 600; padding: 12px 18px; border-radius: 10px; border: 0; background: #3b82f6; color: #fff; cursor: pointer; }
-  button[disabled] { opacity: .6; cursor: default; }
-  .key { margin: 12px 0; padding: 16px; border-radius: 12px; background: #171a22; border: 1px solid #2a2f3b; }
-  .key code { display: block; word-break: break-all; font: 14px/1.5 Consolas, monospace; color: #f2f3f7; }
-  .key .row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; font-size: 14px; color: #9aa1b2; }
-  .key .actions { display: flex; gap: 8px; }
-  .key button, .key a.open { font: inherit; font-weight: 600; padding: 8px 14px; font-size: 14px; border-radius: 10px; }
-  .key button { background: #2a2f3b; }
-  .key a.open { background: #3b82f6; color: #fff; text-decoration: none; }
-  .key a.open:focus-visible { outline: 2px solid #60a5fa; outline-offset: 2px; }
-  .error { color: #fca5a5; }
+  /* The site's desktop (os/os.css: the dusk sky, the hills, the grain) with the page as one light window on it. */
+  :root { --sky1: #24305c; --sky2: #8d5a8c; --sky3: #ee9a78; --sky4: #ffd2a0; --m1: #8a6488; --m2: #5c4372; --m3: #3c2e5a; --m4: #211a38;
+    --accent: #4cc2ff; --ink: #1b1b1f; --soft: #5b6070; --line: rgba(0,0,0,.08); --body: #f9f9f9; --bar: rgba(238,240,246,.84);
+    --font-display: "Outfit", "Segoe UI", system-ui, sans-serif; --font-body: "Inter", "Segoe UI", system-ui, sans-serif; --font-ui: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif; }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; font-family: var(--font-body); color: var(--ink); line-height: 1.55; background: #211a38; }
+  .sky { position: fixed; inset: 0; background: linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 34%, var(--sky3) 54%, var(--sky4) 68%); }
+  .land { position: fixed; left: 0; bottom: 0; width: 100%; height: 62vh; }
+  .land .m1 { fill: var(--m1); } .land .m2 { fill: var(--m2); } .land .m3 { fill: var(--m3); } .land .m4 { fill: var(--m4); } .land .sun { fill: #ffe6c2; }
+  .grain { position: fixed; inset: 0; pointer-events: none; opacity: .14; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>"); }
+  .page { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 6vh 20px 40px; }
+  a { color: #0067c0; }
+  /* the window */
+  .win { width: min(680px, 100%); border-radius: 8px; overflow: hidden; background: var(--body); box-shadow: 0 32px 80px rgba(10,6,30,.55), 0 0 0 1px rgba(255,255,255,.18); }
+  .bar { display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 0 0 14px; background: var(--bar); backdrop-filter: blur(30px) saturate(1.4); border-bottom: 1px solid var(--line);
+    font: 13px var(--font-ui); color: var(--ink); }
+  .bar img { width: 18px; height: 18px; border-radius: 4px; }
+  .bar span { flex: 1; }
+  .bar i { width: 46px; height: 40px; display: grid; place-items: center; font-style: normal; color: #444; font-size: 13px; }
+  .bar a.x { width: 46px; height: 40px; display: grid; place-items: center; color: #444; text-decoration: none; font-size: 15px; }
+  .bar a.x:hover { background: #c42b1c; color: #fff; }
+  .content { padding: 34px 40px 36px; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 8px; font: 600 13px var(--font-ui); color: var(--soft); }
+  .eyebrow img { width: 22px; height: 22px; border-radius: 6px; }
+  h1 { font: 700 34px/1.15 var(--font-display); letter-spacing: -.02em; margin: 0 0 8px; }
+  .lead { color: var(--soft); font-size: 16px; margin: 0 0 24px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 150px; font: 600 15px var(--font-ui); padding: 11px 20px; border-radius: 6px;
+    border: 1px solid var(--line); cursor: pointer; text-decoration: none; color: var(--ink); background: #fff; transition: filter .15s, transform .15s; }
+  .btn:hover { filter: brightness(.97); }
+  .btn.primary { background: var(--accent); border-color: transparent; color: #0b0f1e; box-shadow: 0 6px 18px rgba(76,194,255,.35); }
+  .btn.primary:hover { filter: brightness(1.05); transform: translateY(-1px); }
+  .btn[disabled] { opacity: .6; cursor: default; transform: none; }
+  .btn:focus-visible, input:focus-visible, summary:focus-visible, .bar a.x:focus-visible { outline: 2px solid #0067c0; outline-offset: 2px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; }
+  .keybox { margin-top: 18px; border-radius: 8px; border: 1px solid var(--line); background: #f0f1f5; }
+  .keybox summary { cursor: pointer; padding: 10px 14px; color: var(--soft); font-size: 13px; list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  .keybox summary::-webkit-details-marker { display: none; }
+  .keybox summary code { min-width: 0; color: var(--ink); font: 13px ui-monospace, "Cascadia Mono", Consolas, monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .keybox .full { padding: 0 14px 12px; word-break: break-all; font: 12.5px/1.5 ui-monospace, "Cascadia Mono", Consolas, monospace; color: var(--soft); }
+  .older { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .older p { margin: 0 0 10px; color: var(--soft); font-size: 14px; }
+  .steps { margin: 28px 0 0; padding: 18px 20px; border-radius: 8px; background: #fff; border: 1px solid var(--line); }
+  .steps h2 { font: 600 15px var(--font-display); margin: 0 0 10px; }
+  .steps ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 8px; }
+  .steps li { counter-increment: s; display: flex; gap: 12px; align-items: baseline; color: var(--soft); font-size: 15px; }
+  .steps li::before { content: counter(s); flex: none; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; font: 700 12px var(--font-ui);
+    color: #0b0f1e; background: var(--accent); transform: translateY(4px); }
+  .steps b { color: var(--ink); }
+  form { display: grid; grid-template-columns: 1fr 170px; gap: 12px; margin: 0; }
+  label { min-width: 0; display: grid; gap: 6px; font: 600 13px var(--font-ui); color: var(--soft); }
+  input { width: 100%; min-width: 0; font: 15px var(--font-body); padding: 10px 12px; border-radius: 6px; border: 1px solid var(--line); border-bottom: 2px solid #8a8f9c; background: #fff; color: var(--ink); }
+  input:focus { border-bottom-color: #0067c0; }
+  form .btn { grid-column: 1 / -1; justify-self: start; }
+  .lookup { margin-top: 24px; }
+  .lookup > summary { cursor: pointer; color: var(--soft); font: 600 14px var(--font-ui); margin-bottom: 12px; }
+  .error { color: #c42b1c; margin: 14px 0 0; }
+  .facts { width: min(680px, 100%); display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 10px; margin-top: 18px; }
+  .facts span { padding: 5px 12px; border-radius: 999px; font: 500 13px var(--font-ui); color: rgba(255,255,255,.92); background: rgba(14,16,34,.32); border: 1px solid rgba(255,255,255,.16); backdrop-filter: blur(10px); }
+  .facts a { color: #fff; }
+  [hidden] { display: none !important; }
+  @media (max-width: 600px) { .page { padding-top: 16px; } .content { padding: 24px 20px 26px; } h1 { font-size: 28px; } form { grid-template-columns: 1fr; } .actions .btn { flex: 1 1 100%; } .bar i { display: none; } }
 </style>
 <!-- stats --><script>(function(){try{var q=new URLSearchParams(location.search);if(q.get('frame')==='laptop')return;if(q.has('me'))q.get('me')==='off'?localStorage.removeItem('rd-me'):localStorage.setItem('rd-me','1');if(localStorage.getItem('rd-me'))return}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://static.cloudflareinsights.com/beacon.min.js';s.setAttribute('data-cf-beacon','{"token":"3c578d6cc8ec449fbc8337276fef6eb6"}');document.head.appendChild(s)})()</script><!-- /stats -->
 <!-- phone --><script>if(/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent)||navigator.maxTouchPoints>1&&/Mac/.test(navigator.platform))document.documentElement.classList.add('is-mobile')</script><script src="/phone.js" defer></script><!-- /phone -->
 </head>
-<body><div class="wrap">
-<p><a href="index.html">← RadialDeck</a></p>
-<h1>Your Pro key</h1>
-<p>Enter the e-mail you bought with and the order number from your receipt (it looks like <b>#1042</b>). Lost your key? This brings it back too.</p>
-<form id="f">
-  <label>E-mail <input id="email" type="email" autocomplete="email" required></label>
-  <label>Order number <input id="order" inputmode="numeric" autocomplete="off" placeholder="#1042" required></label>
-  <button id="go">Show my key</button>
-</form>
-<div id="out" aria-live="polite"></div>
-<p><b>Activate in RadialDeck</b> turns Pro on in one click (your browser asks first whether to open RadialDeck). Nothing happens? Copy the key, open RadialDeck Settings, choose <b>License…</b> and paste it. The key works offline.</p>
-<p>Something wrong? <a href="mailto:hello@radialdeck.com">hello@radialdeck.com</a></p>
+<body>
+<div class="sky" aria-hidden="true"></div>
+<svg class="land" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <defs><radialGradient id="sunglow"><stop offset="0" stop-color="#fff3dc" stop-opacity=".9"/><stop offset=".35" stop-color="#ffd8a8" stop-opacity=".35"/><stop offset="1" stop-color="#ffd8a8" stop-opacity="0"/></radialGradient></defs>
+  <g class="sun"><circle cx="1170" cy="430" r="190" fill="url(#sunglow)"/><circle cx="1170" cy="430" r="54"/></g>
+  <path class="m1" d="M0 560 L90 520 L170 540 L280 455 L360 500 L470 420 L560 470 L650 440 L760 495 L880 410 L990 470 L1090 435 L1210 490 L1320 430 L1440 485 L1530 455 L1600 470 V900 H0Z"/>
+  <path class="m2" d="M0 640 C180 585 340 605 520 628 S860 575 1040 606 S1390 650 1600 598 V900 H0Z"/>
+  <path class="m3" d="M0 724 C240 668 430 700 650 722 S1060 676 1290 700 S1500 732 1600 712 V900 H0Z"/>
+  <path class="m4" d="M0 806 C300 764 610 792 910 804 S1410 770 1600 792 V900 H0Z"/>
+</svg>
+<div class="grain" aria-hidden="true"></div>
+
+<div class="page">
+<div class="win" role="main">
+  <div class="bar"><img src="assets/icon.png" alt=""><span>RadialDeck Pro key</span><i aria-hidden="true">—</i><i aria-hidden="true">☐</i><a class="x" href="index.html" aria-label="Close, back to RadialDeck">✕</a></div>
+  <div class="content">
+
+    <!-- the key, from the e-mail's link or from the lookup -->
+    <section id="ready" hidden>
+      <h1>Your Pro key is ready.</h1>
+      <p class="lead">One click turns Pro on. Your browser asks first whether to open RadialDeck.</p>
+      <div id="keys"></div>
+      <div class="steps">
+        <h2>Nothing happened? Paste it instead:</h2>
+        <ol>
+          <li><span>Click <b>Copy key</b> above.</span></li>
+          <li><span>Open RadialDeck <b>Settings</b> and go to <b>Pro</b>.</span></li>
+          <li><span>Paste it under <b>Licence key</b> and press <b>Activate</b>.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- no key yet: find it with the receipt -->
+    <section id="find">
+      <h1>Find your Pro key.</h1>
+      <p class="lead">Enter the e-mail you bought with and the order number from your receipt (it looks like <b>#1042</b>). Lost your key? This brings it back too.</p>
+    </section>
+    <details class="lookup" id="lookup" open>
+      <summary hidden>Find a key with the order number</summary>
+      <form id="f">
+        <label>E-mail <input id="email" type="email" autocomplete="email" required></label>
+        <label>Order number <input id="order" inputmode="numeric" autocomplete="off" placeholder="#1042" required></label>
+        <button class="btn primary" id="go">Show my key</button>
+      </form>
+    </details>
+    <div id="out" aria-live="polite"></div>
+  </div>
+</div>
+<div class="facts"><span>✓ Works offline</span><span>✓ On up to two PCs</span><span>✓ 30-day refund</span><span>Help: <a href="mailto:hello@radialdeck.com">hello@radialdeck.com</a></span></div>
 </div>
 <script>
 const f = document.getElementById('f'), out = document.getElementById('out'), go = document.getElementById('go');
-// The key with its two ways into the app: one click (radialdeck://activate/, from 0.12.2) or Copy and paste.
-function show(key, note) {
-  const box = document.createElement('div'); box.className = 'key';
-  const code = document.createElement('code'); code.textContent = key;
-  const row = document.createElement('div'); row.className = 'row';
-  const text = document.createElement('span'); text.textContent = note;
+const ready = document.getElementById('ready'), find = document.getElementById('find'), lookup = document.getElementById('lookup'), keys = document.getElementById('keys');
+const short = k => k.slice(0, 14) + '…' + k.slice(-8);
+// One key with its two ways into the app: one click (radialdeck://activate/, from 0.12.2) or Copy and paste.
+function card(key, note, main) {
+  const box = document.createElement('div');
+  if (!main) { box.className = 'older'; const p = document.createElement('p'); p.textContent = note; box.append(p); }
   const actions = document.createElement('div'); actions.className = 'actions';
-  const copy = document.createElement('button'); copy.type = 'button'; copy.textContent = 'Copy';
-  copy.onclick = async () => { await navigator.clipboard.writeText(key); copy.textContent = 'Copied'; };
-  const open = document.createElement('a'); open.className = 'open'; open.href = 'radialdeck://activate/' + key; open.textContent = 'Activate in RadialDeck';
-  actions.append(copy, open); row.append(text, actions); box.append(code, row); out.append(box);
+  const open = document.createElement('a'); open.className = 'btn' + (main ? ' primary' : ''); open.href = 'radialdeck://activate/' + key; open.textContent = 'Activate in RadialDeck';
+  const copy = document.createElement('button'); copy.type = 'button'; copy.className = 'btn'; copy.textContent = 'Copy key';
+  copy.onclick = async () => { await navigator.clipboard.writeText(key); copy.textContent = 'Copied ✓'; setTimeout(() => copy.textContent = 'Copy key', 2500); };
+  actions.append(open, copy);
+  const det = document.createElement('details'); det.className = 'keybox';
+  const sum = document.createElement('summary'); const c = document.createElement('code'); c.textContent = short(key);
+  const more = document.createElement('span'); more.textContent = main ? note + ' · show' : 'show';
+  sum.append(c, more);
+  const full = document.createElement('div'); full.className = 'full'; full.textContent = key;
+  det.append(sum, full);
+  box.append(actions, det); keys.append(box);
+}
+function showKeys(list) {
+  keys.textContent = ''; out.textContent = '';
+  list.forEach((k, i) => card(k.key, k.note, i === 0));
+  ready.hidden = false; find.hidden = true;
+  // the lookup stays at hand, folded, for a second purchase
+  lookup.open = false; lookup.querySelector('summary').hidden = false;
 }
 // The e-mail's activation link brings the key after '#', which never reaches a server.
 const linked = location.hash.slice(1).match(/RD1-[A-Za-z0-9._]+-[A-Za-z0-9._]+/);
-if (linked) show(linked[0], 'Your Pro key');
+if (linked) showKeys([{ key: linked[0], note: 'Your key' }]);
 f.addEventListener('submit', async e => {
   e.preventDefault();
   go.disabled = true; out.textContent = '';
+  const fail = msg => { out.innerHTML = '<p class="error"></p>'; out.firstChild.textContent = msg; };
   try {
     const r = await fetch('/api/key', { method: 'POST', headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ email: f.email.value.trim(), order: f.order.value.replace(/\s+/g, '') }) });
     const data = await r.json();
-    if (!r.ok) { out.innerHTML = '<p class="error"></p>'; out.firstChild.textContent = data.error; return; }
-    if (!data.keys.length) { out.innerHTML = '<p class="error">This purchase was refunded, so it has no key any more. Questions: hello@radialdeck.com</p>'; return; }
-    data.keys.forEach((k, i) => show(k.key, (i ? 'Earlier key, valid until ' : 'Valid until ') + k.exp));
-  } catch { out.innerHTML = '<p class="error">Could not reach the key service. Try again in a minute.</p>'; }
+    if (!r.ok) return fail(data.error);
+    if (!data.keys.length) return fail('This purchase was refunded, so it has no key any more. Questions: hello@radialdeck.com');
+    showKeys(data.keys.map((k, i) => ({ key: k.key, note: (i ? 'Earlier key, valid until ' : 'Valid until ') + k.exp })));
+  } catch { fail('Could not reach the key service. Try again in a minute.'); }
   finally { go.disabled = false; }
 });
 </script>
